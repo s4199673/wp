@@ -1,0 +1,102 @@
+
+:root {
+    --primary-bg-color: green;
+    /* global scope */
+    /*Brand Colours - Teal & Amber: */
+    --primary-color: #0d9488;
+    --primary-dark: #0f766e;
+    --primary-light: #14b8a6;
+    --secondary-color: #d97706;
+    --secondary-dark: #b45309;
+
+    /*Accent Colours:*/
+    --accent-amber: #fbbf24;
+    --accent-green: #10b981;
+    --accent-slate: #475569;
+
+    /*Neutral Colours:*/
+    --text-dark: #1f2937;
+    --text-light: #6b7280;
+    --background-light: #f9fafb;
+    --background-white: #ffffff;
+    --border-color: #e5e7eb;
+
+}
+
+body {
+    background-color: #eee7e7;
+    color: var(--text-dark);
+    font-family: 'Open Sans', sans-serif;
+    font-size: 16px;
+    line-height: 1.5;
+}
+
+.logo-background {
+    background-image: url('../images/logo.jpeg');
+    background-repeat: no-repeat;
+    background-position: left;
+    background-size: 100px;
+    background-color: var(--background-white);
+    padding: 10px 0px;
+}
+
+.logo-background h1,
+.logo-background h2 {
+    margin-left: 120px;
+}
+
+.logo-background h2 {
+    margin-bottom: 0px;
+}
+
+nav {
+    background-color: var(--background-white);
+}
+
+nav ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+}
+
+nav li {
+    float: left;
+}
+
+nav li a {
+    display: block;
+    color: var(--text-light);
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+}
+
+nav li a:hover {
+    background-color: var(--text-dark);
+}
+
+footer {
+    background-color: var(--accent-slate);
+    color: var(--background-white);
+    padding: 1rem;
+}
+
+main {
+    padding: 1rem;
+    background-color: var(--background-white);
+    min-height: 50vh;
+}
+
+.section-container {
+    display: flex;
+    justify-content: space-between;
+}
+
+.section-container section:first-child {
+    flex: 1;
+}
+
+#homepage .section-container section:last-child {
+    flex: 1;
+}
