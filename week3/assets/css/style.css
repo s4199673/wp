@@ -1,0 +1,35 @@
+.hero {
+  min-height: 300px;
+  background-size: cover;
+  background-position: 50% 25%;
+  position: relative;
+}
+
+.hero .container {
+  position: relative;
+  z-index: 2;
+}
+
+/*hack! puts tint on the image*/
+.hero::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.45);
+}
+
+.hero-lion {
+  background-image: url("../images/carousel/c-lion.jpg");
+}
+
+.hero-tiger {
+  background-image: url("../images/carousel/c-tiger.jpg");
+}
+
+.hero-jaguar {
+  background-image: url("../images/carousel/c-jaguar.jpg");
+}
+
+.hero-leopard {
+  background-image: url("../images/carousel/c-leopard.jpg");
+}
