@@ -1,0 +1,59 @@
+:root {
+    /*Brand Colours - Teal & Amber: */
+    --primary-color: #0d9488;
+    --primary-dark: #0f766e;
+    --primary-light: #14b8a6;
+    --secondary-color: #d97706;
+    --secondary-dark: #b45309;
+
+    /*Accent Colours:*/
+    --accent-amber: #fbbf24;
+    --accent-green: #10b981;
+    --accent-slate: #475569;
+
+    /*Neutral Colours:*/
+    --text-dark: #1f2937;
+    --text-light: #6b7280;
+    --background-light: #f9fafb;
+    --background-white: #ffffff;
+    --border-color: #e5e7eb;
+
+}
+
+.navbar-brand {
+    font-family: "Righteous", cursive;
+    font-weight: 400;
+    
+}
+
+nav {
+    background-color: var(--text-dark);
+    font-family: "Elms Sans", sans-serif;
+    font-weight: 500;
+    font-size: 0.875rem;
+}
+
+/* Reduce carousel height */
+.carousel-item img {
+    height: 200px;
+    width: 100%;
+    object-fit: cover;
+}
+
+.carousel-caption {
+    bottom: -10px;
+    font-family: "Righteous", cursive;
+}
+
+/* Hide carousel indicators */
+.carousel-indicators {
+    display: none;
+}
+
+
+footer {
+    background-color: var(--text-dark);
+    color: var(--background-white);
+    padding: 15px;
+    text-align: center;
+}
