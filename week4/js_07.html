@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<title>Book Object</title>
+	<meta charset="UTF-8">
+	<style>
+		body {
+			font-family: Arial, sans-serif;
+		}
+
+		h1 {
+			color: #0099cc;
+		}
+	</style>
+</head>
+
+<body>
+	<h1>Literal Objects</h1>
+	<p>Right click, inspect, and check the Console for output</p>
+	<div id="book"></div>
+	<script src="js/exercise7.js"></script>
+	<table>
+		<tr>
+			<script>
+			for (property in book) {
+			document.write("<th>" + property.toUpperCase() + "</th>");
+			}
+		</tr>
+	</table>
+</script>
+
+<script>
+	for (let b = 0; b < books.length; b++) {
+		document.write("<tr>");
+		for (property in books[b]) {
+			document.write("<td>" + books[b][property] + "</td>");
+		}
+		document.write("</tr>");
+	}
+</script>
+</body>
+
+</html>
