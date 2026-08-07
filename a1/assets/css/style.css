@@ -20,8 +20,34 @@
 
 }
 
+main {
+    padding-bottom: 8rem;
+}
+
 body {
     background: var(--text-dark);
+}
+
+nav {
+
+    font-family: "Elms Sans", sans-serif;
+    font-weight: 500;
+    font-size: 0.875rem;
+    background-color:
+        color-mix(in srgb,
+            var(--text-dark) 70%,
+            var(--primary-color) 30%);
+
+    border-bottom: 4px solid transparent;
+    border-image: linear-gradient(to right,
+            var(--accent-amber),
+            var(--primary-color),
+            var(--primary-light)) 1;
+
+}
+
+nav.navbar {
+  height: 54px;      
 }
 
 .navbar-brand {
@@ -31,107 +57,157 @@ body {
 
 }
 
-
-
-nav {
-    
-    font-family: "Elms Sans", sans-serif;
-    font-weight: 500;
-    font-size: 0.875rem;
+.navbar-brand .material-symbols-outlined {
+    font-size: 2rem;
+    color: var(--accent-amber)
 }
 
+.navbar-nav .material-symbols-outlined {
+    font-size: 0.9rem;
 
-nav {
-background: var(--primary-dark);
-    border-bottom: 4px solid transparent;
-    border-image: linear-gradient(
-        to right,
-            var(--accent-amber),
-            var(--primary-color),
-            var(--primary-light)) 1;
-            
 }
 
 .nav-link {
+    border-radius: 0.5rem;
     color: var(--background-white);
+    transition: background-color 0.2s ease, color 0.2s ease;
 }
 
 .nav-link:hover {
-    border-radius: 0.5rem;
-    opacity: 0.4;
     color: var(--accent-amber);
-    background-color: var(--text-light);
+    background-color: color-mix(in srgb,
+            var(--primary-light) 25%,
+            transparent);
 }
 
 
+.carousel-item {
+    position: relative;
+    overflow: hidden;
+}
+    
+
+.carousel-item::after {
+    content: "";
+    position: absolute;
+   bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 20px;
+   background: linear-gradient(
+        to bottom,
+        transparent,
+        var(--text-dark));
+        
+    pointer-events: none;
+}
+
 /* Reduce carousel height */
 .carousel-item img {
-    height: 200px;
+    height: 260px;
     width: 100%;
     object-fit: cover;
     border-radius: 0.5rem;
+    
 }
 
 .carousel-caption {
     bottom: -10px;
-    font-family: "Righteous", cursive;
-    background-color: var(--primary-color);
-    right: 0%;
-    bottom: 0%;
-    left: 0%;
 
 }
+
+.carousel-caption h4 {
+    font-family: "Righteous", cursive;
+    font-size: 1.3rem;
+    
+}
+
+.carousel-control-prev-icon,
+.carousel-control-next-icon {
+    width: 1.5rem;
+    height: 1.5rem;
+    background-color: var(--primary-color);
+    background-size: 60%;
+    border-radius: 50%;
+
+}
+
 
 /* Hide carousel indicators */
 .carousel-indicators {
     display: none;
 }
 
+.featured-books {
+    width: 100%;
+    max-width: 760px;
+    margin-inline: auto;
+    padding-inline: 0.75rem;
+}
+
 .featured-heading {
-    width: 62%;
+    width: 100%;
     margin: 0 auto 1rem;
     display: flex;
     align-items: center;
     gap: 0.4rem;
-
-    font-family: "Righteous", cursive;
-    font-size: 1.2rem;
     color: var(--primary-color);
+
+}
+
+.featured-heading h2 {
+    margin: 0;
+    font-family: "Righteous", cursive;
+    font-weight: 400;
+    font-size: 1.3rem;
+    color: var(--background-white);
+}
+
+.book-grid {
+    align-items: stretch;
 }
 
 .book-card {
     background: var(--background-white);
     color: var(--text-dark);
     border: none;
-}
-
-.book-card img {
-
-    height: 240px;
-    object-fit: cover;
-}
-
-.book-card:hover {
-    transform: scale(1.05);
     transition: transform 0.3s ease-in-out;
 }
 
-.book-price {
-    font-weight: bold;
-    font-size: 0.8rem;
+.book-card img {
+    width: 100%;
+    height: 150px;
+    object-fit: cover;
 }
+
+
+
+.book-card:hover {
+    transform: translateY(-8px)
+}
+
+
 
 .card-title {
     font-family: "Righteous", cursive;
     font-weight: 400;
-    font-size: 1rem;
+    font-size: 0.7rem;
 }
 
+.card-text {
+    margin-bottom: 0;
+}
+
+.book-price {
+    font-weight: bold;
+    font-size: 0.7rem;
+    margin-top: 0;
+}
 
 p {
     font-family: "Elms Sans", sans-serif;
     font-weight: 400;
-    font-size: 0.6rem;
+    font-size: 0.5rem;
     margin: 0.5rem 0;
 }
 
@@ -141,8 +217,9 @@ p {
 
     font-family: "Elms Sans", sans-serif;
     font-weight: 500;
-    font-size: 0.7rem;
-    height: 1.6rem;
+    font-size: 0.6rem;
+    height: 1.5rem;
+
 
 }
 
@@ -173,6 +250,7 @@ footer {
 }
 
 footer {
+    padding: 8px 15px;
     border-top: 4px solid transparent;
     border-image: linear-gradient(to right,
             var(--accent-amber),

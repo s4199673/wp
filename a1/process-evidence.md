@@ -57,25 +57,37 @@ Updated the stylesheet URL to "https://fonts.googleapis.com/css2?family=Material
 ## Bug 2
 
 **Date Identified:**  
-
+7/08/2026
 
 **Date Fixed:**  
+7/08/2026
 
 **File:**  
+index.html
 
 **Related Commit:**  
 
-**Symptom:**  
 
+**Symptom:**  
+Carousel stopped working.
 
 **Steps to Reproduce:**  
+1. Open `index.html` in a browser.
+2. Observe that the carousel images do not slide.
+3. Click the Previous and Next controls.
+4. The carousel controls and automatic slide functionality do not work.
 
-**Root Cause:**  
+**Root Cause:** 
+Accidentally added a </div> immediately after the carousel indicators, which closed the <div id="bookCarousel" class="carousel slide"> container too early. This caused the .carousel-inner and carousel controls to be placed outside the carousel component, preventing the carousel to work.
 
 **Fix:**  
+Removed the incorrect </div> after the carousel indicators were correctly nested inside the carousel container.
 
 **Verification:**  
-
+- Reloaded the page in the browser.
+- Confirmed that the carousel automatically cycled through the slides.
+- Tested the Previous and Next controls.
+- Verified that all four images displayed correctly.
 ---
 
 ## Bug 3
@@ -112,7 +124,7 @@ Updated the stylesheet URL to "https://fonts.googleapis.com/css2?family=Material
 Troubleshoot navigation bar alignment issue.
 
 **Tool Used:**  
-Copilot
+Copilot (VS Code Chat)
 
 **Prompt / Input:**  
 Review my Bootstrap navigation bar. The navigation links appear on the far right side of the page instead of appearing next to BookVerse on the left. Check whether the Bootstrap classes, layout, and CSS are causing this behaviour. Explain the likely cause and  suggest fixes.
@@ -170,10 +182,10 @@ Bootstrap's default flexbox navbar behaviour was causing the navigation links to
 01/08/2026
 
 **Task Description:**  
-
+Reviewed the homepage Bootstrap carousel to verify that the structure, controls, indicators, image paths, alt text, and Bootstrap attributes were correctly implemented.
 
 **Tool Used:**  
-Copilot
+Copilot (VS Code Chat)
 
 **Prompt / Input:**  
 Here is my Bootstrap 5 carousel code. Please check whether the carousel indicators, image paths, alt text, active slide, controls, and Bootstrap attributes are correct. Do not rewrite the full page.
@@ -242,9 +254,10 @@ So the main problem is not the indicators or the nav controls — it is the repe
 2/8/2026
 
 **Task Description:**  
+Improving grid layout 
 
 **Tool Used:**  
-Copilot
+Copilot (VS Code Chat)
 
 **Prompt / Input:**  
 Review my Bootstrap grid layout. The cards are displaying correctly but are too large. I want to reduce the width and height of the cards while keeping the same proportions and responsive behaviour. Explain which Bootstrap classes or CSS properties I should adjust and why. Do not rewrite the full code.
@@ -308,9 +321,8 @@ g-3 affects the gap between columns, so it changes visual density without alteri
     object-fit: cover;
 }
 
-
 **Validation Performed:**  
-- Compared the appearnace of the cards before and after implementing the CSS changes.
+- Compared the appearance of the cards before and after implementing the CSS changes.
 - Checked that all card images displayed consistently without distortion.
 - Confirmed that the Boostrap grid remained responsive and that card alignment was unaffected by the changes.
 
@@ -326,6 +338,7 @@ g-3 affects the gap between columns, so it changes visual density without alteri
 4/8/2026
 
 **Task Description:**  
+Improving homepage header and footer styling to better match the reference screenshot using the existing colour palette defined in 'style.css'.
 
 **Tool Used:**  
 Copilot
@@ -414,7 +427,6 @@ footer {
     background-color: var(--primary-dark);
 }
 
-
 or
 
 footer {
@@ -485,6 +497,70 @@ These changes would move your design much closer to the screenshot while still u
 - Replacing #1f2937 to #0f766e but did not produce a close visual match to the screenshot.
 - A single solid-colour border did not recreate the gradient effect.
 - Additional experimentation with gradients and existing colour variables was required to achieve a similar appearance.
+
+## AI Task 5
+
+**Date:**  
+7/8/2026
+
+**Task Description:**  
+Adding gradient overlay to the carousel images
+
+**Tool Used:**  
+Copilot (VS Code Chat)
+
+**Prompt / Input:** 
+Review my Bootstrap carousel and custom CSS. I would like to add a gradient overlay at the bottom of the carousel images. Do not write the full code. Explain which CSS properties should be added or modified. 
+
+**AI Output Summary:** 
+Suggested CSS changes
+Your carousel is already close to what you need. The cleanest approach is to add a soft dark gradient behind the caption in style.css.
+
+Add or adjust:
+
+.carousel-item { position: relative; overflow: hidden; }
+.carousel-item::after (or a similar overlay layer) with:
+content: ""
+position: absolute
+inset: 0
+background: linear-gradient(...)
+z-index: 1
+pointer-events: none
+Keep the image visible by making sure it remains behind the overlay:
+
+.carousel-item img { position: relative; z-index: 0; }
+Modify the caption styling so it sits above the overlay:
+
+.carousel-caption { position: absolute; bottom: 0; left: 0; right: 0; z-index: 2; padding: ...; }
+You can also replace the current bottom: -10px; with bottom: 0; and add a little bottom padding for spacing.
+Optional readability improvement:
+
+Add text-shadow to the caption text, or slightly increase the caption’s padding and font weight.
+This gives you a subtle bottom fade without making the image look too dark.
+
+**What You Accepted:** 
+- .carousel-item { position: relative; overflow: hidden; }
+- .carousel-item::after (or a similar overlay layer) with:
+content: ""
+position: absolute
+background: linear-gradient(...)
+pointer-events: none
+
+**What You Changed:**  
+- Instead of applying the gradient across the entire carousel image using 'inset: 0', I limited the overlay to the bottom portion of the image by setting 'height: 20px' and positioning it at the bottom of the carousel item.
+- Used 'var(--text-dark)' in the gradient to match the existing colour scheme.
+- Increased the carousel image height from 200px to 260px to better match the proportions shown in the reference screenshot.
+- Customised the carousel control icons using var(--primary-color) and a circular background.
+- Did not implement the suggested z-index values because the caption already appeared above the gradient overlay without additional stacking rules.
+
+**Validation Performed:** 
+- Reloaded the homepage and visually compared the carousel against the reference screenshot.
+- Confirmed that the gradient overlay appeared only at the bottom of the image.
+- Tested the Previous and Next controls to ensure the overlay did not interfere with carousel functionality.
+- Checked that the carousel remained responsive at desktop and mobile screen sizes.
+
+**Issues Identified:** 
+- Applying inset: 0; caused the gradient across the entire image, making the carousel appear too dark.
 
 
 # 📌 Final Reflection (End of Assessment)
