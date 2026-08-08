@@ -498,6 +498,8 @@ These changes would move your design much closer to the screenshot while still u
 - A single solid-colour border did not recreate the gradient effect.
 - Additional experimentation with gradients and existing colour variables was required to achieve a similar appearance.
 
+---
+
 ## AI Task 5
 
 **Date:**  
@@ -561,6 +563,69 @@ pointer-events: none
 
 **Issues Identified:** 
 - Applying inset: 0; caused the gradient across the entire image, making the carousel appear too dark.
+
+---
+
+## AI Task 6
+
+**Date:**  
+08/08/2026
+
+**Task Description:**  
+Alternative method for matching the colour of the modal footer to the reference screenshot. Previous attempts using color-mix() did not produce a close visual match.
+
+**Tool Used:**  
+Copilot (VS Code Chat)
+
+**Prompt / Input:**  
+I am trying to match the background colour of the modal footer to the screenshot. I have already tried using color-mix() with my existing colour variables, but the result does not visually match the screenshot. Can you suggest another CSS approach that preserves my existing theme colours while darkening and slightly adjusting the tone? Do not rewrite the full code.
+
+**AI Output Summary:**  
+I will suggest a focused CSS approach that fits your existing theme without rewriting the full code.
+
+A good alternative is to use a layered background rather than a mathematical blend.
+
+- Keep your existing footer color as the base.
+- Add a subtle overlay behind it using a pseudo-element with a small darkening and tone shift.
+- This preserves the original theme color while making it look a bit deeper and more visually matched to the screenshot.
+
+A simple pattern is:
+
+```css
+.modal-footer {
+  position: relative;
+  background-color: var(--your-existing-color);
+  overflow: hidden;
+}
+
+.modal-footer::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: inherit;
+  filter: brightness(0.85) saturate(1.05) hue-rotate(-4deg);
+  z-index: -1;
+}
+```
+
+If you want it even subtler, reduce the filter strength slightly. This usually gives a more natural result than 'color-mix()' because it keeps the same base hue and just adjusts the rendered appearance.
+
+**What You Accepted:**  
+- Implemented the suggestions using pseudo-elemnt and filter.
+
+**What You Changed:**  
+- Experimented with different brightness, saturation, and hue adjustments to better match the screenshot.
+- Added/removed z-index to modal elements to ensure the filtered background remained behind the previous and next buttons.
+- Removed overflow: hidden; after testing, as it did not make a difference.
+**Validation Performed:**  
+- Compared the modal footer against the reference screenshot before and after the changes.
+- Tested different filter values to determine which combination produced the closest visual match.
+- Checked that the filtered background remained behind the the previous and next buttons.
+- Verified that the modal footer displayed correctly across all pages.
+
+**Issues Identified:**  
+- A gap was appearing between the body and footer. Used border: none to remove this gap.
+
 
 
 # 📌 Final Reflection (End of Assessment)

@@ -46,9 +46,6 @@ nav {
 
 }
 
-nav.navbar {
-  height: 54px;      
-}
 
 .navbar-brand {
     font-family: "Righteous", cursive;
@@ -85,20 +82,19 @@ nav.navbar {
     position: relative;
     overflow: hidden;
 }
-    
+
 
 .carousel-item::after {
     content: "";
     position: absolute;
-   bottom: 0;
+    bottom: 0;
     left: 0;
     width: 100%;
     height: 20px;
-   background: linear-gradient(
-        to bottom,
-        transparent,
-        var(--text-dark));
-        
+    background: linear-gradient(to bottom,
+            transparent,
+            var(--text-dark));
+
     pointer-events: none;
 }
 
@@ -108,7 +104,7 @@ nav.navbar {
     width: 100%;
     object-fit: cover;
     border-radius: 0.5rem;
-    
+
 }
 
 .carousel-caption {
@@ -119,7 +115,7 @@ nav.navbar {
 .carousel-caption h4 {
     font-family: "Righteous", cursive;
     font-size: 1.3rem;
-    
+
 }
 
 .carousel-control-prev-icon,
@@ -238,6 +234,152 @@ p {
     color: var(--background-white);
 }
 
+.gallery-section {
+    min-height: 520px;
+    padding: 2rem 1rem;
+}
+
+.gallery-container {
+    width: 100%;
+    max-width: 980px;
+    margin: 0 auto;
+}
+
+.gallery-heading {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    margin-bottom: 0.8rem;
+    color: var(--background-white);
+}
+
+.gallery-heading .material-symbols-outlined {
+    color: var(--primary-light);
+    font-size: 2rem;
+}
+
+.gallery-heading h1 {
+    margin: 0;
+    font-family: "Righteous", cursive;
+    font-size: 2rem;
+    font-weight: 400;
+}
+
+.gallery-grid {
+    --bs-gutter-x: 0.8rem;
+    --bs-gutter-y: 0.8rem;
+}
+
+.gallery-image-button {
+    display: block;
+    width: 100%;
+    padding: 0;
+    overflow: hidden;
+    border: 0;
+    border-radius: 0.4rem;
+    background: transparent;
+    cursor: pointer;
+}
+
+.gallery-image-button img {
+    display: block;
+    width: 100%;
+    height: 180px;
+    object-fit: cover;
+
+
+}
+
+.gallery-image-button:hover {
+    transform: scale(1.05);
+
+}
+
+.modal-content {
+    overflow: hidden;
+    background-color: var(--text-dark);
+    border: none;
+    border-radius: 0.25rem;
+}
+
+.modal-header {
+    padding: 0.5rem 0.5rem;
+    background-color: var(--primary-color);
+    border: none;
+    z-index: 1;
+}
+
+.modal-header .modal-title {
+    margin: 0;
+    color: var(--background-white);
+    font-family: "Elms Sans", sans-serif;
+    font-size: 0.75rem;
+    font-weight: 400;
+    z-index: 1;
+}
+
+.modal-header .btn-close {
+    width: 0.5rem;
+    height: 0.5rem;
+    padding: 1.5rem;
+    filter: brightness(0) invert(1);
+    z-index: 1;
+}
+
+.modal-body {
+    display: flex;
+    justify-content: center;
+    min-height: 130px;
+    padding: 1rem;
+    background-color: var(--text-dark);
+    z-index: 1;
+
+}
+
+.modal-body img {
+    max-width: 100%;
+    max-height: 180px;
+    z-index: 1;
+}
+
+.modal-footer {
+    position: relative;
+    border: none;
+    background-color: transparent;
+    color: var(--background-white);
+}
+
+.modal-footer::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background-color: var(--text-dark);
+    filter: brightness(0.55) saturate(1.4) hue-rotate(10deg);
+}
+
+
+.btn.modal-button {
+    padding: 0.25rem 0.6rem;
+    background-color: var(--text-light);
+    color: var(--background-white);
+    font-family: "Elms Sans", sans-serif;
+    font-size: 0.6rem;
+    font-weight: 700;
+    z-index: 1;
+}
+
+
+.modal-button.previous-button {
+    margin-left: 0.25rem;
+    background-color: var(--accent-slate);
+
+}
+
+.modal-button.next-button {
+    margin-left: 0.25rem;
+    background-color: var(--primary-color);
+
+}
 
 footer {
     background: linear-gradient(to right,
@@ -247,9 +389,6 @@ footer {
     color: var(--background-white);
     padding: 12px;
     text-align: center;
-}
-
-footer {
     padding: 8px 15px;
     border-top: 4px solid transparent;
     border-image: linear-gradient(to right,
