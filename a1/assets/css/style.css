@@ -183,6 +183,7 @@ nav::before {
 
 }
 
+.books-heading h1,
 .featured-heading h2 {
     margin: 0;
     font-family: "Righteous", cursive;
@@ -285,6 +286,7 @@ p {
     color: var(--background-white);
 }
 
+.books-heading .material-symbols-outlined,
 .gallery-heading .material-symbols-outlined {
     color: var(--primary-light);
     font-size: 2rem;
