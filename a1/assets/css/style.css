@@ -22,36 +22,68 @@
 
 main {
     padding-bottom: 8rem;
+    flex: 1;
 }
 
 body {
     background: var(--text-dark);
+    display: flex;
+    flex-direction: column;
+    min-height: 100dvh;
+    margin: 0;
+}
+
+body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+    background-color: var(--text-dark);
+    filter: brightness(0.55) saturate(1.4) hue-rotate(10deg);
 }
 
 nav {
-
+    position: relative;
+    z-index: 0;
     font-family: "Elms Sans", sans-serif;
     font-weight: 500;
     font-size: 0.875rem;
-    background-color:
-        color-mix(in srgb,
-            var(--text-dark) 70%,
-            var(--primary-color) 30%);
-
     border-bottom: 4px solid transparent;
     border-image: linear-gradient(to right,
             var(--accent-amber),
             var(--primary-color),
             var(--primary-light)) 1;
-
 }
 
+nav::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    background-color: var(--text-dark);
+    filter: brightness(1.25) saturate(2.2) hue-rotate(-15deg);
+}
+
+.navbar {
+    padding-top: 0.1rem;
+    padding-bottom: 0.1rem;
+}
 
 .navbar-brand {
     font-family: "Righteous", cursive;
     font-weight: 400;
     color: var(--background-white);
 
+}
+
+
+.material-symbols-outlined {
+    font-family: "Material Symbols Outlined";
+    font-style: normal;
+    font-weight: 300;
+    font-variation-settings: "FILL" 0;
+    display: inline-block;
+    line-height: 1;
 }
 
 .navbar-brand .material-symbols-outlined {
@@ -249,14 +281,16 @@ p {
     display: flex;
     align-items: center;
     gap: 0.4rem;
-    margin-bottom: 0.8rem;
+    margin-bottom: 0.1rem;
     color: var(--background-white);
 }
 
 .gallery-heading .material-symbols-outlined {
     color: var(--primary-light);
     font-size: 2rem;
+        
 }
+
 
 .gallery-heading h1 {
     margin: 0;
@@ -303,7 +337,7 @@ p {
 }
 
 .modal-header {
-    padding: 0.5rem 0.5rem;
+    padding: 0.7rem 0.7rem;
     background-color: var(--primary-color);
     border: none;
     z-index: 1;
@@ -314,14 +348,16 @@ p {
     color: var(--background-white);
     font-family: "Elms Sans", sans-serif;
     font-size: 0.75rem;
-    font-weight: 400;
+    font-weight: 600;
     z-index: 1;
 }
 
 .modal-header .btn-close {
-    width: 0.5rem;
-    height: 0.5rem;
-    padding: 1.5rem;
+    width: 0.75rem;
+    height: 0.75rem;
+    padding: 0.1rem;
+    margin-left: auto;
+    margin-right: 0;
     filter: brightness(0) invert(1);
     z-index: 1;
 }
@@ -347,6 +383,7 @@ p {
     border: none;
     background-color: transparent;
     color: var(--background-white);
+    padding: 0.5rem 0.5rem;
 }
 
 .modal-footer::before {
@@ -382,12 +419,12 @@ p {
 }
 
 footer {
+    position: relative;
+    padding: 12px;
     background: linear-gradient(to right,
-            var(--text-dark) 0%,
+            var(--text-dark) 20%,
             var(--accent-slate) 50%,
             var(--primary-dark) 100%);
-    color: var(--background-white);
-    padding: 12px;
     text-align: center;
     padding: 8px 15px;
     border-top: 4px solid transparent;
@@ -395,4 +432,34 @@ footer {
             var(--accent-amber),
             var(--primary-color),
             var(--primary-light)) 1;
+    z-index: 1;
+}
+
+footer::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background-color: var(--text-dark);
+    filter: brightness(1.25) saturate(2.2) hue-rotate(-15deg);
+    z-index: 0;
+}
+
+footer::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to right,
+            transparent,
+            var(--primary-dark));
+    z-index: 0;
+}
+
+footer span {
+    position: relative;
+    z-index: 1;
+    color: var(--background-white);
+    font-family: "Elms Sans", sans-serif;
+    font-weight: 500;
+    font-size: 0.875rem;
+
 }
