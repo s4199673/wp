@@ -626,8 +626,95 @@ If you want it even subtler, reduce the filter strength slightly. This usually g
 **Issues Identified:**  
 - A gap was appearing between the body and footer. Used border: none to remove this gap.
 
+## AI Task 7
+
+**Date:**  
+10/08/2026
+
+**Task Description:**  
+Reviewed the books page Bootstrap form and filter to verify that the structure, controls, indicators, image paths, alt text, and Bootstrap attributes were correctly implemented.
+
+**Tool Used:**  
+Copilot (VS Code Chat)
+
+**Prompt / Input:**  
+Here is my Bootstrap 5 filter panel and book table code. Please check whether the filter controls, table structure, Bootstrap classes, labels, responsiveness, and status filtering setup are correct. Identify any issues or improvements, but do not rewrite the full page.
+
+**AI Output Summary:**  
+
+What is not correct
+
+1. The filter control markup is invalid
+- The label is currently placed inside the select element, which is not valid HTML.
+- A `<label>` should be separate from the `<select>` and linked with `for` and `id`.
+
+2. The table structure is broken
+- The last status cells in each row are missing a proper closing `</td>`.
+- This makes the table structure invalid and can cause rendering problems.
+
+3. The Bootstrap form styling is only partly correct
+- `form-select` and `form-select-sm` are appropriate for the dropdown.
+- However, the label should use `form-label` for a more proper Bootstrap-style form control.
+- A wrapper such as a `div` with spacing classes would make the layout cleaner.
+
+4. Responsiveness is mostly fine
+- The `table-responsive` wrapper is the right Bootstrap approach.
+- That part is good and should stay.
+- The filter area could be improved visually with Bootstrap spacing and alignment classes.
+
+5. The status filter is not truly set up yet
+- The dropdown is present, but it is not connected to the table rows.
+- If this is meant to be a working filter, you need JavaScript to show/hide rows based on the selected status.
+- The rows also need actual status values such as Available, Reserved, or Sold so the filter can compare against them.
+
+What is already okay
+
+- The overall table layout is clear.
+- The header row and body rows are in the right general structure.
+- The responsive table wrapper is appropriate.
+
+These are mostly small fixes, and you do not need to rewrite the whole page.
+
+**What You Accepted:**  
+- Moved the label outside the select element and linked it correctly using 'for' and 'id'.
+- Completed adding the status column and closing </td> tags.
+- Planned to connect the filter dropdown to JavaScript-based status filtering.
+
+**What You Changed:**  
+- Added status within <span></span> to apply styling.
+- Did not implement form-label class because the current structure was already functional without it.
+
+**Validation Performed:**  
+- Checked the updated HTML structure in the browser.
+- Confirmed that all status values displayed correctly within the table.
+
+**Issues Identified:**  
+- Nil
+
+## AI Task 6
+
+**Date:**  
 
 
+**Task Description:**  
+
+
+**Tool Used:**  
+Copilot (VS Code Chat)
+
+**Prompt / Input:**  
+
+**AI Output Summary:**  
+
+**What You Accepted:**  
+
+
+**What You Changed:**  
+
+**Validation Performed:**  
+
+
+**Issues Identified:**  
 # 📌 Final Reflection (End of Assessment)
 
 **What AI was most useful for:**  
