@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Week 5 JavaScript Exercise</title>
+</head>
+
+<body>
+    <h1>Document</h1>
+    <style>
+       .course {
+        display: inline-block;
+        padding: 10px;
+        margin: 10px;
+        border: groove 4px #600;
+        border-radius: 5px;
+       } 
+    </style>
+   
+
+    <form>
+<label for="statusFilter">Filter courses:</label>
+<select id="statusFilter">
+<option value="all">All</option>
+<option value="open">Open</option>
+<option value="full">Full</option>
+<option value="cancelled">Cancelled</option>
+</select>
+    </form>
+    <h2>Course Gallery</h2>
+    <div class="course-list">
+<div class="course" data-status="open" data-hardness="easy">Intro to Web Development (open)</div>
+<div class="course" data-status="full">Advanced JavaScript (full)</div>
+<div class="course" data-status="cancelled">Cloud Fundamentals (cancelled)</div>
+<div class="course" data-status="open">Databases 101 (open)</div>
+</div>
+    <script src="js/courses.js"></script>
+</body>
+</html>
