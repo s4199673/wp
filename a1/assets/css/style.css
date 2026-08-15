@@ -26,20 +26,22 @@ main {
 }
 
 body {
-    background: var(--text-dark);
     display: flex;
     flex-direction: column;
     min-height: 100dvh;
     margin: 0;
+
+    /* Light (default) */
+    background: linear-gradient(135deg, #f9fafb 0%, #f3f4f6 100%);
+    color: #1f2937;
 }
 
-body::before {
-    content: "";
-    position: fixed;
-    inset: 0;
-    z-index: -1;
-    background-color: var(--text-dark);
-    filter: brightness(0.55) saturate(1.4) hue-rotate(10deg);
+/* Dark — match the screenshot */
+@media (prefers-color-scheme: dark) {
+    body {
+        background: linear-gradient(135deg, #0f172a 0%, #020617 100%);
+        color: #f1f5f9;
+    }
 }
 
 nav {
@@ -48,20 +50,36 @@ nav {
     font-family: "Elms Sans", sans-serif;
     font-weight: 500;
     font-size: 0.875rem;
-    border-bottom: 4px solid transparent;
-    border-image: linear-gradient(to right,
-            var(--accent-amber),
-            var(--primary-color),
-            var(--primary-light)) 1;
+
+    /* Light */
+    background: linear-gradient(135deg, #0f766e 0%, #134e4a 100%);
+
+
+
 }
 
-nav::before {
+/* thin strip under the nav */
+nav::after {
     content: "";
     position: absolute;
-    inset: 0;
-    z-index: -1;
-    background-color: var(--text-dark);
-    filter: brightness(1.25) saturate(2.2) hue-rotate(-15deg);
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, #f59e0b 0%, #38bdf8 50%, #14b8a6 100%);
+    pointer-events: none;
+    bottom: 0;
+}
+
+
+/* Dark — match the screenshot */
+@media (prefers-color-scheme: dark) {
+    nav {
+        background: linear-gradient(135deg, #0c4a6e 0%, #082f49 100%);
+    }
+
+    nav::after {
+        background: linear-gradient(90deg, #f59e0b 0%, #38bdf8 50%, #14b8a6 100%);
+    }
 }
 
 .navbar {
@@ -76,22 +94,39 @@ nav::before {
 
 }
 
-
-.material-symbols-outlined {
-    font-family: "Material Symbols Outlined";
+.material-icons {
+    font-family: 'Material Icons';
+    font-weight: normal;
     font-style: normal;
-    font-weight: 300;
-    font-variation-settings: "FILL" 0;
+    font-size: 24px;
+    /* Preferred icon size */
     display: inline-block;
     line-height: 1;
+    text-transform: none;
+    letter-spacing: normal;
+    word-wrap: normal;
+    white-space: nowrap;
+    direction: ltr;
+
+    /* Support for all WebKit browsers. */
+    -webkit-font-smoothing: antialiased;
+    /* Support for Safari and Chrome. */
+    text-rendering: optimizeLegibility;
+
+    /* Support for Firefox. */
+    -moz-osx-font-smoothing: grayscale;
+
+    /* Support for IE. */
+    font-feature-settings: 'liga';
+
 }
 
-.navbar-brand .material-symbols-outlined {
+.navbar-brand .material-icons {
     font-size: 2rem;
     color: var(--accent-amber)
 }
 
-.navbar-nav .material-symbols-outlined {
+.navbar-nav .material-icons {
     font-size: 0.9rem;
 
 }
@@ -287,11 +322,11 @@ p {
     color: var(--background-white);
 }
 
-.books-heading .material-symbols-outlined,
-.gallery-heading .material-symbols-outlined {
+.books-heading .material-icons,
+.gallery-heading .material-icons {
     color: var(--primary-light);
     font-size: 2rem;
-        
+
 }
 
 .books-heading h1,
@@ -433,18 +468,18 @@ p {
 .filter-panel {
     width: 100%;
     margin-bottom: 1.5rem;
-    padding: 0.7rem 0.9rem;
+    padding: 1rem 0.9rem;
     border-radius: 0.5rem;
     background: var(--background-white);
     color: var(--text-dark);
     font-family: "Elms Sans", sans-serif;
-    font-size: 0.95rem;
+    font-size: 0.8rem;
     font-weight: 600;
     display: flex;
     align-items: center;
     gap: 0.5rem;
 
-  
+
 }
 
 .filter-panel .form-select {
@@ -453,29 +488,42 @@ p {
 
 .books-table-wrapper {
     border-radius: 0.5rem;
+    overflow: hidden;
+
+}
+
+
+.books-table {
+    border-collapse: separate;
+    border-spacing: 0;
+    margin-bottom: 0;
+}
+
+th {
+    font-weight: normal;
 }
 
 .books-table thead th {
- display: none;
-
- 
+    height: 1.5rem;
+    color: transparent;
+    border: none;
 }
 
 .books-table tbody th,
 .books-table tbody td {
-    
+
     padding: 0.85rem 1rem;
     font-family: "Elms Sans", sans-serif;
-    font-size: 0.95rem;
+    font-size: 0.8rem;
 }
 
 .table-status {
-    padding: 0.15rem 0.3rem;
-    border-radius: 0.5rem;
+    padding: 0.3rem 0.5rem;
+    border-radius: 0.4rem;
     color: var(--background-white);
     text-align: center;
-    font-size: 0.8rem;
-    font-weight: 500;
+    font-size: 0.6rem;
+    font-weight: 700;
 }
 
 .table-status.status-available {
@@ -487,43 +535,41 @@ p {
 }
 
 .table-status.status-sold {
-    background-color: var(--accent-slate);
+    background-color: var(--text-light);
 }
 
 footer {
     position: relative;
-    padding: 12px;
-    background: linear-gradient(to right,
-            var(--text-dark) 20%,
-            var(--accent-slate) 50%,
-            var(--primary-dark) 100%);
     text-align: center;
     padding: 8px 15px;
-    border-top: 4px solid transparent;
-    border-image: linear-gradient(to right,
-            var(--accent-amber),
-            var(--primary-color),
-            var(--primary-light)) 1;
-    z-index: 1;
+
+    /* Light */
+    background: linear-gradient(135deg, #0f766e 0%, #0d9488 45%, #134e4a 100%);
+    color: #ffffff;
 }
 
 footer::before {
     content: "";
     position: absolute;
-    inset: 0;
-    background-color: var(--text-dark);
-    filter: brightness(1.25) saturate(2.2) hue-rotate(-15deg);
-    z-index: 0;
+    left: 0;
+    right: 0;
+    top: 0;
+    height: 4px;
+    background: linear-gradient(90deg, #f59e0b 0%, #38bdf8 50%, #14b8a6 100%);
+    pointer-events: none;
 }
 
-footer::after {
-    content: "";
-    position: absolute;
-    inset: 0;
-    background: linear-gradient(to right,
-            transparent,
-            var(--primary-dark));
-    z-index: 0;
+/* Dark — match the screenshot */
+@media (prefers-color-scheme: dark) {
+    footer {
+        background: linear-gradient(135deg, #082f49 0%, #0c4a6e 45%, #0f766e 100%);
+
+        /* thin strip on top of footer */
+        footer::before {
+            background: linear-gradient(90deg, #f59e0b 0%, #38bdf8 50%, #14b8a6 100%);
+
+        }
+    }
 }
 
 footer span {

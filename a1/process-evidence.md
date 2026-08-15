@@ -97,6 +97,36 @@ Removed the incorrect </div> after the carousel indicators were correctly nested
 
 **Date Fixed:**  
 
+**File:** 
+
+
+**Related Commit:**  
+
+**Symptom:** 
+
+
+**Steps to Reproduce:**  
+
+ 
+
+
+**Root Cause:**  
+
+
+**Fix:**  
+
+
+**Verification:**  
+
+---
+
+## Bug 3
+
+**Date Identified:**  
+
+
+**Date Fixed:**  
+
 **File:**  
 
 **Related Commit:**  
@@ -626,6 +656,8 @@ If you want it even subtler, reduce the filter strength slightly. This usually g
 **Issues Identified:**  
 - A gap was appearing between the body and footer. Used border: none to remove this gap.
 
+---
+
 ## AI Task 7
 
 **Date:**  
@@ -691,7 +723,197 @@ These are mostly small fixes, and you do not need to rewrite the whole page.
 **Issues Identified:**  
 - Nil
 
-## AI Task 6
+---
+
+## AI Task 8
+
+**Date:**  
+11/8/2026
+
+**Task Description:**  
+Sought advice on why the table wrapper's 'border-radius' was only appearing at the top corners and not at the bottom. 
+
+**Tool Used:**  
+Copilot (VS Code Chat)
+
+**Prompt / Input:**  
+Review my Bootstrap 5 book table code and check why the following CSS only creates rounded corners at the top of the table and not at the bottom: 
+
+.books-table-wrapper {
+border-radius: 0.5rem;
+} 
+
+Check whether the issue is related to the table element, Bootstrap classes, borders, or overflow settings. Suggest possible fixes and explain the cause. Do not rewrite the whole code.
+
+**AI Output Summary:**  
+
+Cause of the issue
+
+The problem is mostly not with your Bootstrap table structure itself, but with how the rounded corners are being applied.
+
+In books.html, the table sits inside a wrapper with the class `.books-table-wrapper`, and in style.css you only gave that wrapper a `border-radius`. That alone is often not enough because:
+
+- the table content is still drawn as a rectangular box inside the wrapper;
+- the wrapper does not clip its child content by default;
+- Bootstrap’s `.table` styling also keeps the table layout as a normal rectangular grid, so the corners do not automatically round.
+
+Why it looks rounded only at the top
+
+Rounded corners on a parent element only show properly when the child content is clipped to that shape. Without `overflow: hidden`, the table can still paint over the edges, so the bottom corners appear square or uneven.
+
+Likely fixes
+
+1. Add clipping to the wrapper:
+```css
+.books-table-wrapper {
+    border-radius: 0.5rem;
+    overflow: hidden;
+}
+```
+
+2. If you are using visible borders, make the table render more cleanly with:
+```css
+.books-table {
+    border-collapse: separate;
+    border-spacing: 0;
+}
+```
+
+3. If the bottom corners still do not look right, apply the radius to the table or its last row/cells as well, since the table itself is still rectangular.
+
+4. Try adding a small background color to the wrapper so the rounded shape is easier to see.
+
+In short
+
+- The issue is mainly related to the wrapper’s clipping behavior, not the Bootstrap class by itself.
+- `border-radius` alone does not round the visible table edges unless the wrapper clips overflow and the table is styled to work with it.
+
+**What You Accepted:**  
+- Adding overlow: hidden and .books-table styling.
+
+**What You Changed:**  
+- Added margin-bottom: 0; to remove the bottom of table which had extra lines.
+- Did not have to apply the radius to the last row/cells.
+
+**Validation Performed:**  
+- Compared the table appearance before and after adding overflow: hidden, border-collapse: separate and border-spacing: 0.
+- Verified that the bottom corners displayed correctly after the change.
+
+**Issues Identified:**  
+- Adding background colour did not make a difference.
+
+---
+
+## AI Task 9
+
+**Date:**  
+18/8/2026
+
+**Task Description:**  
+JavaScript book status filter review
+
+**Tool Used:**  
+Copilot (VS Code Chat)
+
+**Prompt / Input:**  
+Here is my JavaScript book filter. Please check whether it correctly uses data-status, dataset.status, querySelectorAll, forEach, and the change event. Do not modify the HTML structure.
+
+**AI Output Summary:**  
+Review
+I checked books.html and scripts.js. Your current script has a few issues:
+
+- querySelectorAll(".value") is valid, but it selects the table header row too, because the <thead> row also has the value class. That means the filter could hide the header as well as the book rows.
+- books.forEach(function (books) { ... }) uses the same name for the NodeList and the loop variable, so book is never defined. It should be function (book).
+- const bookStatus = book.dataset.status; is the correct way to read the data-status attribute, but your HTML uses lowercase values like available while your select options use capitalized values like Available. That mismatch prevents the filter from matching.
+- The change event listener is correctly attached to statusFilter, so that part is fine.
+- For table rows, display = "block" is not ideal; table-row is the correct default display for a <tr>.
+
+Summary
+- data-status is used correctly via dataset.status
+- querySelectorAll is used correctly, but should target tbody tr.value
+- forEach is used correctly with the loop variable named book
+- The change event is correct
+- The main bug is the mismatch between Available and available, plus the wrong loop variable and the extra header row selection
+
+**What You Accepted:**  
+- Correcting the status value mismatch between the dropdown options and the data-status values.
+- Reviewing the row selector to ensure only book rows were targeted by the filter.
+- Verifying that the change event listener was implemented correctly.
+
+**What You Changed:**  
+- Updated the status value mismatch between the dropdown options and the data-status values.
+
+
+**Validation Performed:**  
+- Tested each filter option in the browser.
+- Confirmed that Available, Reserved, Sold, and Show All returned the expected rows.
+
+**Issues Identified:**  
+- No significant errors were found in the AI recommendations.
+
+---
+
+## AI Task 10
+
+**Date:**  
+15/08/2026
+
+**Task Description:**  
+Investigated why the linear-gradient strip below the navigation bar and above the footer stopped displaying after recent CSS changes to match Tanya's instructions on using @media (prefers-color-scheme:dark)
+
+**Tool Used:**  
+Copilot (VS Code Chat)
+
+**Prompt / Input:**  
+Inspect the relevant CSS and HTML around the header/footer to suggest why the gradient strip stopped rendering.
+
+**AI Output Summary:**  
+Likely reason
+I did not change the code, and the problem is most likely the way the accent strip is being drawn, not the layout itself.
+
+The header/footer strip is being created with a border-image rule:
+
+- border-bottom: 4px solid transparent
+- border-image: linear-gradient(...)
+
+That pattern is fragile because border-image does not behave like a normal border. It needs the image to be sliced and sized correctly, and a gradient source by itself often renders inconsistently unless the border image is defined more explicitly.
+
+In plain terms:
+
+- the border is set to transparent, so there is no visible solid line
+- the gradient is being used as a border image, not as a normal colored bar
+- browsers sometimes treat that as “no visible border” if the slice/width is not set up properly
+
+That is why the thin line can vanish even though the gradient values are still in the CSS.
+
+Most reliable alternative
+The dependable approach is:
+
+- add a small pseudo-element to the nav/footer
+- give it height: 4px
+- apply a linear-gradient background to it
+- position it at the bottom of the nav or top of the footer
+
+This works consistently and does not depend on browser border-image behaviour.
+
+**What You Accepted:**  
+- Adding the gradient strip using a pseudo-element.
+
+**What You Changed:**  
+- Removed the border-bottom and border-image styling that was previously used to create the strip.
+- Updated both the navigation and footer styling to use the new method consistently.
+
+**Validation Performed:**  
+- Compared the appearance of the strip before and after the change.
+- Verified that the gradient strip displayed correctly below the navigation bar and above the footer.
+
+**Issues Identified:** 
+- The original border-image approach was less reliable and produced inconsistent rendering.
+- The AI suggested adding a fixed height to the pseudo-element, but the original implementation already used a 4px height for the linear-gradient strip.
+
+---
+
+## AI Task 10
 
 **Date:**  
 
@@ -714,7 +936,8 @@ Copilot (VS Code Chat)
 **Validation Performed:**  
 
 
-**Issues Identified:**  
+**Issues Identified:** 
+
 # 📌 Final Reflection (End of Assessment)
 
 **What AI was most useful for:**  

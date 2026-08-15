@@ -20,7 +20,8 @@
         href="https://fonts.googleapis.com/css2?family=Elms+Sans:ital,wght@0,100..900;1,100..900&family=Righteous&display=swap"
         rel="stylesheet">
     <!--Google Material Icons-->
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:FILL@1">
+   <link href="https://fonts.googleapis.com/icon?family=Material+Icons"
+      rel="stylesheet">
     <!--Stylesheet-->
     <link rel="stylesheet" href="assets/css/style.css">
     <!--JavaScript-->
@@ -36,7 +37,7 @@
             <div class="container-fluid">
                 <!-- Logo and link to the homepage -->
                 <a class="navbar-brand d-flex align-items-center" href="index.html">
-                    <span class="material-symbols-outlined me-2">
+                    <span class="material-icons me-2">
                         auto_stories
                     </span>
                     <span>BookVerse</span>
@@ -49,25 +50,25 @@
                     <ul class="navbar-nav me-auto">
                         <li class="nav-item">
                             <a class="nav-link d-flex align-items-center" href="index.html">
-                                <span class="material-symbols-outlined me-2">
+                                <span class="material-icons me-2">
                                     home
                                 </span>Home </a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link d-flex align-items-center" href="books.html">
-                                <span class="material-symbols-outlined me-2">
+                                <span class="material-icons me-2">
                                     list
                                 </span>Browse Books</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link d-flex align-items-center" href="gallery.html">
-                                <span class="material-symbols-outlined me-2">
+                                <span class="material-icons me-2">
                                     photo_library
                                 </span>Gallery</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link d-flex align-items-center" href="add.html">
-                                <span class="material-symbols-outlined me-2">
+                                <span class="material-icons me-2">
                                     add_circle
                                 </span>Add Book</a>
                         </li>
@@ -82,7 +83,7 @@
           <section class="books-section">
             <div class="books-container">
                 <div class="books-heading">
-                    <span class="material-symbols-outlined my-4">
+                    <span class="material-icons my-4">
                         library_books
                     </span>
                     <h1>All Books</h1>
@@ -101,7 +102,7 @@
 <div class="table-responsive books-table-wrapper">   
         <table class="table books-table">
             <thead>
-                <tr>
+                <tr class="value" data-status="Available">
                     <th scope="col">Title</th>
                     <th scope="col">Author</th>
                     <th scope="col">Genre</th>
@@ -112,7 +113,7 @@
             </thead>
 
             <tbody>
-                <tr>
+                <tr class="value" data-status="Available">
                     <th scope="row">The Midnight Library</th>
                     <td>Matt Haig</td>
                     <td>Fiction</td>
@@ -124,7 +125,7 @@
                                     </span>
                                 </td>
                 </tr>
-                <tr>
+                <tr class="value" data-status="Available">
                     <th scope="row">Project Hail Mary</th>
                     <td>Andy Weir</td>
                                 <td>Science Fiction</td>
@@ -136,7 +137,7 @@
                                     </span>
                                 </td>
                 </tr>
-                <tr>
+                <tr class="value" data-status="Available">
                     <th scope="row">Dune</th>
                     <td>Frank Herbert</td>
                                 <td>Science Fiction</td>
@@ -148,7 +149,7 @@
                                     </span>
                                 </td>
                 </tr>
-                <tr>
+                <tr class="value" data-status="Available">
                     <th scope="row">The Hobbit</th>
                     <td>J.R.R. Tolkien</td>
                                 <td>Fantasy</td>
@@ -160,7 +161,7 @@
                                     </span>
                                 </td>
                 </tr>
-<tr>
+<tr class="value" data-status="Available">
                     <th scope="row">1984</th>
                     <td>George Orwell</td>
                                 <td>Dystopian</td>
@@ -172,6 +173,7 @@
                                     </span>
                                 </td>
                 </tr>
+                <tr class="value" data-status="Reserved">
               <th scope="row">Pride and Prejudice</th>
                    <td>Jane Austen</td>
                                 <td>Romance</td>
@@ -183,6 +185,7 @@
                                     </span>
                                 </td>
                 </tr>
+                <tr class="value" data-status="Available">
                 <th scope="row">To Kill a Mockingbird</th>
                      <td>Harper Lee</td>
                                 <td>Fiction</td>
@@ -194,6 +197,7 @@
                                     </span>
                                 </td>
                 </tr>
+                <tr class="value" data-status="Sold">
                    <th scope="row">The Great Gatsby</th>
                     <td>F. Scott Fitzgerald</td>
                                 <td>Fiction</td>
@@ -205,6 +209,7 @@
                                     </span>
                                 </td>
                 </tr>
+                <tr class="value" data-status="Available">
                    <th scope="row">Educated</th>
                      <td>Tara Westover</td>
                                 <td>Memoir</td>
@@ -216,7 +221,8 @@
                                     </span>
                                 </td>
                 </tr>
-                   <th scope="row">The Seven Husbands of Evelyn Hugo</th>
+                <tr class="value" data-status=Reserved">
+                   <th scope="row">The Seven Husbands</th>
                      <td>Taylor Jenkins Reid</td>
                                 <td>Fiction</td>
                                 <td>2017</td>
@@ -226,9 +232,8 @@
                                         Reserved
                                     </span>
                                 </td>
-                </tr>
-
-                 </tr>
+                                </tr>
+                <tr class="value" data-status="Available">
                    <th scope="row">Atomic Habits</th>
                         <td>James Clear</td>
                                 <td>Self-Help</td>
@@ -240,7 +245,7 @@
                                     </span>
                                 </td>
                 </tr>
-                 </tr>
+                <tr class="value" data-status="Available">
                    <th scope="row">Sapiens</th>
                        <td>Yuval Noah Harari</td>
                                 <td>Non-Fiction</td>
@@ -255,7 +260,7 @@
             </tbody>
         </table>
 </div>
-
+</section>
     </main>
 
 
