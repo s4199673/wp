@@ -226,22 +226,49 @@ Nothing yet
 
 ---
 
-## AI Task 2
+## Home Page Grid Explanation
 
-**Date:**  
+The class `col-12` means: takes the full row width
 
-**Task Description:**  
+The class `col-sm-6` means: half-width column on small screens and larger.
 
-**Tool Used:**  
+This creates a responsive layout because: 
+Bootstrap changes the column width based on screen size:
+- col-12 means full width on the smallest screens
+- col-sm-6 means half width from the small breakpoint onward
+The grid automatically adjusts as the viewport width changes.
 
-**Prompt / Input:**  
+The layout responds to screen size by switching from stacked columns to side-by-side columns when the breakpoint is reached.
 
-**AI Output Summary:**  
+---
 
-**What You Accepted:**  
+## AI Code Review
 
-**What You Changed:**  
+### Page Reviewed
 
-**Validation Performed:**  
+[contact.html]
 
-**Issues Identified:**  
+### Useful Feedback from AI
+- produced a table with label, ID, name and bootstrap class 
+
+### Feedback I Accepted
+
+- Accepted the verification that all labels and form fields were correctly associated.
+- Accepted the confirmation that Bootstrap classes were being used appropriately.
+- Accepted the validation that the form structure followed Bootstrap conventions.
+
+### Feedback I Rejected
+
+- No feedback was rejected.
+
+### Reason for Rejecting Any Feedback
+
+- The form structure, labels, IDs, names, and Bootstrap classes were implemented correctly and did not identify any issues requiring changes.
+
+### Changes I Made After Testing
+
+- No changes were required after testing.
+- Verified that all form fields had correctly associated labels.
+- Confirmed that Bootstrap classes were applied correctly and the form displayed as expected in the browser.
+
+

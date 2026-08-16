@@ -1,3 +1,25 @@
+body {
+  background-color: #f9fafb;
+}
+
+.navbar-brand {
+  font-weight: 700;
+}
+
+.carousel-item img {
+  max-height: 500px;
+  object-fit: cover;
+}
+
+.card {
+  border-radius: 0.75rem;
+}
+
+footer {
+  margin-top: auto;
+}
+
+
 .hero {
   min-height: 300px;
   background-size: cover;
