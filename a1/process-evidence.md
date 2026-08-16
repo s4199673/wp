@@ -66,13 +66,13 @@ Updated the stylesheet URL to "https://fonts.googleapis.com/css2?family=Material
 index.html
 
 **Related Commit:**  
-
+57ce722
 
 **Symptom:**  
 Carousel stopped working.
 
 **Steps to Reproduce:**  
-1. Open `index.html` in a browser.
+1. Open home page in a browser.
 2. Observe that the carousel images do not slide.
 3. Click the Previous and Next controls.
 4. The carousel controls and automatic slide functionality do not work.
@@ -93,34 +93,75 @@ Removed the incorrect </div> after the carousel indicators were correctly nested
 ## Bug 3
 
 **Date Identified:**  
-
+15/08/2026
 
 **Date Fixed:**  
+15/08/2026
 
 **File:** 
-
+gallery.html
 
 **Related Commit:**  
+1f41d43
 
 **Symptom:** 
+HTML validation reported multiple errors, including duplicate ID values for imageModalLabel and unclosed div elements in the gallery page.
 
-
-**Steps to Reproduce:**  
-
- 
-
+**Steps to Reproduce:**   
+1. Upload gallery.html to the W3C HTML Validator.
+2. Run validation on the page.
+3. Observe validation errors reporting duplicate IDs and incorrectly nested or unclosed elements.
 
 **Root Cause:**  
-
+The gallery page originally contained multiple Bootstrap modals that reused the same id="imageModalLabel" value. During development, some modal-related elements were also not properly closed, resulting in invalid HTML structure.
 
 **Fix:**  
-
+Updated the gallery implementation to use a single reusable Bootstrap modal instead of multiple individual modals. Removed duplicate imageModalLabel, IDs and corrected the HTML structure by ensuring all div elements were properly nested and closed.
 
 **Verification:**  
+- Re-ran the page through the W3C HTML Validator.
+- Confirmed that duplicate ID errors were resolved.
+- Confirmed that all unclosed element errors were removed.
 
 ---
 
-## Bug 3
+## Bug 4
+
+**Date Identified:**  
+16/8/2026
+
+**Date Fixed:**  
+16/8/2026
+
+**File:**  
+scripts.js
+
+**Related Commit:**  
+
+**Symptom:**  
+Javascript for gallery modal was not working.
+Console error displayed: Cannot read properties of null (reading 'addEventListener')
+
+**Steps to Reproduce:**  
+1. Open Console from the website in a browser.
+2. Observe the error message indicating that addEventListener() was being called on a null value.
+
+**Root Cause:**  
+The scripts.js file was shared across multiple pages, but the statusFilter element only existed on books.html. The script attempted to run: statusFilter.addEventListener(...) even when statusFilter does not exist on other pages, causing the error.
+
+**Fix:**  
+Added a conditional check using: if (statusFilter) before the event listener.
+This ensured that the books filter code only ran on pages where the statusFilter element existed, preventing JavaScript errors on pages that did not contain the filter.
+
+**Verification:**  
+- Refreshed all pages and checked the browser console using Developer Tools (F12). 
+- Confirmed that the error no longer appeared. 
+- Tested that the book status filter still worked correctly. 
+- Opened Book cover gallery page to confirm that the javascript for gallery modal executed.
+
+---
+
+## Bug 5
 
 **Date Identified:**  
 
@@ -913,6 +954,96 @@ This works consistently and does not depend on browser border-image behaviour.
 
 ---
 
+## AI Task 11
+
+**Date:**  
+16/8/2026
+
+**Task Description:**  
+Planning JavaScript for Boostrap modal gallery. 
+
+**Tool Used:**  
+Copilot (VS Code Chat)
+
+**Prompt / Input:**  
+I am a beginner web programming student learning JavaScript basics. Client-Side JavaScript requirement for gallery.html is Bootstrap modal functionality for full-size image previews on gallery.html (no inline JS—use `assets/js/scripts.js`). The next and previous buttons of the modal need to load full-size image in the gallery and the title.
+
+Please give me a step-by-step plan for completing javascript. Do not write the full code for me.
+
+**AI Output Summary:**  
+
+## Step-by-Step Plan for Gallery Modal Navigation
+
+### **Step 1: Create Data Structure**
+- Use `document.querySelectorAll()` to select all gallery image buttons (hint: use a class selector like `.gallery-image-button`)
+- Store this collection in a variable so you can access the image data throughout your script
+
+### **Step 2: Track Current Image Index**
+- Create a variable to store the currently displayed image's index
+- This will help you know which image to show when users click Previous/Next
+- Initialize it as `0` (first image) or update it when the modal opens
+
+### **Step 3: Listen for Modal Open Event**
+- Use the `show.bs.modal` Bootstrap event listener on the `#imageModal` element
+- This event fires when the modal is about to open (before it becomes visible)
+- Inside this listener, determine which image button was clicked and store its index
+
+### **Step 4: Create a Function to Update Modal Content**
+- Write a function (e.g., `displayImage(index)`) that:
+  - Gets the image button at the given index
+  - Extracts the `data-image` and `data-title` attributes from that button
+  - Updates the modal's `#modalImage` src attribute
+  - Updates the modal's `#imageModalLabel` text with the title
+
+### **Step 5: Handle Previous Button Click**
+- Add an event listener to the `.previous-button` element
+- Decrease the current index by 1
+- Handle edge case: if you're at the first image (index 0), wrap around to the last image (use modulo `%` operator)
+- Call your update function to display the previous image
+
+### **Step 6: Handle Next Button Click**
+- Add an event listener to the `.next-button` element
+- Increase the current index by 1
+- Handle edge case: if you're at the last image, wrap around to the first image (use modulo operator)
+- Call your update function to display the next image
+
+### **Step 7: Test Navigation**
+- Click a gallery thumbnail to open the modal
+- Verify the image and title load correctly
+- Test Previous/Next buttons
+- Test wrapping (Previous from first image, Next from last image)
+
+---
+
+**Key Hints for Implementation:**
+- Store image count in a variable: `const totalImages = galleryButtons.length`
+- Use modulo arithmetic to handle wrapping: `(index + 1) % totalImages` for next
+- The event target when clicking a gallery button is available in the modal event object via `e.relatedTarget`
+- Keep your code organized with clear variable names and comments
+
+
+**What You Accepted:**  
+- Using querySelectorAll() to select gallery image buttons.
+- Creating a variable to track the currently displayed image.
+- Adding a tracking variable to store the index of the currectnly displayed gallery image.
+
+**What You Changed:**  
+- Did not use show.bs.modal or e.relatedTarget
+- Used click event listeners on the gallery image buttons.
+- Used showImage() to update the modal image, title, and alt text.
+- Rather than using the modulo operator for navigation, used if statements because I found them easier to understand.
+
+**Validation Performed:**  
+- Opened the gallery page and clicked thumbnails to verify that the correct image and title appeared in the modal.
+- Tested the previous and next buttons and confirmed it displayed the previous gallery image.
+- Confirmed that the modal image and title updated correctly.
+
+**Issues Identified:** 
+- AI suggested using the show.bs.modal and e.relatedTarget to determine the selected gallery image.
+- Using click event listeners and passing the image index directly to the showImage() function was simpler to understand as a beginner.
+
+---
+
 ## AI Task 10
 
 **Date:**  
@@ -937,6 +1068,7 @@ Copilot (VS Code Chat)
 
 
 **Issues Identified:** 
+
 
 # 📌 Final Reflection (End of Assessment)
 

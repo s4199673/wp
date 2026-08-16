@@ -94,7 +94,7 @@
                             title
                         </span>
                         Book Title</label>
-                    <input type="text" class="form-control" id="title" placeholder="Enter book title" required>
+                    <input type="text" class="form-control" id="title" name ="title" placeholder="Enter book title" required>
                 </div>
 
                 <div class="mb-3">
@@ -103,7 +103,7 @@
                             person
                         </span>
                         Author Name</label>
-                    <input type="text" class="form-control" id="author" placeholder="Enter author name" required>
+                    <input type="text" class="form-control" id="author" name ="author" placeholder="Enter author name" required>
                 </div>
 
                 <div class="mb-3">
@@ -132,7 +132,7 @@
                                 calendar_today
                             </span>
                             Publication Year</label>
-                        <input type="number" class="form-control" id="publication_year" placeholder="2024" required>
+                        <input type="number" class="form-control" id="publication_year" name="publication_year" placeholder="2024" required>
                     </div>
                     <div class="col">
                         <label for="price" class="form-label d-flex align-items-center">
@@ -140,7 +140,7 @@
                                 attach_money
                             </span>
                             Price ($)</label>
-                        <input type="number" class="form-control" id="price" placeholder="19.99" required>
+                        <input type="number" class="form-control" id="price" name="price" placeholder="19.99" required>
                     </div>
                 </div>
 
@@ -148,7 +148,7 @@
                     <div class="col">
                         <label for="isbn" class="form-label d-flex align-items-center">
                             ISBN</label>
-                        <input type="text" class="form-control" id="isbn" placeholder="978-1-234567-89-0" required>
+                        <input type="text" class="form-control" id="isbn" name="isbn" placeholder="978-1-234567-89-0" required>
                     </div>
                     <div class="col">
                         <label for="book_condition" class="form-label d-flex align-items-center">
@@ -170,7 +170,7 @@
                                 description
                             </span>
                             Description</label>
-                        <textarea class="form-control" id="description" rows="4" placeholder="Describe the book..."
+                        <textarea class="form-control" id="description" name="description" rows="4" placeholder="Describe the book..."
                             required></textarea>
                     </div>
 
@@ -182,6 +182,9 @@
                             Upload Cover Image</label>
                         <input type="file" class="form-control" id="image_path" name="image_path"
                             accept=".jpg,.jpeg,.png,.gif,.webp" required>
+
+                            <p id="selectedFileName" class="selected-file-name"></p>
+
                         <img id="imagePreview" src="" alt="Selected book cover preview" class="img-fluid mt-2 d-none">
 
                     </div>
