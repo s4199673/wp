@@ -87,3 +87,59 @@ if (galleryImages.length > 0 &&
     showImage(currentIndex);
   });
 }
+
+//Add Book Form 
+const addBook = document.getElementById("addBook");
+const imageInput = document.getElementById("image_path");
+const imagePreview = document.getElementById("imagePreview");
+const errorMsg = document.getElementById("errorMsg");
+const selectedFileName = document.getElementById("selectedFileName");
+
+if (addBook) {
+  const allowedImageTypes =
+    /\.(jpg|jpeg|png|gif|webp)$/i;
+
+    imageInput.addEventListener("change", function () {
+    const selectedFile = imageInput.files[0];
+
+    if (!selectedFile) {
+      selectedFileName.textContent = "";
+        imagePreview.src = "";
+        imagePreview.classList.add("d-none");
+        return;
+    }
+
+    if (allowedImageTypes.test(selectedFile.name)) {
+      selectedFileName.textContent =
+            "Selected: " + selectedFile.name;
+        imagePreview.src = URL.createObjectURL(selectedFile);
+        imagePreview.classList.remove("d-none");
+        errorMsg.textContent = "";
+    } else {
+      selectedFileName.textContent = "";
+        imageInput.value = "";
+        imagePreview.src = "";
+        imagePreview.classList.add("d-none");
+        errorMsg.textContent =
+            "Only JPG, JPEG, PNG, GIF and WEBP files are allowed.";
+    }
+});
+
+addBook.addEventListener("submit", function (event) {
+    event.preventDefault();
+
+    const selectedFile = imageInput.files[0];
+    let message = "";
+
+    if (!selectedFile) {
+        message = "Please select a cover image.";
+    } else if (!allowedImageTypes.test(selectedFile.name)) {
+        message =
+            "Only JPG, JPEG, PNG, GIF and WEBP files are allowed.";
+    } else {
+        message = "Form is valid. No data has been submitted.";
+    }
+
+    errorMsg.textContent = message;
+});
+}
