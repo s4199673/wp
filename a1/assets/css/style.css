@@ -19,14 +19,20 @@
     --border-color: #e5e7eb;
 
     /*Extra colours used in dark mode */
-    --darkmode-page-background: #0f172a; 
-    --darkmode-page-background2: #020617; /*deep navy*/
-    --darkmode-nav-footer: #0c4a6e; 
-    --darkmode-nav-footer2: #082f49; /*navy blue — not teal*/
-    --darkmode-accent-strip-skyblue: #38bdf8; /*sky blue*/ 
-    --darkmode-accent-strip-amber: #f59e0b; /*amber*/ 
-    --darkmode-accent-strip-teal: #14b8a6; /*teal*/
-    --darkmode-text-nearwhite: #f1f5f9; /*near-white*/
+    --darkmode-page-background: #0f172a;
+    --darkmode-page-background2: #020617;
+    /*deep navy*/
+    --darkmode-nav-footer: #0c4a6e;
+    --darkmode-nav-footer2: #082f49;
+    /*navy blue — not teal*/
+    --darkmode-accent-strip-skyblue: #38bdf8;
+    /*sky blue*/
+    --darkmode-accent-strip-amber: #f59e0b;
+    /*amber*/
+    --darkmode-accent-strip-teal: #14b8a6;
+    /*teal*/
+    --darkmode-text-nearwhite: #f1f5f9;
+    /*near-white*/
 
 }
 
@@ -234,7 +240,16 @@ nav::after {
     font-family: "Righteous", cursive;
     font-weight: 400;
     font-size: 1.5rem;
-    color: var(--background-white);
+    color: var(--text-dark);
+}
+
+@media (prefers-color-scheme: dark) {
+
+    .books-heading h1,
+    .featured-heading h2 {
+
+        color: var(--darkmode-text-nearwhite);
+    }
 }
 
 .book-grid {
@@ -273,7 +288,7 @@ nav::after {
     margin-bottom: 0.2rem;
     margin-top: 0.8rem;
     font-size: 0.5rem;
-   
+
 }
 
 .book-price {
@@ -305,7 +320,7 @@ nav::after {
 
 .status-reserved,
 .status-reserved:hover {
-    background-color: var(--accent-amber);
+    background-color: var(--secondary-color);
     color: var(--background-white);
 }
 
@@ -334,7 +349,17 @@ nav::after {
     align-items: center;
     gap: 0.4rem;
     margin-bottom: 0.1rem;
-    color: var(--background-white);
+    color: var(--text-dark);
+}
+
+@media (prefers-color-scheme: dark) {
+
+    .books-heading,
+    .gallery-heading,
+    .add-book-heading {
+
+        color: var(--darkmode-text-nearwhite);
+    }
 }
 
 .books-heading .material-icons,
@@ -383,6 +408,10 @@ nav::after {
 
 }
 
+.modal-dialog {
+    max-width: 625px;
+}
+
 .modal-backdrop {
     --bs-backdrop-opacity: 0;
 }
@@ -398,16 +427,16 @@ nav::after {
     padding: 0.7rem 0.7rem;
     background-color: var(--primary-dark);
     border: none;
-  
+
 }
 
 .modal-header .modal-title {
     margin: 0;
     color: var(--background-white);
     font-family: "Elms Sans", sans-serif;
-    font-size: 0.75rem;
+    font-size: 0.8rem;
     font-weight: 600;
-  
+
 }
 
 .modal-header .btn-close,
@@ -418,8 +447,8 @@ nav::after {
     margin-left: auto;
     margin-right: 0;
     filter: brightness(0) invert(1);
-    box-shadow: none; 
-  
+    box-shadow: none;
+
 }
 
 .modal-body {
@@ -427,15 +456,14 @@ nav::after {
     justify-content: center;
     min-height: 130px;
     padding: 1rem;
-    background-color: var(--text-dark);
-  
+    background-color: var(--background-white);
 
 }
 
 .modal-body img {
     max-width: 100%;
     max-height: 180px;
-  
+
 }
 
 .modal-footer {
@@ -450,9 +478,11 @@ nav::after {
     content: "";
     position: absolute;
     inset: 0;
-    background-color: var(--darkmode-page-background);
-    
+    background-color: var(--background-light);
+
 }
+
+
 
 
 .btn.modal-button {
@@ -468,7 +498,7 @@ nav::after {
 
 .modal-button.previous-button {
     margin-left: 0.25rem;
-    background-color: var(--accent-slate);
+    background-color: var(--secondary-color);
 
 }
 
@@ -476,6 +506,22 @@ nav::after {
     margin-left: 0.25rem;
     background-color: var(--primary-color);
 
+}
+
+@media (prefers-color-scheme: dark) {
+    .modal-body {
+        background-color: var(--text-dark);
+    }
+
+    .modal-footer::before {
+
+        background-color: var(--darkmode-page-background);
+    }
+
+    .modal-button.previous-button {
+        background-color: var(--accent-slate);
+
+    }
 }
 
 /* Browse Books */
@@ -554,7 +600,7 @@ th {
 }
 
 .table-status.status-reserved {
-    background-color: var(--darkmode-accent-strip-amber);
+    background-color: var(--secondary-color);
 }
 
 .table-status.status-sold {
@@ -562,9 +608,16 @@ th {
 }
 
 /* Add Book Form*/
-.submit-button .material-icons,
+
 .form-label .material-icons {
-    color: var(--darkmode-text-nearwhite);
+    color: var(--text-dark);
+    font-size: 1rem;
+    padding: 5px;
+
+}
+
+.submit-button .material-icons {
+    color: var(--background-white);
     font-size: 1rem;
     padding: 5px;
 
@@ -579,14 +632,14 @@ th {
 .add-book-form {
     width: 100%;
     max-width: 800px;
-    
+
     padding: 2rem;
     font-family: "Elms Sans", sans-serif;
     font-weight: 600;
-    
-    background-color: var(--text-dark);
+
+    background-color: var(--background-white);
     border-radius: 0.5rem;
-    
+
 }
 
 .add-book-form .row {
@@ -595,6 +648,11 @@ th {
 }
 
 @media (prefers-color-scheme: dark) {
+
+    .add-book-form {
+        background-color: var(--text-dark);
+    }
+
     .add-book-form .form-control,
     .add-book-form .form-select {
         background-color: var(--darkmode-page-background);
@@ -613,6 +671,19 @@ th {
         box-shadow: none;
         color: var(--darkmode-text-nearwhite);
     }
+
+    .submit-button .material-icons,
+    .form-label .material-icons {
+        color: var(--darkmode-text-nearwhite);
+    }
+}
+
+#image_path::file-selector-button {
+    margin-right: 0.5rem;
+    padding: 0.15rem 0.5rem;
+    border-radius: 0.25rem;
+    background-color: var(--background-white);
+    color: var(--text-dark);
 }
 
 .add-book-button {
@@ -678,12 +749,13 @@ footer::before {
     footer {
         background: linear-gradient(135deg, #082f49 0%, #0c4a6e 45%, #0f766e 100%);
     }
-        /* thin strip on top of footer */
-        footer::before {
-            background: linear-gradient(90deg, #f59e0b 0%, #38bdf8 50%, #14b8a6 100%);
 
-        }
+    /* thin strip on top of footer */
+    footer::before {
+        background: linear-gradient(90deg, #f59e0b 0%, #38bdf8 50%, #14b8a6 100%);
+
     }
+}
 
 
 footer span {

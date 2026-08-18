@@ -31,7 +31,7 @@ You must maintain this file throughout development.
 index.html
 
 **Related Commit:**  
-ce767ff
+ce767ff - https://github.com/s4199673/wp/commit/ce767ffd233f0a4734a60662b66adf47c1cc4497
 
 **Symptom:**  
 Goggle Icons were not appearing in the navigation bar.
@@ -66,7 +66,7 @@ Updated the stylesheet URL to "https://fonts.googleapis.com/css2?family=Material
 index.html
 
 **Related Commit:**  
-57ce722
+57ce722 - https://github.com/s4199673/wp/commit/57ce7227a0d0eccc93837dc55196d58e546836e7
 
 **Symptom:**  
 Carousel stopped working.
@@ -102,7 +102,7 @@ Removed the incorrect </div> after the carousel indicators were correctly nested
 gallery.html
 
 **Related Commit:**  
-1f41d43
+1f41d43 - https://github.com/s4199673/wp/commit/1f41d43eb2c344ddd4b04dbe3a87b517b6cf4d9c
 
 **Symptom:** 
 HTML validation reported multiple errors, including duplicate ID values for imageModalLabel and unclosed div elements in the gallery page.
@@ -137,6 +137,7 @@ Updated the gallery implementation to use a single reusable Bootstrap modal inst
 scripts.js
 
 **Related Commit:**  
+a4e4395 - https://github.com/s4199673/wp/commit/a4e4395428469dd21d1e3cfe5a378040048e71ec
 
 **Symptom:**  
 Javascript for gallery modal was not working.
@@ -164,23 +165,34 @@ This ensured that the books filter code only ran on pages where the statusFilter
 ## Bug 5
 
 **Date Identified:**  
-
+18/8/2026
 
 **Date Fixed:**  
+18/8/2026
 
 **File:**  
+scripts.js
 
-**Related Commit:**  
+**Related Commit:** 
+
 
 **Symptom:**  
+Price filed not displaying decimals.
 
 **Steps to Reproduce:**  
+1. Open add.html in a browwer.
+2. Enter a decimal value such as 19.99.
+3. Field only accepts whole numbers or prevents decimal input.
 
 **Root Cause:**  
+type="number" defaults to only accepting whole numbers.
 
 **Fix:**  
+Add <step="0.01"> to the Price input field in add.html
 
 **Verification:**  
+- Entered prices containing decimal values (e.g., 19.99, 24.50, 15.95).
+- Confirmed that decimal values were accepted by the input field.
 
 ---
 
