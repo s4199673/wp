@@ -180,7 +180,7 @@ scripts.js
 Price field not displaying decimals.
 
 **Steps to Reproduce:**  
-1. Open add.html in a browwer.
+1. Open add.html in a browser.
 2. Enter a decimal value such as 19.99.
 3. Field only accepts whole numbers or prevents decimal input.
 
@@ -193,6 +193,44 @@ Add <step="0.01"> to the Price input field in add.html
 **Verification:**  
 - Entered prices containing decimal values (e.g., 19.99, 24.50, 15.95).
 - Confirmed that decimal values were accepted by the input field.
+
+---
+
+## Bug 6
+
+**Date Identified:**  
+18/8/2026
+
+**Date Fixed:**  
+19/8/2026
+
+**File:**  
+gallery.html
+
+**Related Commit:** 
+
+
+**Symptom:**  
+HTML validation error
+Error: Bad value for attribute `src` on element `img`: Must be non-empty.
+[From line 200, column 29; to line 200, column 88](https://validator.w3.org/nu/#l200c88)
+`          <img id="modalImage" src="" class="img-fluid" alt="Preview">↩`
+
+**Steps to Reproduce:**  
+1. Upload gallery.html to the W3C HTML Validator.
+2. Run validation.
+
+**Root Cause:**  
+The image element contained an empty src attribute, which is not valid HTML.
+
+**Fix:**  
+- Added data:, to represent empty content.
+
+**Verification:**  
+- Re-ran gallery.html through the W3C HTML Validator.
+- Confirmed that the empty src attribute error no longer appeared.
+- Opened the gallery page and verified that clicking a gallery image correctly updated the modal image source.
+- Confirmed that Previous and Next navigation continued to function correctly.
 
 ---
 
