@@ -161,8 +161,8 @@
                     <div class="col-6 col-sm-4 col-lg-2">
                         <button class="gallery-image-button" type="button" data-bs-toggle="modal"
                             data-bs-target="#imageModal" data-image="assets/images/covers/10.png"
-                            data-title="The Seven Husbands">
-                            <img src="assets/images/covers/10.png" alt="The Seven Husbands by Taylor Jenkins Reid">
+                            data-title="The Seven Husbands by Taylor Jenkins Reid">
+                            <img src="assets/images/covers/10.png" alt="The Seven Husbands book cover">
                         </button>
                     </div>
 
@@ -170,14 +170,14 @@
                         <button class="gallery-image-button" type="button" data-bs-toggle="modal"
                             data-bs-target="#imageModal" data-image="assets/images/covers/11.png"
                             data-title="Atomic Habits by James Clear">
-                            <img src="assets/images/covers/11.png" alt="Atomic Habits">
+                            <img src="assets/images/covers/11.png" alt="Atomic Habits book cover">
                         </button>
                     </div>
 
                     <div class="col-6 col-sm-4 col-lg-2">
                         <button class="gallery-image-button" type="button" data-bs-toggle="modal"
                             data-bs-target="#imageModal" data-image="assets/images/covers/12.png" data-title="Sapiens by Yuval Noah Harari">
-                            <img src="assets/images/covers/12.png" alt="Sapiens">
+                            <img src="assets/images/covers/12.png" alt="Sapiens book cover">
                         </button>
                     </div>
                 </div>
@@ -187,7 +187,7 @@
 
 
             <!-- Image modal -->
-            <div class="modal" id="imageModal">
+            <div class="modal" id="imageModal" aria-hidden="true">
                 <div class="modal-dialog modal-dialog-centered">
                     <div class="modal-content">
                         <div class="modal-header">
@@ -196,7 +196,7 @@
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div class="modal-body">
-                            <img id="modalImage" src="" alt="" class="img-fluid">
+                            <img id="modalImage" src="" class="img-fluid" alt="Preview">
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn modal-button previous-button">‹ Previous</button>

@@ -174,10 +174,10 @@ This ensured that the books filter code only ran on pages where the statusFilter
 scripts.js
 
 **Related Commit:** 
-
+749189c - https://github.com/s4199673/wp/commit/749189c31da6dde5733ea300af4814c30013b40b
 
 **Symptom:**  
-Price filed not displaying decimals.
+Price field not displaying decimals.
 
 **Steps to Reproduce:**  
 1. Open add.html in a browwer.
@@ -1056,38 +1056,246 @@ Please give me a step-by-step plan for completing javascript. Do not write the f
 
 ---
 
-## AI Task 10
+## AI Task 12
 
 **Date:**  
-
+17/8/2026
 
 **Task Description:**  
-
+Planning JavaScript for Add Book Form. 
 
 **Tool Used:**  
-Copilot (VS Code Chat)
+OpenAI GPT
 
 **Prompt / Input:**  
+I am a beginner web programming student learning JavaScript. Please review add.html and identify any missing or incorrect fields, labels, placeholders, required attributes, and image upload settings. Then provide a step-by-step plan for implementing image validation and image preview. Do not write the full JavaScript solution; explain the concepts, logic, and testing steps instead. 
 
 **AI Output Summary:**  
 
-**What You Accepted:**  
+## 1. Check your HTML first
 
+Your fields already have `id` values, `required`, labels and placeholders in most cases. Add the missing `name` attributes so they match the assignment field names:
+
+```html
+<input id="title" name="title" ...>
+<input id="author" name="author" ...>
+<input id="publication_year" name="publication_year" ...>
+<input id="price" name="price" ...>
+<input id="isbn" name="isbn" ...>
+<textarea id="description" name="description" ...></textarea>
+```
+
+Your selects already have some `name` attributes. Make sure all have them:
+
+```html
+<select id="genre" name="genre" required>
+<select id="book_condition" name="book_condition" required>
+<select id="status" name="status" required>
+```
+
+Your file input is correctly named:
+
+```html
+<input type="file"
+       id="image_path"
+       name="image_path"
+       accept=".jpg,.jpeg,.png,.gif,.webp"
+       required>
+```
+
+Your checkbox is also correctly identified:
+
+```html
+<input type="checkbox"
+       id="agree"
+       name="agree"
+       required>
+```
+
+## 2. Select the form elements
+
+In `assets/js/scripts.js`, start by finding the form and the image-related elements:
+
+```javascript
+const addBook = document.getElementById("addBook");
+const imageInput = document.getElementById("image_path");
+const imagePreview = document.getElementById("imagePreview");
+const errorMsg = document.getElementById("errorMsg");
+```
+
+
+## 3. Create the allowed-extension check
+
+Inside the `if` block, create a regular expression:
+
+```javascript
+const allowedExtensions =
+    /\.(jpg|jpeg|png|gif|webp)$/i;
+```
+
+This checks whether a filename ends with one of these extensions:
+
+- `.jpg`
+- `.jpeg`
+- `.png`
+- `.gif`
+- `.webp`
+
+The `i` makes the check case-insensitive, so `.JPG` is also accepted.
+
+## 4. Add a `change` event to the file input
+
+The `change` event runs when the user selects a file:
+
+```javascript
+imageInput.addEventListener("change", function () {
+    // File validation and preview code goes here
+});
+```
+
+Inside the event function, get the selected file:
+
+```javascript
+const selectedFile = imageInput.files[0];
+```
+
+`files[0]` means “the first selected file”.
+
+## 5. Check whether a file was selected
+
+Before checking the extension, handle the case where no file is selected:
+
+```javascript
+if (!selectedFile) {
+    imagePreview.src = "";
+    imagePreview.classList.add("d-none");
+    return;
+}
+```
+
+`return` stops the function at that point.
+
+## 6. Validate the file extension
+
+Use the regular expression with the file name:
+
+```javascript
+if (!allowedExtensions.test(selectedFile.name)) {
+    errorMsg.textContent =
+        "Only JPG, JPEG, PNG, GIF and WEBP files are allowed.";
+
+    imageInput.value = "";
+    imagePreview.classList.add("d-none");
+    return;
+}
+```
+
+Important points:
+
+- `.test()` returns `true` or `false`.
+- `selectedFile.name` provides the filename.
+- Clearing `imageInput.value` removes an invalid selection.
+- `d-none` hides the preview.
+
+## 7. Create the image preview
+
+For a valid file, create a temporary URL:
+
+```javascript
+imagePreview.src =
+    URL.createObjectURL(selectedFile);
+
+imagePreview.classList.remove("d-none");
+errorMsg.textContent = "";
+```
+
+This displays the selected image without uploading it to a server.
+
+## 8. Add form submission handling
+
+Add a submit event:
+
+```javascript
+addBook.addEventListener("submit", function (event) {
+    event.preventDefault();
+
+    // Add final validation here
+});
+```
+
+`event.preventDefault()` is required because the assignment says the form will not submit data.
+
+## 9. Check the selected image again on submit
+
+Inside the submit event, check:
+
+```javascript
+const selectedFile = imageInput.files[0];
+
+if (!selectedFile) {
+    errorMsg.textContent =
+        "Please select a cover image.";
+} else if (!allowedExtensions.test(selectedFile.name)) {
+    errorMsg.textContent =
+        "Only JPG, JPEG, PNG, GIF and WEBP files are allowed.";
+} else {
+    errorMsg.textContent =
+        "Form is valid. No data has been submitted.";
+}
+```
+
+Checking again during submission is useful because the user may change or remove the file after the preview event.
+
+## 10. Test progressively
+
+Test each stage separately:
+
+1. Open `add.html` and confirm there are no Console errors.
+2. Select a `.png` or `.jpg` file.
+3. Confirm the preview appears.
+4. Select an invalid file, such as `.pdf`.
+5. Confirm the error message appears and the preview is hidden.
+6. Submit with no file selected.
+7. Confirm the form does not navigate away.
+8. Fill in all required fields and select a valid image.
+9. Confirm the success message appears.
+
+**What You Accepted:**  
+- Adding name attributes to form fields where required.
+- Selecting the form, file input, image preview, and error message elements in JavaScript.
+- Using a regex to validate allowed image file extensions.
+- Using the change event to validate the selected image and display a preview.
+- Using URL.createObjectURL() to display the selected image before form submission.
+- Adding a submit event with event.preventDefault() because the form is not intended to submit data.
+- Re-checking the selected image file when the form is submitted.
 
 **What You Changed:**  
+- Added a selectedFileName element to display the name of the selected file.
+- Used a regex named allowedImageTypes instead of allowedExtensions
+- Cleared the file input, preview image and filename when an invalid file type was selected.
 
 **Validation Performed:**  
+- Selected valid image files and confirmed the preview image appeared.
+- Selected invalid file types and confirmed an error message was displayed.
+- Submitted the form without selecting an image and confirmed the correct validation message appeared.
+- Submitted the form with a valid image and confirmed the success message was displayed.
+- Checked the browser console and confirmed no JavaScript errors were generated.
 
-
-**Issues Identified:** 
+**Issues Identified:**
+- Noticed errorMsg.textContent = "Please select a cover image."; never runs because required attribute in books.html
+catches it first and displays "Please select a file."
 
 
 # 📌 Final Reflection (End of Assessment)
 
 **What AI was most useful for:**  
+AI was most useful for explaining Bootstrap, HTML, CSS, JavaScript concepts, reviewing my code, identifying bugs and suggesting improvements when i was stuck.
 
 **Where AI was incorrect or misleading:**  
+Some AI suggestions were more complex such as recommending e.relatedTarget. The suggestions required testing and adaptation before they worked correctly in my assignment.
 
 **What you learned about debugging:**  
+I learned how to use browser developer tools, read console errors, validate HTML and CSS and test changes incrementally to find the source of problems.
 
 **How your approach changed over time:**  
+As the project progressed and learning from the differenet AI support prompt examples in the lab exercises, I became more familiar with creating effective AI prompts by explaining that I was a beginner and clearly describing my requirements. I became more confident in reviewing AI suggestions and testing them before applying them to my assignment.

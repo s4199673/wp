@@ -35,7 +35,7 @@ const nextButton = document.querySelector(
   ".next-button"
 );
 
-let currentImageIndex = 0;
+let currentIndex = 0;
 
 if (galleryImages.length > 0 &&
   modalImage &&
@@ -129,17 +129,13 @@ addBook.addEventListener("submit", function (event) {
     event.preventDefault();
 
     const selectedFile = imageInput.files[0];
-    let message = "";
 
-    if (!selectedFile) {
-        message = "Please select a cover image.";
-    } else if (!allowedImageTypes.test(selectedFile.name)) {
-        message =
+    if (!allowedImageTypes.test(selectedFile.name)) {
+        errorMsg.textContent =
             "Only JPG, JPEG, PNG, GIF and WEBP files are allowed.";
     } else {
-        message = "Form is valid. No data has been submitted.";
+        errorMsg.textContent = "Form is valid. No data has been submitted.";
     }
 
-    errorMsg.textContent = message;
 });
 }
