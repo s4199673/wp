@@ -1,0 +1,768 @@
+:root {
+    /*Brand Colours - Teal & Amber: */
+    --primary-color: #0d9488;
+    --primary-dark: #0f766e;
+    --primary-light: #14b8a6;
+    --secondary-color: #d97706;
+    --secondary-dark: #b45309;
+
+    /*Accent Colours:*/
+    --accent-amber: #fbbf24;
+    --accent-green: #10b981;
+    --accent-slate: #475569;
+
+    /*Neutral Colours:*/
+    --text-dark: #1f2937;
+    --text-light: #6b7280;
+    --background-light: #f9fafb;
+    --background-white: #ffffff;
+    --border-color: #e5e7eb;
+
+    /*Extra colours used in dark mode */
+    --darkmode-page-background: #0f172a;
+    --darkmode-page-background2: #020617;
+    /*deep navy*/
+    --darkmode-nav-footer: #0c4a6e;
+    --darkmode-nav-footer2: #082f49;
+    /*navy blue — not teal*/
+    --darkmode-accent-strip-skyblue: #38bdf8;
+    /*sky blue*/
+    --darkmode-accent-strip-amber: #f59e0b;
+    /*amber*/
+    --darkmode-accent-strip-teal: #14b8a6;
+    /*teal*/
+    --darkmode-text-nearwhite: #f1f5f9;
+    /*near-white*/
+
+}
+
+main {
+    padding-bottom: 8rem;
+    flex: 1;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+    min-height: 100dvh;
+    margin: 0;
+
+    /* Light (default) */
+    background: linear-gradient(135deg, #f9fafb 0%, #f3f4f6 100%);
+    color: #1f2937;
+}
+
+/* Dark — match the screenshot */
+@media (prefers-color-scheme: dark) {
+    body {
+        background: linear-gradient(135deg, #0f172a 0%, #020617 100%);
+        color: #f1f5f9;
+    }
+}
+
+nav {
+    position: relative;
+    z-index: 0;
+    font-family: "Elms Sans", sans-serif;
+    font-weight: 500;
+    font-size: 0.875rem;
+
+    /* Light */
+    background: linear-gradient(135deg, #0f766e 0%, #134e4a 100%);
+
+
+
+}
+
+/* thin strip under the nav */
+nav::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, #f59e0b 0%, #38bdf8 50%, #14b8a6 100%);
+    pointer-events: none;
+    bottom: 0;
+}
+
+
+/* Dark — match the screenshot */
+@media (prefers-color-scheme: dark) {
+    nav {
+        background: linear-gradient(135deg, #0c4a6e 0%, #082f49 100%);
+    }
+
+    nav::after {
+        background: linear-gradient(90deg, #f59e0b 0%, #38bdf8 50%, #14b8a6 100%);
+    }
+}
+
+.navbar {
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
+}
+
+.navbar-brand {
+    font-family: "Righteous", cursive;
+    font-weight: 400;
+    color: var(--background-white);
+
+}
+
+.material-icons {
+    font-family: 'Material Icons';
+    font-weight: normal;
+    font-style: normal;
+    font-size: 24px;
+    /* Preferred icon size */
+    display: inline-block;
+    line-height: 1;
+    text-transform: none;
+    letter-spacing: normal;
+    word-wrap: normal;
+    white-space: nowrap;
+    direction: ltr;
+
+    /* Support for all WebKit browsers. */
+    -webkit-font-smoothing: antialiased;
+    /* Support for Safari and Chrome. */
+    text-rendering: optimizeLegibility;
+
+    /* Support for Firefox. */
+    -moz-osx-font-smoothing: grayscale;
+
+    /* Support for IE. */
+    font-feature-settings: 'liga';
+
+}
+
+.navbar-brand .material-icons {
+    font-size: 2rem;
+    color: var(--accent-amber)
+}
+
+.navbar-nav .material-icons {
+    font-size: 0.9rem;
+
+}
+
+.nav-link {
+    border-radius: 0.5rem;
+    color: var(--background-white);
+    transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.nav-link:hover {
+    color: var(--accent-amber);
+    background-color: color-mix(in srgb,
+            var(--background-light) 10%,
+            transparent);
+}
+
+/* Carousel */
+.carousel-item {
+    position: relative;
+    overflow: hidden;
+}
+
+
+.carousel-item::after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 50px;
+    background: linear-gradient(to bottom,
+            transparent,
+            var(--text-dark));
+
+}
+
+/* Reduce carousel height */
+.carousel-item img {
+    height: 260px;
+    width: 100%;
+    object-fit: cover;
+    border-radius: 0.5rem;
+
+}
+
+.carousel-caption {
+    bottom: -10px;
+    z-index: 2;
+
+}
+
+.carousel-caption h4 {
+    font-family: "Righteous", cursive;
+    font-size: 1.5rem;
+
+}
+
+.carousel-control-prev-icon,
+.carousel-control-next-icon {
+    width: 1.5rem;
+    height: 1.5rem;
+    background-color: var(--primary-color);
+    background-size: 60%;
+    border-radius: 50%;
+
+}
+
+
+/* Hide carousel indicators */
+.carousel-indicators {
+    display: none;
+}
+
+/* Featured Books */
+.featured-books {
+    width: 100%;
+    max-width: 760px;
+    margin-inline: auto;
+    padding-inline: 0.75rem;
+}
+
+.featured-heading {
+    width: 100%;
+    margin: 0 auto 1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    color: var(--primary-color);
+
+}
+
+.books-heading h1,
+.featured-heading h2 {
+    margin: 0;
+    font-family: "Righteous", cursive;
+    font-weight: 400;
+    font-size: 1.5rem;
+    color: var(--text-dark);
+}
+
+@media (prefers-color-scheme: dark) {
+
+    .books-heading h1,
+    .featured-heading h2 {
+
+        color: var(--darkmode-text-nearwhite);
+    }
+}
+
+.book-grid {
+    align-items: stretch;
+}
+
+.book-card {
+    background: var(--background-white);
+    color: var(--text-dark);
+    border: none;
+    transition: transform 0.3s ease-in-out;
+}
+
+.book-card img {
+    width: 100%;
+    height: 150px;
+    object-fit: cover;
+}
+
+
+
+.book-card:hover {
+    transform: translateY(-8px)
+}
+
+
+
+.card-title {
+    font-family: "Righteous", cursive;
+    font-weight: 400;
+    font-size: 0.7rem;
+}
+
+.card-text {
+    font-family: "Elms Sans", sans-serif;
+    margin-bottom: 0.2rem;
+    margin-top: 0.8rem;
+    font-size: 0.5rem;
+
+}
+
+.book-price {
+    font-family: "Elms Sans", sans-serif;
+    font-weight: bold;
+    font-size: 0.7rem;
+    margin-bottom: 0.5rem;
+}
+
+
+.btn {
+    display: inline-flex;
+    align-items: center;
+
+    font-family: "Elms Sans", sans-serif;
+    font-weight: 500;
+    font-size: 0.6rem;
+    height: 1.5rem;
+
+
+}
+
+.status-available,
+.status-available:hover {
+    background-color: var(--accent-green);
+    color: var(--background-white);
+}
+
+
+.status-reserved,
+.status-reserved:hover {
+    background-color: var(--secondary-color);
+    color: var(--background-white);
+}
+
+.status-sold,
+.status-sold:hover {
+    background-color: var(--accent-slate);
+    color: var(--background-white);
+}
+
+/* Gallery */
+.gallery-section {
+    min-height: 520px;
+    padding: 2rem 1rem;
+}
+
+.gallery-container {
+    width: 100%;
+    max-width: 980px;
+    margin: 0 auto;
+}
+
+.books-heading,
+.gallery-heading,
+.add-book-heading {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    margin-bottom: 0.1rem;
+    color: var(--text-dark);
+}
+
+@media (prefers-color-scheme: dark) {
+
+    .books-heading,
+    .gallery-heading,
+    .add-book-heading {
+
+        color: var(--darkmode-text-nearwhite);
+    }
+}
+
+.books-heading .material-icons,
+.gallery-heading .material-icons,
+.add-book-heading .material-icons {
+    color: var(--primary-light);
+    font-size: 2rem;
+
+}
+
+.books-heading h1,
+.gallery-heading h1,
+.add-book-heading h1 {
+    margin: 0;
+    font-family: "Righteous", cursive;
+    font-size: 2rem;
+    font-weight: 400;
+}
+
+.gallery-grid {
+    --bs-gutter-x: 0.8rem;
+    --bs-gutter-y: 0.8rem;
+}
+
+.gallery-image-button {
+    display: block;
+    width: 100%;
+    padding: 0;
+    overflow: hidden;
+    border: 0;
+    border-radius: 0.4rem;
+    background: transparent;
+}
+
+.gallery-image-button img {
+    display: block;
+    width: 100%;
+    height: 180px;
+    object-fit: cover;
+
+
+}
+
+.gallery-image-button:hover {
+    transform: scale(1.05);
+
+}
+
+.modal-dialog {
+    max-width: 625px;
+}
+
+.modal-backdrop {
+    --bs-backdrop-opacity: 0;
+}
+
+.modal-content {
+    overflow: hidden;
+    background-color: var(--text-dark);
+    border: none;
+    border-radius: 0.25rem;
+}
+
+.modal-header {
+    padding: 0.7rem 0.7rem;
+    background-color: var(--primary-dark);
+    border: none;
+
+}
+
+.modal-header .modal-title {
+    margin: 0;
+    color: var(--background-white);
+    font-family: "Elms Sans", sans-serif;
+    font-size: 0.8rem;
+    font-weight: 600;
+
+}
+
+.modal-header .btn-close,
+.modal-header .btn-close:focus {
+    width: 0.75rem;
+    height: 0.75rem;
+    padding: 0.1rem;
+    margin-left: auto;
+    margin-right: 0;
+    filter: brightness(0) invert(1);
+    box-shadow: none;
+
+}
+
+.modal-body {
+    display: flex;
+    justify-content: center;
+    min-height: 130px;
+    padding: 1rem;
+    background-color: var(--background-white);
+
+}
+
+.modal-body img {
+    max-width: 100%;
+    max-height: 180px;
+
+}
+
+.modal-footer {
+    position: relative;
+    border: none;
+    background-color: transparent;
+    color: var(--background-white);
+    padding: 0.5rem 0.5rem;
+}
+
+.modal-footer::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background-color: var(--background-light);
+
+}
+
+
+
+
+.btn.modal-button {
+    padding: 0.25rem 0.6rem;
+    background-color: var(--text-light);
+    color: var(--background-white);
+    font-family: "Elms Sans", sans-serif;
+    font-size: 0.6rem;
+    font-weight: 600;
+    z-index: 1;
+}
+
+
+.modal-button.previous-button {
+    margin-left: 0.25rem;
+    background-color: var(--secondary-color);
+
+}
+
+.modal-button.next-button {
+    margin-left: 0.25rem;
+    background-color: var(--primary-color);
+
+}
+
+@media (prefers-color-scheme: dark) {
+    .modal-body {
+        background-color: var(--text-dark);
+    }
+
+    .modal-footer::before {
+
+        background-color: var(--darkmode-page-background);
+    }
+
+    .modal-button.previous-button {
+        background-color: var(--accent-slate);
+
+    }
+}
+
+/* Browse Books */
+.books-section {
+    padding: 2rem 1rem 4rem;
+}
+
+.books-container {
+    max-width: 1100px;
+    margin: 0 auto;
+}
+
+.filter-panel {
+    width: 100%;
+    margin-bottom: 1.5rem;
+    padding: 1rem 0.9rem;
+    border-radius: 0.5rem;
+    background: var(--background-white);
+    color: var(--text-dark);
+    font-family: "Elms Sans", sans-serif;
+    font-size: 0.8rem;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.filter-panel .form-select {
+    width: 10%;
+}
+
+.books-table-wrapper {
+    border-radius: 0.5rem;
+    overflow: hidden;
+
+}
+
+
+.books-table {
+    border-collapse: separate;
+    border-spacing: 0;
+    margin-bottom: 0;
+}
+
+th {
+    font-weight: normal;
+}
+
+.books-table thead th {
+    height: 1.5rem;
+    color: transparent;
+    border: none;
+}
+
+.books-table tbody th,
+.books-table tbody td {
+
+    padding: 0.85rem 1rem;
+    font-family: "Elms Sans", sans-serif;
+    font-size: 0.8rem;
+}
+
+.table-status {
+    padding: 0.3rem 0.5rem;
+    border-radius: 0.4rem;
+    color: var(--background-white);
+    text-align: center;
+    font-size: 0.6rem;
+    font-weight: 700;
+}
+
+.table-status.status-available {
+    background-color: var(--accent-green);
+}
+
+.table-status.status-reserved {
+    background-color: var(--secondary-color);
+}
+
+.table-status.status-sold {
+    background-color: var(--text-light);
+}
+
+/* Add Book Form*/
+
+.form-label .material-icons {
+    color: var(--text-dark);
+    font-size: 1rem;
+    padding: 5px;
+
+}
+
+.submit-button .material-icons {
+    color: var(--background-white);
+    font-size: 1rem;
+    padding: 5px;
+
+}
+
+.add-book-container {
+    width: 100%;
+    max-width: 800px;
+    margin: 3rem auto;
+}
+
+.add-book-form {
+    width: 100%;
+    max-width: 800px;
+
+    padding: 2rem;
+    font-family: "Elms Sans", sans-serif;
+    font-weight: 600;
+
+    background-color: var(--background-white);
+    border-radius: 0.5rem;
+
+}
+
+.add-book-form .row {
+    row-gap: 1rem;
+    margin-bottom: 1rem;
+}
+
+@media (prefers-color-scheme: dark) {
+
+    .add-book-form {
+        background-color: var(--text-dark);
+    }
+
+    .add-book-form .form-control,
+    .add-book-form .form-select {
+        background-color: var(--darkmode-page-background);
+        border-color: var(--accent-slate);
+        color: var(--darkmode-text-nearwhite);
+    }
+
+    .add-book-form .form-control::placeholder {
+        color: var(--text-light);
+    }
+
+    .add-book-form .form-control:focus,
+    .add-book-form .form-select:focus {
+        background-color: var(--darkmode-page-background);
+        border-color: var(--darkmode-accent-strip-teal);
+        box-shadow: none;
+        color: var(--darkmode-text-nearwhite);
+    }
+
+    .submit-button .material-icons,
+    .form-label .material-icons {
+        color: var(--darkmode-text-nearwhite);
+    }
+}
+
+#image_path::file-selector-button {
+    margin-right: 0.5rem;
+    padding: 0.15rem 0.5rem;
+    border-radius: 0.25rem;
+    background-color: var(--background-white);
+    color: var(--text-dark);
+}
+
+.add-book-button {
+    width: 100%;
+    height: 2.5rem;
+    border: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 0.4rem;
+    background-color: var(--primary-color);
+    color: var(--background-white);
+    font-size: 1rem;
+    font-family: "Elms Sans", sans-serif;
+    font-weight: 600;
+
+}
+
+.add-book-button:hover {
+    background-color: var(--primary-light);
+    color: var(--background-white);
+    transform: translateY(-1px)
+}
+
+.selected-file-name {
+    margin: 0.4rem 0 0;
+    color: var(--accent-green);
+    font-size: 0.75rem;
+    font-family: "Elms Sans", sans-serif;
+    font-weight: 500;
+}
+
+#imagePreview {
+    width: 200px;
+    height: 300px;
+    object-fit: cover;
+    border-radius: 0.5rem;
+}
+
+footer {
+    position: relative;
+    text-align: center;
+    padding: 15px 17px;
+
+    /* Light */
+    background: linear-gradient(135deg, #0f766e 0%, #0d9488 45%, #134e4a 100%);
+    color: #ffffff;
+}
+
+footer::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    height: 4px;
+    background: linear-gradient(90deg, #f59e0b 0%, #38bdf8 50%, #14b8a6 100%);
+    pointer-events: none;
+}
+
+/* Dark — match the screenshot */
+@media (prefers-color-scheme: dark) {
+    footer {
+        background: linear-gradient(135deg, #082f49 0%, #0c4a6e 45%, #0f766e 100%);
+    }
+
+    /* thin strip on top of footer */
+    footer::before {
+        background: linear-gradient(90deg, #f59e0b 0%, #38bdf8 50%, #14b8a6 100%);
+
+    }
+}
+
+
+footer span {
+    position: relative;
+    z-index: 1;
+    color: var(--background-white);
+    font-family: "Elms Sans", sans-serif;
+    font-weight: 500;
+    font-size: 0.875rem;
+
+}

@@ -22,31 +22,41 @@ You must maintain this file throughout development.
 ## Bug 1
 
 **Date Identified:**  
-(e.g., 15/03/2026)
+08/09/2026
 
 **Date Fixed:**  
-(e.g., 15/03/2026)
+08/09/2026
 
 **File:**  
-(e.g., about.html)
+nav.inc
 
 **Related Commit:**  
 (e.g., abc1234)
 
 **Symptom:**  
 What went wrong?
+The page did not load properly and included incorrect file path warnings.
 
 **Steps to Reproduce:**  
 How can the issue be triggered?
+1. Open 'a2' through localhost.
+2. Observe the PHP warnings.
 
 **Root Cause:**  
 Why did the issue occur?
+1. Cover images were not copied across from a1.
+2. css and js files were not copied across from a1.
+3. The navigation links still pointed to .html files 
 
 **Fix:**  
 What did you change?
+1. Added cover images. 
+2. Copied across css and js files.
+3. Changed .html to .php inside nav.inc
 
 **Verification:**  
 How did you confirm the fix?
+Refreshed the page and confirmed that the warning disappeared and the full page loaded.
 
 ---
 
