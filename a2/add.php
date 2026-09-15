@@ -1,11 +1,11 @@
 <?php 
 $pageName = 'Add Book';
 $fileName = 'add.php';
-include_once('includes/header.inc'); 
+include_once('assets/includes/header.inc'); 
 ?>
 
     <header>
-       <?php include_once('includes/nav.inc'); ?>
+       <?php include_once('assets/includes/nav.inc'); ?>
     </header>
 
     <main>
@@ -160,4 +160,4 @@ include_once('includes/header.inc');
 
 
     </main>
-<?php include_once('includes/footer.inc'); ?>
+<?php include_once('assets/includes/footer.inc'); ?>

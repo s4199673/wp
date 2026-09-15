@@ -1,15 +1,24 @@
 <?php 
+include('assets/includes/db_connect.inc');
 $pageName = 'Home';
 $fileName = 'index.php';
-include_once('includes/header.inc'); 
+include_once('assets/includes/header.inc'); 
 ?>
 
     <header>
-        <?php include_once('includes/nav.inc'); ?>
+        <?php include_once('assets/includes/nav.inc'); ?>
 
     </header>
 
     <main>
+       <?php $sql = "SELECT book_id, title, author, genre, description,
+               price, image_path, status
+        FROM books
+        ORDER BY book_id ASC
+        LIMIT 4";
+       $result = mysqli_query($conn, $sql);?>
+
+        
         <!-- Carousel -->
         <section class="container-fluid px-0 my-4">
             <div id="bookCarousel" class="carousel slide" data-bs-ride="carousel">
@@ -80,106 +89,32 @@ include_once('includes/header.inc');
         
 
         <div class="row book-grid g-3">
-            <article class="col-12 col-sm-6 col-lg-4 col-xl-3">
-                <div class="card book-card h-100">
-                    <img src="assets/images/covers/1.png" class="card-img-top" alt="The Midnight Library">
-                   
-                    <div class="card-body">
-                        <h3 class="card-title">The Midnight Library</h3>
-                        <p class="card-text">Fiction • Matt Haig</p>
-                        <p class="book-price">$24.99</p>
-                        <button type="button" class="btn status-available">Available</button>
-                    </div>
-                </div>
-            </article>
+              <?php
+if ($result && mysqli_num_rows($result) > 0) {
+    while ($row = mysqli_fetch_assoc($result)) {
 
+        ?>
             <article class="col-12 col-sm-6 col-lg-4 col-xl-3">
                 <div class="card book-card h-100">
-                    <img src="assets/images/covers/2.png" class="card-img-top" alt="Project Hail Mary">
+                    <img src="assets/images/covers/<?= htmlspecialchars($row['image_path']); ?>" class="card-img-top" alt="<?= htmlspecialchars($row['title']); ?> book cover">
                     <div class="card-body">
-                        <h3 class="card-title">Project Hail Mary</h3>
-                        <p class="card-text">Science Fiction • Andy Weir</p>
-                        <p class="book-price">$28.99</p>
-                        <button type="button" class="btn status-available">Available</button>
+                        <h3 class="card-title"><?= htmlspecialchars($row['title']); ?></h3>
+                        <p class="card-text"><?= htmlspecialchars($row['author']); ?></p>
+                        <p class="book-price"><?= htmlspecialchars($row['price']); ?></p>
+                        <button type="button" class="btn status-available"><?= htmlspecialchars($row['status']); ?></button>
                     </div>
                 </div>
             </article>
+            <?php 
+            }
+} else {
+    echo "<p>No books found.</p>";
 
-            <article class="col-12 col-sm-6 col-lg-4 col-xl-3">
-                <div class="card book-card h-100">
-                    <img src="assets/images/covers/3.png" class="card-img-top" alt="Dune">
-                    <div class="card-body">
-                        <h3 class="card-title">Dune</h3>
-                        <p class="card-text">Science Fiction • Frank Herbert</p>
-                        <p class="book-price">$22.99</p>
-                        <button type="button" class="btn status-available">Available</button>
-                    </div>
-                </div>
-            </article>
-
-            <article class="col-12 col-sm-6 col-lg-4 col-xl-3">
-                <div class="card book-card h-100">
-                    <img src="assets/images/covers/4.png" class="card-img-top" alt="The Hobbit">
-                    <div class="card-body">
-                        <h3 class="card-title">The Hobbit</h3>
-                        <p class="card-text">Fantasy • J.R.R. Tolkien</p>
-                        <p class="book-price">$18.99</p>
-                        <button type="button" class="btn status-available">Available</button>
-                    </div>
-                </div>
-            </article>
-
-            <article class="col-12 col-sm-6 col-lg-4 col-xl-3">
-                <div class="card book-card h-100">
-                    <img src="assets/images/covers/5.png" class="card-img-top" alt="1984">
-                    <div class="card-body">
-                        <h3 class="card-title">1984</h3>
-                        <p class="card-text">Dystopian Fiction • George Orwell</p>
-                        <p class="book-price">$16.99</p>
-                        <button type="button" class="btn status-available">Available</button>
-                    </div>
-                </div>
-            </article>
-
-            <article class="col-12 col-sm-6 col-lg-4 col-xl-3">
-                <div class="card book-card h-100">
-                    <img src="assets/images/covers/6.png" class="card-img-top" alt="Pride and Prejudice">
-                    <div class="card-body">
-                        <h3 class="card-title">Pride and Prejudice</h3>
-                        <p class="card-text">Romance • Jane Austen</p>
-                        <p class="book-price">$14.99</p>
-                        <button type="button" class="btn status-reserved">Reserved</button>
-                    </div>
-                </div>
-            </article>
-
-            <article class="col-12 col-sm-6 col-lg-4 col-xl-3">
-                <div class="card book-card h-100">
-                    <img src="assets/images/covers/7.png" class="card-img-top" alt="To Kill a Mockingbird">
-                    <div class="card-body">
-                        <h3 class="card-title">To Kill a Mockingbird</h3>
-                        <p class="card-text">Fiction • Harper Lee</p>
-                        <p class="book-price">$19.99</p>
-                        <button type="button" class="btn status-available">Available</button>
-                    </div>
-                </div>
-            </article>
-
-            <article class="col-12 col-sm-6 col-lg-4 col-xl-3">
-                <div class="card book-card h-100">
-                    <img src="assets/images/covers/8.png" class="card-img-top" alt="The Great Gatsby">
-                    <div class="card-body">
-                        <h3 class="card-title">The Great Gatsby</h3>
-                        <p class="card-text">Fiction • F. Scott Fitzgerald</p>
-                        <p class="book-price">$15.99</p>
-                        <button type="button" class="btn status-sold">Sold</button>
-                    </div>
-                </div>
-            </article>
+}
+?>
         </div>
-        </section>
 
-        <!-- End of Grid Cards-->
+           </section>
 
     </main>
-<?php include_once('includes/footer.inc'); ?>
+<?php include_once('assets/includes/footer.inc'); ?>
