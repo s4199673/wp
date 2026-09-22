@@ -6,9 +6,9 @@ if ($_SERVER["SERVER_NAME"] === "localhost") {
     $database = "bookverse";
 } else {
     $host = "talsprddb02.int.its.rmit.edu.au";
-    $user = "s4199673";
-    $password = "";
-    $database = "s4199673";
+    $user = "S4199673";
+    $password = "VzQxHRw3mYIe$s91X3";
+    $database = "S4199673";
 }
 
 $conn = mysqli_connect($host, $user, $password, $database);
