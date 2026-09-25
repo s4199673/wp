@@ -1,7 +1,5 @@
 <?php 
 include('includes/db_connect.inc');
-//if ($_SERVER['REQUEST_METHOD'] === 'POST') 
-   // include('includes/process_add.php');
 $pageName = 'Add Book';
 $fileName = 'add.php';
 include_once('includes/header.inc'); 
@@ -20,8 +18,11 @@ include_once('includes/header.inc');
                 </span>
                 <h1>Add New Book</h1>
             </div>
-
-            <form id="addBook" class="add-book-form">
+                                                     
+            <form id="addBook" class="add-book-form" method="POST" action="process_add.php" enctype="multipart/form-data">
+                <!-- method="post" tells the browser to send the form data to process_add.php for processing when the form is submitted.
+                     action="process_add.php" tells the brwoser where to send the data when the form is submitted. 
+                     enctype="multipart/form-data" is necessary for file uploads. -->
                 <div class="mb-3">
                     <label for="title" class="form-label d-flex align-items-center">
                         <span class="material-icons">
@@ -49,13 +50,13 @@ include_once('includes/header.inc');
 
                     <select class="form-select" id="genre" name="genre" required>
                         <option value="">Select a genre</option>
-                        <option value="1">Fiction</option>
-                        <option value="2">Science Fiction</option>
-                        <option value="3">Fantasy</option>
-                        <option value="4">Dystopian</option>
-                        <option value="5">Romance</option>
-                        <option value="6">Memoir</option>
-                        <option value="7">Self-Help</option>
+                        <option value="Fiction">Fiction</option>
+                        <option value="Science Fiction">Science Fiction</option>
+                        <option value="Fantasy">Fantasy</option>
+                        <option value="Dystopian">Dystopian</option>
+                        <option value="Romance">Romance</option>
+                        <option value="Memoir">Memoir</option>
+                        <option value="Self-Help">Self-Help</option>
                     </select>
                 </div>
 
@@ -92,9 +93,9 @@ include_once('includes/header.inc');
                             Book Condition</label>
                         <select class="form-select" id="book_condition" name="book_condition" required>
                             <option value="">Select condition</option>
-                            <option value="1">New</option>
-                            <option value="2">Gently Used</option>
-                            <option value="3">Fair</option>
+                            <option value="New">New</option>
+                            <option value="Gently Used">Gently Used</option>
+                            <option value="Fair">Fair</option>
                         </select>
                     </div>
 
@@ -132,9 +133,9 @@ include_once('includes/header.inc');
                             Availability Status</label>
                         <select class="form-select" id="status" name="status" required>
                             <option value="">Select status</option>
-                            <option value="1">Available</option>
-                            <option value="2">Reserved</option>
-                            <option value="3">Sold</option>
+                            <option value="Available">Available</option>
+                            <option value="Reserved">Reserved</option>
+                            <option value="Sold">Sold</option>
                         </select>
                     </div>
 

@@ -63,23 +63,35 @@ Refreshed the page and confirmed that the warning disappeared and the full page 
 ## Bug 2
 
 **Date Identified:**  
+26/09/2026
 
-**Date Fixed:**  
+**Date Fixed:** 
+26/09/2026 
 
 **File:**  
+scripts.js
 
 **Related Commit:**  
 
 **Symptom:**  
+Clicking "Add Book to Collection" on add.php did nothing.
+The page stayed on add.php with no error message or no page change.
 
 **Steps to Reproduce:**  
+1. Fill in every required field on add.php page.
+2. Click "Add Book to Collection".
+3. The page remains on add.php
 
 **Root Cause:**  
+The browser was running a cached, outdated copy of scripts.js.
+An earlier version of the form's submit event listening called event.preventDefault() and displayed "Form is valid. No data has been submitted." instead of allowing the form to actually submit.
 
 **Fix:**  
+Performed a hard refresh (Ctrl+Shift+R).
 
 **Verification:**  
-
+After the hard refresh, resubmittd the form with all fields filled in.
+The page correctly navigated to process_add.php and displayed the expected debug output.
 ---
 
 # 🤖 Section 2: AI Usage Log
@@ -216,39 +228,163 @@ The file contains no exposed password value in the reviewed content. PHP syntax 
 ## AI Task 3
 
 **Date:**  
+25/09/2026
 
 **Task Description:**  
+Connet books.php to database and generate status filter from database values.
 
 **Tool Used:**  
+Copilot
 
 **Prompt / Input:**  
+Here is my books.php page. I want list records from database and it must output each row with a data-status attribute and generate filter options from the database status values. Filtering must be performed client-side using JavaScript show/hide logic. Book names link to details.php. Do not write the complete code.
 
 **AI Output Summary:**  
+At the top of the file, add the database connection and prepare one query:
+
+```php
+<?php
+include('includes/db_connect.inc');
+
+$pageName = 'Books';
+$fileName = 'books.php';
+include_once('includes/header.inc');
+
+$sql = "SELECT book_id, title, author, genre, year, price, status
+        FROM books
+        ORDER BY title";
+
+$stmt = mysqli_prepare($conn, $sql);
+mysqli_stmt_execute($stmt);
+$result = mysqli_stmt_get_result($stmt);
+
+$books = [];
+$statuses = [];
+
+while ($row = mysqli_fetch_assoc($result)) {
+    $books[] = $row;
+    $statuses[$row['status']] = true;
+}
+
+$statuses = array_keys($statuses);
+sort($statuses);
+?>
+```
+
+Replace the hard-coded filter options with a loop:
+
+```php
+<option value="all" selected>Show All</option>
+
+<?php foreach ($statuses as $status): ?>
+    <option value="<?= htmlspecialchars($status) ?>">
+        <?= htmlspecialchars($status) ?>
+    </option>
+<?php endforeach; ?>
+```
+
+Replace the hard-coded table rows with a loop. Each row must contain `data-status`, and the title should link using the book ID:
+
+```php
+<?php foreach ($books as $book): ?>
+    <tr class="value"
+        data-status="<?= htmlspecialchars($book['status']) ?>">
+
+        <th scope="row">
+            <a href="details.php?id=<?= (int) $book['book_id'] ?>">
+                <?= htmlspecialchars($book['title']) ?>
+            </a>
+        </th>
+
+        <td><?= htmlspecialchars($book['author']) ?></td>
+        <td><?= htmlspecialchars($book['genre']) ?></td>
+        <td><?= htmlspecialchars($book['year']) ?></td>
+        <td>$<?= htmlspecialchars($book['price']) ?></td>
+        <td>
+            <span class="table-status">
+                <?= htmlspecialchars($book['status']) ?>
+            </span>
+        </td>
+    </tr>
+<?php endforeach; ?>
+```
+
+Use the actual year column name from your database schema if it differs from `year`.
+
+Your existing JavaScript can remain mostly unchanged. For a more precise selector, change:
+
+```javascript
+const books = document.querySelectorAll("tbody tr.value");
+```
+
+to:
+
+```javascript
+const books = document.querySelectorAll(
+  ".books-table tbody tr[data-status]"
+);
+```
+
+`details.php` is currently empty, so it will also need to read `$_GET['id']`, validate it, and retrieve the matching book record.
 
 **What You Accepted:**  
+- Replace the hard-coded filter options with a loop.
+- Replace the hard-coded table rows with a loop.
+- Added a data-status attribute to each table row for client-side filtering.
 
 **What You Changed:**  
+- Used publication_year instaed of year.
+- Used a separate SELECT DISTINCT status query to generate the filter dropdown values.
+- Replaced the hard-coded book rows with a PHP while loop.
 
 **Validation Performed:**  
+- Confirmed that book records are retrieved and displayed in the table.
+- Tested the status filter to check that matching rows remain visible and non-mathcing rows are hidden.
 
-**Issues Identified:**  
+**Issues Identified:** 
+- The AI-generated example used year but used publication_year as per column name in the assignment.
 
 ---
 ## AI Task 4
 
 **Date:**  
+25/09/2026
 
 **Task Description:**  
 
 **Tool Used:**  
 
 **Prompt / Input:**  
+Here is my PHP add book form. Please check:
+1. whether every control has a matching label;
+2. whether id and name attributes are correct;
+3. whether the form uses POST;
+4. whether multipart/form-data is present;
+5. whether the file input accepts the required image extensions;
+6. whether Bootstrap form classes are used.
+
+Do not write the processing script.
 
 **AI Output Summary:**  
+1. **Labels:** Pass. Every input, select, and textarea has a matching `<label for="...">`. The submit button does not require a label.
+2. **`id` and `name`:** Pass. IDs are unique and each form control has an appropriate name.
+3. **POST:** Pass. The form uses `method="POST"` at `add.php:25`.
+4. **Multipart encoding:** Pass. `enctype="multipart/form-data"` is present.
+5. **Image extensions:** Pass. The file input accepts `.jpg`, `.jpeg`, `.png`, `.gif`, and `.webp` at `add.php:120-121`.
+6. **Bootstrap classes:** Pass. The form uses classes such as `form-control`, `form-select`, `form-label`, `form-check`, `form-check-input`, and `btn`.
+
+**Additional issue**
+
+The `//` explanations inside the form are not valid HTML comments, so they may appear as visible text. Use `<!-- ... -->` or remove them.
+
+Also, the top of `add.php:2-4` includes `includes/process_add.php`, but the form submits to `process_add.php` in the `a2` root. This path should be checked separately. I did not create or modify any processing script.
 
 **What You Accepted:**  
+- All the findings plus the additional issues
 
 **What You Changed:**  
+- Changed // to <!--...--> for comments.
+- Removed if ($_SERVER['REQUEST_METHOD'] === 'POST') and 'includes/process_add.php' as it never queries the database itself.
 
 **Validation Performed:**  
 
@@ -258,22 +394,90 @@ The file contains no exposed password value in the reviewed content. PHP syntax 
 ## AI Task 5
 
 **Date:**  
+25/09/2026
 
 **Task Description:**  
+Review process_add.php for required field validation, file upload handling and prepared statements.
 
-**Tool Used:**  
+**Tool Used:** 
+Copilot 
 
 **Prompt / Input:**  
+Review my process_add.php for:
+
+Required-field validation:
+
+Missing array keys.
+Rejection of whitespace-only input.
+Length limits matching VARCHAR(50) and VARCHAR(255).
+
+File upload handling:
+
+Upload error checks.
+Lowercasing file extensions.
+Strict in_array() usage.
+File size validation.
+Server-generated filenames.
+Preservation of the original extension.
+Correct use of __DIR__ in the upload path.
+
+Procedural MySQLi prepared statement:
+
+Columns match bound values.
+Correct number of placeholders.
+Appropriate four bind types.
+Bound variable order matches column order.
+Uploaded file is deleted if the database insert fails.
+
+Note any limitations, but do not rewrite the script, change the folder structure, add frameworks, or convert to PDO/object-oriented MySQLi.
 
 **AI Output Summary:**  
+- **Critical: upload field names are inconsistent.** The form uses `image_path`, but the script reads `$_FILES["image"]["name"]`, so the extension check uses a missing key and rejects valid uploads. See `process_add.php:54` and `add.php:118`.
+- **Missing POST keys are not handled.** Variables are created dynamically from `$_POST`, then accessed directly. Missing fields can produce notices and undefined variables. See `process_add.php:5`.
+- **Whitespace-only input is partly rejected.** `trim()` is used, and minimum-length checks reject empty title, author, ISBN, and description values. However, there is no explicit required-field check for every field.
+- **Maximum lengths are not validated.** There are no checks matching `VARCHAR(50)` or `VARCHAR(255)`. The database may reject or truncate oversized values.
+- **Form select values do not match validation values.** The form submits numeric genre, condition, and status values, while the script expects text labels. These validations will fail. See `add.php:50`, `process_add.php:28`.
+- **Condition variable mismatch.** The form submits `book_condition`, which creates `$book_condition`; the script validates and binds `$condition`, which is undefined. See `add.php:91` and `process_add.php:37`.
+- **No upload error check exists.** The script does not inspect `$_FILES['image_path']['error']`, verify that a file was uploaded, or check `is_uploaded_file()`.
+- **Extension lowercasing and strict comparison are correct in isolation.** `strtolower()` is used and `in_array(..., true)` is correctly strict. However, the wrong upload key prevents this from working.
+- **No file-size validation exists.**
+- **No server-generated filename exists.** The original client filename is used directly, creating overwrite and filename-security risks. See `process_add.php:88`.
+- **The original extension is preserved conceptually**, but the filename source is incorrect and the final filename is not safely generated.
+- **`__DIR__` is not used.** The upload path is relative to the current working directory rather than being constructed from the script directory.
+- **Prepared statement structure is mostly correct.** There are 10 columns, 10 placeholders, 10 bound variables, and the type string contains 10 types. The `i` publication year and `d` price types are appropriate.
+- **Bound variable order is not correct in practice.** `$condition` should correspond to `book_condition`, but it is never populated from the form. `$image_path` is also not populated from the uploaded file.
+- **Database failure cleanup is missing.** There is no `unlink()` call. Also, the file is moved only after a successful database insert, so the current order cannot clean up an uploaded file when the insert fails.
+- **Insert/upload consistency is incomplete.** If the database insert succeeds but `move_uploaded_file()` fails, the database row remains even though its image is unavailable. See `process_add.php:84`.
 
-**What You Accepted:**  
+**Limitations**
+
+The repository does not include the database schema, so the exact `VARCHAR` definitions and column types cannot be independently confirmed. Based on the requested limits, the script is missing the required maximum-length validation regardless.
+
+No files were changed.
+
+**What You Accepted:**
+- Inconsistent upload field names
+- Mssing POST Keys not handled
+- Condition variable mismatch
+- Select value mismatch
+- Missing minimum-length check 
+- Missing server-generated filename 
+- Missing upload error/size/type checks  
 
 **What You Changed:**  
+- Added minimum-length checks for description.
+- Kept current minimum-length checks.
+- Updated numberic option value in add.php to the text labels that match the process_add.php
+- Kept foreach loop.
+- $condition corrected to $book_condition.
 
 **Validation Performed:**  
+- Compared field names and submitted values in add.php with the corresponding validation and processing logic in process_add.php
+- Added tools.inc to enable preshow() debug output for inspecting $_FILES and $errors during testing.
+- 
 
 **Issues Identified:**  
+- AI identified that there is "No explicit required-field check for every field" but my understanding is that this is handled by HTML using 'required'.
 
 ---
 # 📌 Final Reflection (End of Assessment)

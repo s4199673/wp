@@ -126,16 +126,16 @@ if (addBook) {
 });
 
 addBook.addEventListener("submit", function (event) {
-    event.preventDefault();
-
     const selectedFile = imageInput.files[0];
 
+    // if valid, don't preventDefault - let the form submit to process_add.php
     if (!allowedImageTypes.test(selectedFile.name)) {
+      event.preventDefault();
         errorMsg.textContent =
             "Only JPG, JPEG, PNG, GIF and WEBP files are allowed.";
-    } else {
+    } /* else {
         errorMsg.textContent = "Form is valid. No data has been submitted.";
     }
-
+*/
 });
-}
+//} 

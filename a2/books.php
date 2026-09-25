@@ -81,7 +81,7 @@ include_once('includes/header.inc');
                                     echo '<tr><td colspan="6">No books found.</td></tr>';
                                 }
                                 ?>
-                        </tbody>    
+                        </tbody>
                     </table>
                 </div>
             </div>
