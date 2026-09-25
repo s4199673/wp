@@ -1,11 +1,14 @@
 <?php 
+include('includes/db_connect.inc');
+//if ($_SERVER['REQUEST_METHOD'] === 'POST') 
+   // include('includes/process_add.php');
 $pageName = 'Add Book';
 $fileName = 'add.php';
-include_once('assets/includes/header.inc'); 
+include_once('includes/header.inc'); 
 ?>
 
     <header>
-       <?php include_once('assets/includes/nav.inc'); ?>
+       <?php include_once('includes/nav.inc'); ?>
     </header>
 
     <main>
@@ -160,4 +163,4 @@ include_once('assets/includes/header.inc');
 
 
     </main>
-<?php include_once('assets/includes/footer.inc'); ?>
+<?php include_once('includes/footer.inc'); ?>

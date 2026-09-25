@@ -1,12 +1,12 @@
 <?php 
-include('assets/includes/db_connect.inc');
+include('includes/db_connect.inc');
 $pageName = 'Home';
 $fileName = 'index.php';
-include_once('assets/includes/header.inc'); 
+include_once('includes/header.inc'); 
 ?>
 
     <header>
-        <?php include_once('assets/includes/nav.inc'); ?>
+        <?php include_once('includes/nav.inc'); ?>
 
     </header>
 
@@ -117,4 +117,4 @@ if ($result && mysqli_num_rows($result) > 0) {
            </section>
 
     </main>
-<?php include_once('assets/includes/footer.inc'); ?>
+<?php include_once('includes/footer.inc'); ?>

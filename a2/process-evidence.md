@@ -91,6 +91,7 @@ Refreshed the page and confirmed that the warning disappeared and the full page 
 
 **Task Description:**  
 What were you trying to do?
+Review the PHP code, MySQLi usage and Bootstrap grid structure
 
 **Tool Used:**  
 Copilot
@@ -175,6 +176,46 @@ How did you test correctness?
 ## AI Task 2
 
 **Date:**  
+25/09/2026
+
+**Task Description:**  
+Review the connection file
+
+**Tool Used:**  
+Copilot
+
+**Prompt / Input:**  
+Here is my db_connect.inc file using procedural MySQLi. Please check whether the variable names are clear, whether mysqli_connect is used correctly, and whether the connection file is included in the correct place. Do not ask me for or expose real passwords.
+
+**AI Output Summary:** 
+- Variable names are understandable, but `$user`, `$password`, and `$database` could be clearer as `$dbUser`, `$dbPassword`, and `$dbName`.
+- `mysqli_connect($host, $user, $password, $database)` is correct procedural MySQLi usage.
+- The connection is included before database queries in `index.php:2` and `add.php:2`, so placement is correct there.
+- The success message should be removed from `db_connect.inc:17-19`. An include file should establish the connection, not output HTML on every page.
+- The current path `assets/includes/db_connect.inc` matches the pages, but it differs from the structure documented in `README.md:100-112`. Update either the folder structure or the README.
+- Only `index.php` and `add.php` currently include the connection file. Any other page that uses `$conn` must include it as well.
+- A separate path issue exists in `add.php`: it includes `assets/includes/process_add.php`, while the file appears to be located at `process_add.php`.
+
+The file contains no exposed password value in the reviewed content. PHP syntax validation could not be run because the `php` command is not available in the terminal environment. 
+
+**What You Accepted:**  
+- Updated the folder structure and file paths to align with the assignment requirements.
+- Added the databse connection include to all pages that require database access.
+
+**What You Changed:**  
+- Retained the existing variable names as they were already clear and meaningful.
+
+**Validation Performed:**  
+- Refreshed http://localhost/wp/a2/index.php 
+- Confirmed that the page loadded successfully with no errors displayed.
+
+**Issues Identified:**  
+- No significant errors were found in the AI recommendations.
+
+---
+## AI Task 3
+
+**Date:**  
 
 **Task Description:**  
 
@@ -193,7 +234,48 @@ How did you test correctness?
 **Issues Identified:**  
 
 ---
+## AI Task 4
 
+**Date:**  
+
+**Task Description:**  
+
+**Tool Used:**  
+
+**Prompt / Input:**  
+
+**AI Output Summary:**  
+
+**What You Accepted:**  
+
+**What You Changed:**  
+
+**Validation Performed:**  
+
+**Issues Identified:**  
+
+---
+## AI Task 5
+
+**Date:**  
+
+**Task Description:**  
+
+**Tool Used:**  
+
+**Prompt / Input:**  
+
+**AI Output Summary:**  
+
+**What You Accepted:**  
+
+**What You Changed:**  
+
+**Validation Performed:**  
+
+**Issues Identified:**  
+
+---
 # 📌 Final Reflection (End of Assessment)
 
 **What AI was most useful for:**  

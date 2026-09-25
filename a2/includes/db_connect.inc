@@ -7,7 +7,7 @@ if ($_SERVER["SERVER_NAME"] === "localhost") {
 } else {
     $host = "talsprddb02.int.its.rmit.edu.au";
     $user = "S4199673";
-    $password = "VzQxHRw3mYIe$s91X3";
+    $password = "";
     $database = "S4199673";
 }
 
