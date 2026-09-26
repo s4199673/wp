@@ -71,7 +71,8 @@ Refreshed the page and confirmed that the warning disappeared and the full page 
 **File:**  
 scripts.js
 
-**Related Commit:**  
+**Related Commit:** 
+b955793 
 
 **Symptom:**  
 Clicking "Add Book to Collection" on add.php did nothing.
@@ -93,7 +94,100 @@ Performed a hard refresh (Ctrl+Shift+R).
 After the hard refresh, resubmittd the form with all fields filled in.
 The page correctly navigated to process_add.php and displayed the expected debug output.
 ---
+## Bug 3
 
+**Date Identified:**  
+26/09/2026
+
+**Date Fixed:** 
+26/09/2026
+
+**File:**  
+scripts.js
+
+**Related Commit:** 
+
+
+**Symptom:**  
+Filter by Status not working
+
+**Steps to Reproduce:**  
+1. Open books.php
+2. Select from the status filter dropdown.
+2. The table contents do not change and the filter is not applied. 
+
+**Root Cause:**  
+Unclosed block caused the browser to reject all of scripts.js including the filter handler.
+
+**Fix:**  
+Added back } at the end of the code.
+
+**Verification:**  
+Refreshed the page. Tested the status filter to check that matching rows remain visible and non-mathcing rows are hidden.
+
+---
+## Bug 4
+
+**Date Identified:**  
+26/09/2026
+
+**Date Fixed:** 
+26/09/2026
+
+**File:**  
+gallery.php
+
+**Related Commit:** 
+
+
+**Symptom:**  
+Newly uploaded book cover image not loading in gallery.php
+
+**Steps to Reproduce:**  
+1. Open gallery.php
+2. The cover image fails to load.
+
+**Root Cause:**  
+gallery.php was generating image paths using <book.id>.png which assumed all cover images were stored as png giles names after the book ID. Newly uploded covers are saved using their original filename and extension cauing the generated image path to be incorrect.
+
+**Fix:**  
+Fixed the gallery.php to use each book's stored image_path instead of <book.id>.png
+Newly uploaded cover should load using their actual filenmae and extension.
+
+**Verification:**  
+1. Open gallery.php
+2. Confirm that the uploaded cover image is displayed correctly.
+
+---
+## Bug 4
+
+**Date Identified:**  
+
+
+**Date Fixed:** 
+
+
+**File:**  
+
+
+**Related Commit:** 
+
+
+**Symptom:**  
+
+
+**Steps to Reproduce:**  
+
+
+**Root Cause:**  
+
+
+**Fix:**  
+
+
+**Verification:**  
+
+---
 # 🤖 Section 2: AI Usage Log
 
 ## AI Task 1
@@ -474,7 +568,7 @@ No files were changed.
 **Validation Performed:**  
 - Compared field names and submitted values in add.php with the corresponding validation and processing logic in process_add.php
 - Added tools.inc to enable preshow() debug output for inspecting $_FILES and $errors during testing.
-- 
+- Confirmed a new book was added to books.php 
 
 **Issues Identified:**  
 - AI identified that there is "No explicit required-field check for every field" but my understanding is that this is handled by HTML using 'required'.

@@ -3,6 +3,9 @@ include('includes/db_connect.inc');
 $pageName = 'Gallery';
 $fileName = 'gallery.php';
 include_once('includes/header.inc'); 
+
+$sql = "SELECT book_id, title, author, genre, publication_year, price, image_path, status FROM books ORDER BY book_id";
+$result = mysqli_query($conn, $sql);
 ?>
 
     <header>
@@ -21,7 +24,21 @@ include_once('includes/header.inc');
                 </div>
 
                 <div class="row gallery-grid g-2">
-                    <div class="col-6 col-sm-4 col-lg-2">
+                    <?php if ($result && mysqli_num_rows($result) > 0) { ?>
+                        <?php while ($row = mysqli_fetch_assoc($result)) { ?>
+                            <div class="col-6 col-sm-4 col-lg-2">
+                                <button class="gallery-image-button" type="button" data-bs-toggle="modal"
+                                    data-bs-target="#imageModal" data-image="assets/images/covers/<?= htmlspecialchars($row['image_path']) ?>"
+                                    data-title="<?= htmlspecialchars($row['title']) ?> by <?= htmlspecialchars($row['author']) ?>">
+                                    <img src="assets/images/covers/<?= htmlspecialchars($row['image_path']) ?>" alt="<?= htmlspecialchars($row['title']) ?> book cover">
+                                </button>
+                            </div>
+                        <?php } ?>
+                        <?php } else { ?>
+                            <p>No books found.</p>
+                        <?php } ?>
+                    <!--
+                        <div class="col-6 col-sm-4 col-lg-2">
                         <button class="gallery-image-button" type="button" data-bs-toggle="modal"
                             data-bs-target="#imageModal" data-image="assets/images/covers/1.png"
                             data-title="The Midnight Library by Matt Haig">
@@ -113,12 +130,12 @@ include_once('includes/header.inc');
                         </button>
                     </div>
                 </div>
-            </div>
+            </div>-->
 
 
 
 
-            <!-- Image modal -->
+            <!-- Image modal 
             <div class="modal" id="imageModal" aria-hidden="true">
                 <div class="modal-dialog modal-dialog-centered">
                     <div class="modal-content">
@@ -136,7 +153,7 @@ include_once('includes/header.inc');
                         </div>
                     </div>
                 </div>
-            </div>
+            </div>-->
 
 
 
