@@ -106,7 +106,7 @@ The page correctly navigated to process_add.php and displayed the expected debug
 scripts.js
 
 **Related Commit:** 
-
+ca24a10
 
 **Symptom:**  
 Filter by Status not working
@@ -138,7 +138,7 @@ Refreshed the page. Tested the status filter to check that matching rows remain 
 gallery.php
 
 **Related Commit:** 
-
+ca24a10
 
 **Symptom:**  
 Newly uploaded book cover image not loading in gallery.php
@@ -159,6 +159,36 @@ Newly uploaded cover should load using their actual filenmae and extension.
 2. Confirm that the uploaded cover image is displayed correctly.
 
 ---
+## Bug 4
+
+**Date Identified:**  
+26/09/2026
+
+**Date Fixed:** 
+26/09/2026
+
+**File:**  
+
+
+**Related Commit:** 
+
+
+**Symptom:**  
+
+
+**Steps to Reproduce:**  
+
+
+**Root Cause:**  
+
+
+**Fix:**  
+
+
+**Verification:**  
+
+---
+
 ## Bug 4
 
 **Date Identified:**  

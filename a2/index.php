@@ -41,6 +41,11 @@ include_once('includes/header.inc');
                 <img src="assets/images/covers/1.png" class="d-block w-100" alt="Moonlit circular library">
                 <div class="carousel-caption d-none d-md-block">
                     <h4>The Midnight Library</h4>
+                    <a href="details.php?id=1" class="btn view-details-button">
+                        <span class="material-icons">
+                            visibility
+                        </span>
+                        View Details</a>
                 </div>
             </div>
         
@@ -48,6 +53,11 @@ include_once('includes/header.inc');
             <img src="assets/images/covers/2.png" class="d-block w-100" alt="Astronaut floating in space">
             <div class="carousel-caption d-none d-md-block">
                 <h4>Project Hail Mary</h4>
+                <a href="details.php?id=2" class="btn view-details-button">
+                    <span class="material-icons">
+                        visibility
+                    </span>
+                    View Details</a>
             </div>
         </div>
 
@@ -55,6 +65,11 @@ include_once('includes/header.inc');
             <img src="assets/images/covers/3.png" class="d-block w-100" alt="A person walking in a desert">
             <div class="carousel-caption d-none d-md-block">
                 <h4>Dune</h4>
+                <a href="details.php?id=3" class="btn view-details-button">
+                    <span class="material-icons">
+                        visibility
+                    </span>
+                    View Details</a>
             </div>
         </div>
 
@@ -62,6 +77,11 @@ include_once('includes/header.inc');
             <img src="assets/images/covers/4.png" class="d-block w-100" alt="Doorway to a hobbit hole in a hill">
             <div class="carousel-caption d-none d-md-block"> 
                 <h4>The Hobbit</h4>
+                <a href="details.php?id=4" class="btn view-details-button">
+                    <span class="material-icons">
+                        visibility
+                    </span>
+                    View Details</a>
             </div>
         </div>
         <!-- Left and right controls/icons -->
@@ -101,7 +121,12 @@ if ($result && mysqli_num_rows($result) > 0) {
                         <h3 class="card-title"><?= htmlspecialchars($row['title']); ?></h3>
                         <p class="card-text"><?= htmlspecialchars($row['author']); ?></p>
                         <p class="book-price"><?= htmlspecialchars($row['price']); ?></p>
-                        <button type="button" class="btn status-available"><?= htmlspecialchars($row['status']); ?></button>
+                        <a href="details.php?id=<?= (int)$row['book_id']; ?>" class="btn view-details-button">
+                            <span class="material-icons">
+                                visibility
+                            </span>
+                            View Details</a>
+                       <!-- <button type="button" class="btn status-available"><?= htmlspecialchars($row['status']); ?></button> -->
                     </div>
                 </div>
             </article>
