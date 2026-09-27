@@ -746,6 +746,122 @@ th {
     border-radius: 0.5rem;
 }
 
+/* Book Details Page */
+.book-details-section {
+    padding: 4rem 1rem 4rem;
+}
+
+.book-details-container {
+    max-width: 1000px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    gap: 2rem;
+}
+
+.book-details-image {
+    grid-column: 1 / 2;
+    max-width: none;
+}
+
+
+@media (prefers-color-scheme: dark) {
+    .book-details-info {
+        color: var(--darkmode-text-nearwhite);
+    }
+}
+
+.book-details-info h1 {
+    font-family: "Righteous", cursive;
+    font-weight: 400;
+    font-size: 2rem;
+    margin-bottom: 6rem;
+}
+
+.table-status {
+    display: inline-block;
+    padding: 0.3rem 0.5rem;
+    font-size: 0.7rem;
+    margin-bottom: 1rem;
+}
+
+.details-table {
+    width: 100%;
+    background-color: var(--background-white);
+    border-radius: 0.5rem;
+    border-collapse: collapse;
+    overflow: hidden;
+    margin-bottom: 1rem;
+}
+
+.details-table th {
+    padding: 0.85rem 0.75rem;
+    font-family: "Elms Sans", sans-serif;
+    font-size: 0.8rem;
+    font-weight: bold;
+    text-align: left;
+    color: var(--text-dark);
+    background-color: var(--background-light);
+}
+
+.details-table td {
+    padding: 0.85rem 0.75rem;
+    font-family: "Elms Sans", sans-serif;
+    font-size: 0.8rem;
+    font-weight: normal;
+    text-align: left;
+    color: var(--text-dark);
+}
+
+.details-table .details-price {
+    color: var(--primary-color);
+    font-weight: 700;
+}
+
+.details-card-label {
+    font-family: "Elms Sans", sans-serif;
+    font-weight: normal;
+    font-size: 1.25rem;
+    margin-bottom: 0.5rem;
+    
+}
+
+.details-description {
+    font-family: "Elms Sans", sans-serif;
+    font-size: 1rem;
+    line-height: 1.4;
+   
+}
+
+.details-actions {
+    display: flex;
+    gap: 0.5rem;
+    margin-top: 1rem;
+}
+
+.details-actions .material-icons {
+    font-size: 1rem;
+    padding-right: 0.4rem;
+}
+
+.details-actions .btn {
+    font-family: "Elms Sans", sans-serif;
+    font-weight: 500;
+    font-size: 0.8rem;
+    padding: 0.8rem 0.6rem;
+    border-radius: 0.4rem;
+}
+
+.details-back-button {
+    background-color: var(--accent-slate);
+    color: var(--background-white);
+}
+
+.details-add-button {
+    background-color: var(--primary-color);
+    color: var(--background-white);
+}
+
 footer {
     position: relative;
     text-align: center;

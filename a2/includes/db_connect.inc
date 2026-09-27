@@ -13,9 +13,9 @@ if ($_SERVER["SERVER_NAME"] === "localhost") {
 
 $conn = mysqli_connect($host, $user, $password, $database);
 
-if (!$conn) {
+/* if (!$conn) {
     die("Database connection failed.");
 }else{
     echo "<p>Successfully connected to the database.</p>";
-}
+} */
 ?>

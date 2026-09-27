@@ -159,7 +159,7 @@ Newly uploaded cover should load using their actual filenmae and extension.
 2. Confirm that the uploaded cover image is displayed correctly.
 
 ---
-## Bug 4
+## Bug 5
 
 **Date Identified:**  
 26/09/2026
@@ -168,28 +168,69 @@ Newly uploaded cover should load using their actual filenmae and extension.
 26/09/2026
 
 **File:**  
-
+details.php
 
 **Related Commit:** 
 
 
 **Symptom:**  
-
+<$id = isset($_GET['id']) ? (int)$_GET['id'] : 0; $sql = "SELECT book_id, title, author, genre, publication_year, isbn, book_condition, description, status, image_path FROM books WHERE book_id = ?"; $stmt = mysqli_prepare($conn, $sql); mysqli_stmt_bind_param($stmt, "i", $id); mysqli_stmt_execute($stmt); $result = mysqli_stmt_get_result($stmt); $book = mysqli_fetch_assoc($result); ?>
+Warning: Undefined variable $book in C:\xampp\htdocs\wp\a2\details.php on line 24
+Book Not Found
 
 **Steps to Reproduce:**  
-
+1. Open details.php?id=13
+2. Warning message appears and book details are missing.
 
 **Root Cause:**  
-
+Missed '<?php' before $id = isset($_GET['id']) ? (int)$_GET['id'] : 0;
 
 **Fix:**  
-
+Added the missing '<?php' opening tag.
 
 **Verification:**  
+1. Refresh details.php?id=13
+2. No warning messages are displayed. 
+3. The book cover image is shown.
+4. All book information is displayed correctly except for price field. (See Bug 6)
 
 ---
 
-## Bug 4
+## Bug 6
+
+**Date Identified:**  
+26/09/2026
+
+**Date Fixed:** 
+26/09/2026
+
+**File:**  
+details.php
+
+**Related Commit:** 
+
+
+**Symptom:**  
+Warning: Undefined array key "price" in C:\xampp\htdocs\wp\a2\details.php on line 60
+
+**Steps to Reproduce:**  
+1. Open details.php?id=13
+2. Warning message displayed on the page where price should appear.
+
+**Root Cause:**  
+Missed adding price to $sql query.
+
+**Fix:**  
+Added the price column to the SELECT statement:
+$sql = "SELECT book_id, title, author, genre, publication_year, isbn, book_condition, price, description, status, image_path 
+
+**Verification:**  
+1. Refresh details.php?id=13
+2. All book details including the price and book cover image are displayed correctly.
+3. The page loads without errors.
+ 
+---
+## Bug 7
 
 **Date Identified:**  
 
@@ -602,6 +643,62 @@ No files were changed.
 
 **Issues Identified:**  
 - AI identified that there is "No explicit required-field check for every field" but my understanding is that this is handled by HTML using 'required'.
+
+---
+
+## AI Task 6
+
+**Date:**  
+25/09/2026
+
+**Task Description:**  
+Building details.php page
+
+**Tool Used:**  
+Copilot
+
+**Prompt / Input:**  
+I am a beginner PHP student building a database-driven website. I need to create details.php, a page that displays one book's full details including its cover image based on a book ID passed through the URL. Please explain a good starting point and the overall workflow. Do not write the complete solution
+
+**AI Output Summary:** 
+**Good Starting Point**
+Your page already has the right basic structure in `details.php`: it includes the database connection and shared header, navigation, and footer. The main work belongs inside `<main>`. Before writing that section, trace how a book gets selected:
+
+- `books.php` links to `details.php?id=...`, passing the book’s `book_id` in the URL.
+- `add.php` shows the fields used for a book, including its description and cover.
+- `process_add.php` saves the cover’s filename in `image_path`.
+- `gallery.php` shows how that filename is combined with `assets/images/covers/` to display an image.
+
+**Overall Workflow**
+
+1. **Read and validate the ID.** PHP receives URL parameters through `$_GET`. Check that `id` exists and is a valid integer before using it. Think about what your page should show when it is missing or malformed.
+
+2. **Look up one book.** Use a `SELECT` query on the `books` table for the fields the page needs: for example, `title`, `author`, `genre`, `publication_year`, `price`, `isbn`, `book_condition`, `description`, `image_path`, and `status`. Use a MySQLi procedural prepared statement: prepare a query with a `?` placeholder, bind the validated ID as an integer, then execute it. Don’t insert the URL value directly into the SQL string.
+
+3. **Handle the result.** A valid ID might not match any book, so plan for both “book found” and “no matching book” cases. Give the visitor a clear message for the latter.
+
+4. **Display the details.** If a row is found, show its values in semantic HTML within `<main>`. For the cover, use the stored `image_path` with the same `assets/images/covers/` directory used by the gallery. Don’t assume the image filename is the book ID.
+
+5. **Escape displayed values.** Wrap database text used in HTML with `htmlspecialchars()`, including values in the cover’s `src` and `alt` attributes. This is separate from using a prepared statement for the database query.
+
+6. **Test a few URL cases.** Try a real book link from the books table, then check a missing ID, a non-numeric ID, and a numeric ID that doesn’t exist. Confirm the cover loads and the page still uses the shared navigation and footer.
+
+A useful first milestone is just to make the page distinguish “valid ID with a matching book” from “no matching book.” Then add the displayed fields and cover image one at a time. You can verify the actual stored image filename in `process_add.php` and compare its display path with `gallery.php`.
+
+One small troubleshooting note: `db_connect.inc` currently prints a connection-success message. If that appears above your page content, it’s coming from the include rather than the details-page layout.
+
+**What You Accepted:**  
+- All 6 workflow suggestions.
+
+**What You Changed:**  
+- Displayed Genre, Publication Year, ISBN, Conditon and price as an HTML table to match the screenshot provided.
+
+**Validation Performed:**  
+- Tested details.php?id=1 and other books and confirmed book details displayed correctly.
+- Tested an invalid ID (e.g id=99) and confirmed the "Book Not Found" message displayed.
+
+**Issues Identified:**  
+- AI did not consider css styling
 
 ---
 # 📌 Final Reflection (End of Assessment)
