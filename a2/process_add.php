@@ -76,6 +76,7 @@ if (count($errors) == 0) {
 //Build a unique filename so uploads never overwrite each other
 $image_path = uniqid() . '.' . $extension;
 
+// Ten ? placeholders for the 10 fields in the books table tells MySQLi exactly what type each one is
 $sql = "INSERT INTO books (title, author, genre, publication_year, price, isbn, book_condition, description, image_path, status) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 $stmt = mysqli_prepare($conn, $sql);
 mysqli_stmt_bind_param($stmt, "sssidsssss", 

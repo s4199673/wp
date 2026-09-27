@@ -701,6 +701,37 @@ One small troubleshooting note: `db_connect.inc` currently prints a connection-s
 - AI did not consider css styling
 
 ---
+
+## AI Task 7
+
+**Date:**  
+27/09/2026
+
+**Task Description:**  
+Review the connection file
+
+**Tool Used:**  
+Copilot
+
+**Prompt / Input:**  
+
+
+Do not ask me to share passwords.
+
+**AI Output Summary:** 
+
+
+**What You Accepted:**  
+- 
+**What You Changed:**  
+- 
+
+**Validation Performed:**  
+- 
+
+**Issues Identified:**  
+- No significant errors were found in the AI recommendations.
+---
 # 📌 Final Reflection (End of Assessment)
 
 **What AI was most useful for:**  
