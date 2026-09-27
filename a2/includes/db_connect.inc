@@ -8,7 +8,7 @@ if ($_SERVER["SERVER_NAME"] === "localhost") {
     $host = "talsprddb02.int.its.rmit.edu.au";
     $user = "S4199673";
     $password = "";
-    $database = "S4199673";
+    $database = "S4199673_159009";
 }
 
 $conn = mysqli_connect($host, $user, $password, $database);
