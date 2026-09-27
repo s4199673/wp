@@ -1,8 +1,13 @@
 <?php 
   session_start();
 
+  if ($_SERVER["SERVER_NAME"] === "localhost") {
   ini_set('display_errors', 1); 
   error_reporting(E_ALL); 
+  }else{
+    ini_set('display_errors', 0);
+    error_reporting(0);
+  }
 
   /**
    * @param mixed $status
