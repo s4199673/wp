@@ -9,7 +9,7 @@ if ($_SERVER["SERVER_NAME"] === "localhost") {
     $user = "S4199673";
     include("/home/sh3/S4199673/jacob5_pass");
     $password = $jacob5_pass;
-    $database = "S4199673";
+    $database = "S4199673_15909";
 }
 
 $conn = mysqli_connect($host, $user, $password, $database);
