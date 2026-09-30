@@ -11,7 +11,7 @@ foreach($_POST as $name => $value) {
 
 $status_message = 'Initially unset';
 $picture = $_FILES['image_path'];
-preshow($picture);
+//preshow($picture);
 
 $errors = []; // new Array();
 
@@ -100,11 +100,37 @@ if ($inserted) {
     } else {
         $status_message = "Book added successfully but image upload failed.";
     }
-}else {
+} else {
     $status_message = "Book was not added and image upload failed.";
-}
-}else{
+ }
+} else {
+    $status_message = "Please fix the errors below:";
 }
 
-preshow($errors);
+//preshow($errors);
 ?>
+
+<?php
+$pageName = 'Add Book';
+$fileName = 'add.php';
+include_once('includes/header.inc');
+?>
+<header>
+    <?php include_once('includes/nav.inc'); ?>
+</header>
+<main>
+    <div class="add-book-container">
+        <p><?= htmlspecialchars($status_message) ?></p> 
+        <?php if (count($errors) > 0) { ?>
+        <ul>
+            <?php foreach ($errors as $field => $message) { ?>
+        <li><?= htmlspecialchars($message) ?></li>
+        <?php } ?>
+</ul>
+<p><a href="books.php">Go back and try again</a></p>
+<?php } else { ?>
+<p><a href="books.php">View all books</a></p>
+<?php } ?>
+</div>
+</main>
+<?php include_once('includes/footer.inc'); ?>

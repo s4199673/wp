@@ -120,7 +120,7 @@ include_once('includes/header.inc');
 
                             <p id="selectedFileName" class="selected-file-name"></p>
 
-                        <img id="imagePreview" src="" alt="Selected book cover preview" class="img-fluid mt-2 d-none">
+                        <img id="imagePreview" src="data:," alt="Selected book cover preview" class="img-fluid mt-2 d-none">
 
                     </div>
 

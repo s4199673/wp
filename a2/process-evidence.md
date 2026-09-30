@@ -171,7 +171,7 @@ Newly uploaded cover should load using their actual filenmae and extension.
 details.php
 
 **Related Commit:** 
-
+1afc557
 
 **Symptom:**  
 <$id = isset($_GET['id']) ? (int)$_GET['id'] : 0; $sql = "SELECT book_id, title, author, genre, publication_year, isbn, book_condition, description, status, image_path FROM books WHERE book_id = ?"; $stmt = mysqli_prepare($conn, $sql); mysqli_stmt_bind_param($stmt, "i", $id); mysqli_stmt_execute($stmt); $result = mysqli_stmt_get_result($stmt); $book = mysqli_fetch_assoc($result); ?>
@@ -208,7 +208,7 @@ Added the missing '<?php' opening tag.
 details.php
 
 **Related Commit:** 
-
+1afc557
 
 **Symptom:**  
 Warning: Undefined array key "price" in C:\xampp\htdocs\wp\a2\details.php on line 60
@@ -233,30 +233,38 @@ $sql = "SELECT book_id, title, author, genre, publication_year, isbn, book_condi
 ## Bug 7
 
 **Date Identified:**  
-
+22/09/2026
 
 **Date Fixed:** 
-
+29/09/2026
 
 **File:**  
-
+db_connect.inc
 
 **Related Commit:** 
+21af776
 
-
-**Symptom:**  
+**Symptom:** 
+Bookverse page failed to load correctly at https://titan.csit.rmit.edu.au/~s4199673/wp/a2/index.php
+The following error was displayed:
+Warning: mysqli_connect(): (HY000/1045): Access denied for user 'S4199673'@'csitprdap01.int.its.rmit.edu.au' (using password: YES) in /home/sh3/S4199673/public_html/wp/a2/includes/db_connect.inc on line 15
 
 
 **Steps to Reproduce:**  
-
+1. Navigate to https://titan.csit.rmit.edu.au/~s4199673/wp/a2/index.php
+2. The page does not load as expected.
 
 **Root Cause:**  
-
+Removed and changed the password.
 
 **Fix:**  
-
+1. Removed $password = $jacob5_pass; from db_connect.inc
+2. Changed the password on Jacob 5.
+3. Updated the password stored on /home/sh3/S4199673/jacob5_pass
 
 **Verification:**  
+1. Reloaded https://titan.csit.rmit.edu.au/~s4199673/wp/a2/index.php
+2. Verified that the page loaded without errors.
 
 ---
 # 🤖 Section 2: AI Usage Log
@@ -516,6 +524,7 @@ const books = document.querySelectorAll(
 25/09/2026
 
 **Task Description:**  
+Reviewed the PHP Add Book form
 
 **Tool Used:**  
 
@@ -551,10 +560,16 @@ Also, the top of `add.php:2-4` includes `includes/process_add.php`, but the form
 - Changed // to <!--...--> for comments.
 - Removed if ($_SERVER['REQUEST_METHOD'] === 'POST') and 'includes/process_add.php' as it never queries the database itself.
 
-**Validation Performed:**  
+**Validation Performed:** 
+- Verified that all form controls had associated labels.
+- Checked that all id values were unique and matched the coreesponding label for attributes
+- Confirmed the form used method ="POST"
+- Confirmed enctype="multipart/form-data was present for file uploads.
+- Verified the file input accepted the required image file extensions.
+- Reviewed Boostrap form classes.
 
 **Issues Identified:**  
-
+ No significant errors were found in the AI recommendations.
 ---
 ## AI Task 5
 
@@ -702,42 +717,17 @@ One small troubleshooting note: `db_connect.inc` currently prints a connection-s
 
 ---
 
-## AI Task 7
 
-**Date:**  
-27/09/2026
-
-**Task Description:**  
-Review the connection file
-
-**Tool Used:**  
-Copilot
-
-**Prompt / Input:**  
-
-
-Do not ask me to share passwords.
-
-**AI Output Summary:** 
-
-
-**What You Accepted:**  
-- 
-**What You Changed:**  
-- 
-
-**Validation Performed:**  
-- 
-
-**Issues Identified:**  
-- No significant errors were found in the AI recommendations.
----
 # 📌 Final Reflection (End of Assessment)
 
 **What AI was most useful for:**  
+AI was most useful for explaining PHP and MySQLi concepts, reviewing my code, identifying bugs and suggesting improvements. 
 
 **Where AI was incorrect or misleading:**  
+AI sometimes guess details that didn't match my actual assignment such as using a column name 'year' when the correct name is 'publication_year.
 
-**What you learned about debugging:**  
+**What you learned about debugging:**
+I learned that a single missing brace or opening tag can break an entire file. I also learned that browser caching can make a real fix look like it isn't working which taught me to alwasy hard-refresh before re-testing.  
 
 **How your approach changed over time:**  
+I moved from broad, open-ended prompts to more structure ones with checklists which produced far more useful output. 

@@ -57,6 +57,26 @@ TODO: Include instructions about:
 
 TODO: Write your Copilot/AI instructions here in clear bullet points.
 
+- Use PHP, HTML, CSS, JavaScript, Bootstrap 5, and MySQL only.
+- Do not use React, Angular, Vue, Node.js, Laravel, Symfony, CodeIgniter, PDO, or other frameworks.
+- Follow the required project file and folder structure.
+- Store reusable code in PHP include files and use include/require.
+- Use a dedicated database connection include file.
+- Use MySQLi procedural prepared statements for all queries involving user input.
+- Never concatenate user input directly into SQL statements.
+- Keep CSS and JavaScript in separate external files where required.
+- Use Bootstrap's grid system and components for responsive layouts.
+- Validate image uploads by checking file type, extension, size, and upload errors.
+- Store uploaded images in the specified upload folder and save filenames in the database.
+- Implement a Bootstrap modal to display larger gallery images.
+- Provide book filtering by status and use prepared statements for filtering queries.
+- Validate and sanitise all user input and use htmlspecialchars() when displaying user data.
+- Protect against SQL injection, XSS, and invalid file uploads.
+- Display user-friendly error messages without exposing database credentials or system details.
+- Ensure the application runs correctly on the Titan server using relative paths where appropriate.
+- Use AI to explain concepts, review code, identify bugs, and suggest improvements. 
+- Meaningful AI use mu
+
 ---
 
 ## 3. Project Overview
@@ -112,17 +132,17 @@ a2/
 │   ├── db_connect.inc
 │   ├── header.inc
 │   ├── nav.inc
+│   ├── tools.inc
 │   └── footer.inc
 ├── index.php
 ├── books.php
 ├── gallery.php
 ├── add.php
 ├── details.php
+├── process_add.php
 ├── README.md
 └── process-evidence.md
 
-Optional:
-└── process_add.php
 ```
 
 ---
@@ -370,13 +390,13 @@ Complete this section after testing your website.
 | Latest books display | Pass | - |
 | Books table | Pass | - |
 | Book status filter | Pass | - |
-| Details page query string | TODO | TODO |
+| Details page query string | Pass | - |
 | Gallery modal | Pass | - |
-| Add Book form validation | TODO | TODO |
-| Image upload | Pass | TODO |
-| Image preview | Pass | TODO |
-| Deployed site links/assets | TODO | TODO |
-| Deployed database content | TODO | TODO |
+| Add Book form validation | Pass | - |
+| Image upload | Pass | - |
+| Image preview | Pass | - |
+| Deployed site links/assets | Pass | - |
+| Deployed database content | Pass | - |
 
 ---
 
@@ -388,10 +408,10 @@ Provide details of your deployed website.
 |---|---|
 | Deployed website URL | https://titan.csit.rmit.edu.au/~s4199673/wp/a2/ |
 | Coreteaching server | Titan |
-| Jacob 5 database name | S4199673 |
+| Jacob 5 database name | S4199673_159009 |
 | Deployment folder | wp/a2 |
 | `.htaccess` location | public_html |
-| Upload folder permissions | TODO |
+| Upload folder permissions | assets/images/covers/ is set to 755 |
 
 TODO: In 2–4 sentences, explain how you checked that the deployed website and database work correctly.
 
@@ -459,5 +479,4 @@ List any known issues or limitations in your submitted project.
 | TODO | TODO |
 
 If there are no known issues, write:
-
-> No known issues at the time of submission.
+No known issues at the time of submission.

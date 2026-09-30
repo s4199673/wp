@@ -66,7 +66,6 @@ include_once('includes/header.inc');
                     <h2 class="details-card-label">Description</h2>
                     <p class="details-description"><?= (htmlspecialchars($book['description'])); ?></p>
                 </div>
-
                         <div class="details-actions">
                             <a href="books.php" class="btn details-back-button">
                                 <span class="material-icons">arrow_back</span>
@@ -77,7 +76,6 @@ include_once('includes/header.inc');
                                 Add Similar Book
                             </a>
                         </div>
-                    </div>
                 </div>
             </div>
             </section>

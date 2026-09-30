@@ -37,7 +37,7 @@ $result = mysqli_query($conn, $sql);
                         <?php } else { ?>
                             <p>No books found.</p>
                         <?php } ?>
-                
+                 </div>
             <!-- Image modal -->
             <div class="modal" id="imageModal" aria-hidden="true">
                 <div class="modal-dialog modal-dialog-centered">
@@ -57,9 +57,7 @@ $result = mysqli_query($conn, $sql);
                     </div>
                 </div>
             </div>
-
-
-
+            </div>
 
         </section>
     </main>

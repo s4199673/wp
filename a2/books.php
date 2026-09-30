@@ -36,7 +36,7 @@ include_once('includes/header.inc');
                     <label for="statusFilter">Filter by Status:</label>
                     <select id="statusFilter" class="form-select form-select-sm">
                         <option value="all" selected>Show All</option>
-                        //Filter dropdown from $statusResult
+                        <!-- Filter dropdown from $statusResult -->
                         <?php while ($statusRow = mysqli_fetch_assoc($statusResult)) { ?>
                             <option value="<?= htmlspecialchars($statusRow['status']) ?>">
                                 <?= htmlspecialchars($statusRow['status']) ?></option>
@@ -62,7 +62,7 @@ include_once('includes/header.inc');
                                 <?php while ($row = mysqli_fetch_assoc($result)) { ?>
                                     <tr class="value" data-status="<?= htmlspecialchars($row['status']) ?>">
                                         <th scope="row">
-                                            <a href="details.php?id=<?= (int)$row['book_id'] ?>">
+                                            <a href="details.php?id=<?= urlencode((int)$row['book_id']) ?>">
                                                 <?= htmlspecialchars($row['title']) ?>
                                             </a>
                                         </th>
