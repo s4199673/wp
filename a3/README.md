@@ -5,10 +5,10 @@
 
 | Item | Details |
 |---|---|
-| Student name | TODO |
-| Student ID | TODO |
-| GitHub repository URL | TODO |
-| Deployed website URL | TODO |
+| Student name | Emilia Kim |
+| Student ID | S4199673 |
+| GitHub repository URL | https://github.com/s4199673 |
+| Deployed website URL | https://titan.csit.rmit.edu.au/~s4199673/wp/a3/ |
 
 ---
 
@@ -64,6 +64,42 @@ TODO: Include instructions about:
 ### My Copilot / AI instructions
 
 TODO: Write your Copilot/AI instructions here in clear bullet points.
+
+- Use PHP, HTML, CSS, JavaScript, Bootstrap 5, and MySQL only.
+- Do not use React, Angular, Vue, Node.js, Laravel, Symfony, CodeIgniter, PDO, or other frameworks.
+- Follow the required project file and folder structure.
+- Every PHP page must include: includes/header.inc, includes/nav.inc, includes/footer.inc which use resuasable include files to avoid duplicate code.
+- Create a single connection file: includes/db_connect.inc which automatically detect localhost or Coreteaching/Jacob 5 environment.
+- All queries must use prepared statements.
+- Start sessions where necessary. Flash messages must use $_SESSION and display success or error feedback after registration, login, logout, add record, edit record and delete record.
+Messages should be shown once and then removed from the session.
+- Registration: create new user account and use password_hash(), automatically log the user in after succesful registration, store user information in session.
+- Login: Authenticate using username/email and passowrd, verify password using password_verify().
+- Logout: Destroy session, redirect to home page. 
+- Authentication: Only logged-in users can access add.php
+- Authorisation: Only the owner of a book can edit and delete the record. Owndership must be checked server-side before editing or deleting a record.
+- Before editing or deleting, retrieve the record owner, compare ownder ID against the logged-in user's ID and deny access if IDs do not match.
+- Only show Edit and Delete buttons to the owner. Deletion must remove database row and remove uploaded image file.
+- Create: add.php, insert new book record, upload image, generate unique filename.
+- Read: index.php, books.php, gallery.php, details.php, seller.php, search.php
+- Update: edit.php, replace image if a new image is uploaded, delete old image file, retain existing image if no new file uploaded.
+- Delete: owner only, confimation required, remove record and image.
+- search.php allows users to search title, author, description using a keyword search with prepared statements.
+- seller.php displays all books belonging to the selected owner, suing an owner ID passed through the query string (prepared statements). No login required to view the page. The owner links must appear on index.php, books.php, details.php. If the seller is logged in, they also have a link to their page in the navbar.
+- Validate image uploads by checking file type, extension, size, and upload errors. 
+- Store uploaded images in the specified upload folder and save filenames in the database.
+- Do not use original filenames. Generate unique names using uniqid() or suffxing the original filename with a timestamp e.g. time() or date() functions
+- Keep CSS and JavaScript in separate external files where required. Do not generate inline JavaScript.
+- Use Bootstrap's grid system and components for responsive layouts throughout the site.
+- gallery.php displays all book images which come from database recrods. Clicking an image opens a Boostrap modal which displays full-size image. 
+- books.php retrive all records from database and generate filter options dynamically from status values. Filtering must be client-side only and use JavaScript show/hide logic.
+- When users click Delete, open Boostrap confirmation modal, require user confirmation beofore deletion and modal functionality must be handled through scripts.js
+- Protect against SQL injection, XSS, and invalid file uploads. Escape all output using htmlspecialchars().
+- Ensure the application runs correctly on the Titan server using relative paths where appropriate.
+- Use AI to explain concepts, review code, identify bugs and suggest improvements. 
+- process-evidence.md file must include at least 5 debugging records, at least 5 records of meaningful AI use and links to relevant GitHub commits.
+
+
 
 ---
 
