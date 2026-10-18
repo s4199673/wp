@@ -31,7 +31,7 @@ You must maintain this file throughout development.
 process_register.php
 
 **Related Commit:**  
-(e.g., abc1234)
+961c939
 
 **Symptom:**  
 What went wrong?
@@ -80,6 +80,7 @@ How did you confirm the fix?
 register.php
 
 **Related Commit:**  
+961c939
 
 **Symptom:**
 Fatal error: Uncaught Error: Call to undefined function showFlashAlerts() in C:\xampp\htdocs\wp\a3\register.php:21 Stack trace: #0 {main} thrown in C:\xampp\htdocs\wp\a3\register.php on line 21  
@@ -112,6 +113,7 @@ Updated the function call in register to use showFlashAlerts() (plural).
 register.php
 
 **Related Commit:**  
+961c939
 
 **Symptom:**
 Fatal error: Allowed memory size of 536870912 bytes exhausted (tried to allocate 262144 bytes) in C:\xampp\htdocs\wp\a3\includes\tools.inc on line 60
@@ -144,6 +146,7 @@ Updated tools.inc file
 register.php
 
 **Related Commit:**  
+961c939
 
 **Symptom:**
 Fatal error: Uncaught Error: Undefined constant "bind" in C:\xampp\htdocs\wp\a3\process_register.php:52 Stack trace: #0 {main} thrown in C:\xampp\htdocs\wp\a3\process_register.php on line 52
@@ -186,6 +189,7 @@ confirm_password => password123
 login.php
 
 **Related Commit:**  
+961c939
 
 **Symptom:**
 Fatal error: Uncaught Error: Call to undefined function showFlashAlerts() in C:\xampp\htdocs\wp\a3\login.php:14 Stack trace: #0 {main} thrown inC:\xampp\htdocs\wp\a3\login.phpon line14
@@ -429,22 +433,57 @@ Added sql query that checks for existing usernames or emails using aprepared sta
 ## AI Task 4
 
 **Date:**  
+18/10/2026
 
 **Task Description:**  
+Review process_login.php
 
-**Tool Used:**  
+**Tool Used:**
+GitHub Copilot  
 
 **Prompt / Input:**  
+Here is my login processing code. Please check whether:
+1. the user is retrieved using a prepared statement;
+2. username or email login is handled correctly;
+3. password_verify() is used correctly;
+4. $_SESSION values are set only after a successful password check;
+5. failed login messages do not reveal which field was wrong.
+
+Do not rewrite the whole script.
 
 **AI Output Summary:**  
 
-**What You Accepted:**  
+1. **Prepared statement — Yes.** The user lookup uses a prepared query and binds the login value to both placeholders in the `username = ? OR email = ?` condition in `process_login.php`.
+
+2. **Username or email — Yes in the handler.** The same submitted value is checked against both columns. The form label says “Username,” though, so it doesn’t tell users they can enter an email address: `login.php`.
+
+3. **`password_verify()` — Used with the right arguments, but there are consistency concerns.** It checks the submitted password against the selected hash in `process_login.php`. However, the handler reads `password_hash`, while `process_register.php` stores the hash in the `password` column. Those column names need to match the actual database schema. Also, the POST loop trims and applies `htmlspecialchars()` to the password before verification; that can change valid passwords containing certain characters or leading/trailing whitespace.
+
+4. **Session values — Yes.** The user session values are assigned inside the branch that runs only after a user is found and `password_verify()` succeeds: `process_login.php`. There is a separate likely bug there: the query selects `userid`, but the session assignment reads `user_id`, so the user ID may be missing.
+
+5. **Failed-login message — Yes.** The failure path uses the same generic “Invalid username/email or password” message rather than identifying which field failed: `process_login.php`.
+
+**What You Accepted:**
+1. Prepared statement
+2. Username or email
+3. password_verify()
+4. Session values
+5. Failed-login message
 
 **What You Changed:**  
+- Removed OR email =? from the login query because the login form only accepts a username.
+- Corrected password verification to use the hash stored in the password column.
+- Corrected the session assignment to use user_id instead of userid.
 
 **Validation Performed:**  
+- Verified the login process after the code changes were applied.
+- Confirmed that the login query now matches the intended login method (username only).
+- Confirmed that password verification uses the hash stored in the password column.
+- Verified that the user_id session value is populated correctly after a successful login.
+- Tested successful and failed login scenarios to ensure expected behaviour.
 
 **Issues Identified:**  
+No issues identified.
 
 ---
 

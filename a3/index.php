@@ -1,4 +1,5 @@
 <?php 
+include('includes/tools.inc');
 include('includes/db_connect.inc');
 $pageName = 'Home';
 $fileName = 'index.php';
