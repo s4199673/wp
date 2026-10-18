@@ -1,10 +1,18 @@
 <?php
-$title = "Register";
-
-include "includes/db_connect.inc";
-include "includes/header.inc";
-include "includes/nav.inc";
+include('includes/tools.inc');
+include('includes/db_connect.inc');
+$status_message = '';
+if ($_SERVER['REQUEST_METHOD'] =="POST")
+    include('includes/process_register.inc');
+$pageName = "Register";
+$fileName = "register.php";
+include_once('includes/header.inc');
 ?>
+
+<header>
+        <?php include_once('includes/nav.inc'); ?>
+
+    </header>
 
 <main class="container my-4">
    <section class="register-section my-5">
@@ -15,6 +23,7 @@ person_add
 </span>
 <h1>Create Account</h1>
 </div>
+<?php showFlashAlerts(); ?>
   <form action="process_register.php" method="post" class="mt-4">
 
     <div class="mb-3">
