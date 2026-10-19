@@ -15,12 +15,15 @@ function statusToBadge($status)
   return $status;
 }
 
-function flashAlert(string $message='', string $type = 'info')
+function flashAlert(string $message = '', string $type = 'info')
 {
-  echo <<<"CDATA"
-      <div id="title-error-message" class="alert alert-$type mt-2" role="alert">$message</div>
-CDATA;
+    echo '<div class="alert alert-' . htmlspecialchars($type, ENT_QUOTES, 'UTF-8')
+        . ' alert-dismissible fade show mt-2" role="alert">'
+        . htmlspecialchars($message, ENT_QUOTES, 'UTF-8')
+        . '<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>'
+        . '</div>';
 }
+
 function showFlashAlerts()
 {
   if (isset($_SESSION['success'])) {

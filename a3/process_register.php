@@ -50,12 +50,6 @@ if ($existing_user) {
     exit;
 }
 
-if (!empty($errors)) {
-    $_SESSION['failure'] = implode(' ', $errors);
-    header('Location: register.php');
-    exit;
-}
-
 //Basic Validation
 $errors = [];
 
@@ -78,6 +72,14 @@ if ($confirm_password === '') {
 } elseif ($password !== $confirm_password) {
     $errors[] = 'Passwords do not match.';
 }
+
+//Error checking moved to after validation and before database insert so invalid submissions are stopped.
+if (!empty($errors)) {
+    $_SESSION['failure'] = implode(' ', $errors);
+    header('Location: register.php');
+    exit; // Stop execution if there are validation errors
+}
+
 //Hash the Password
 $password_hash = password_hash($password, PASSWORD_DEFAULT);
 //Prepared Insert
@@ -99,14 +101,17 @@ mysqli_stmt_bind_param(
 
 try {
     if ($stmt && mysqli_stmt_execute($stmt)) {
-    $_SESSION['Success'] = "Welcome to Bookverse, ".$username."! Registration successful! Please log in.";
+    $_SESSION['user_id'] = mysqli_insert_id($conn);
+    $_SESSION['username'] = $username;
+    $_SESSION['email'] = $email;
+    $_SESSION['success'] = "Account created successfully. Welcome to Bookverse!";
     //Redirect After Successful Registration
-    header("Location: login.php");
+    header("Location: index.php");
     exit;
     } else {
-    $_SESSION['Failure'] = "Registration failed. Please try again.";
+    $_SESSION['failure'] = "Registration failed. Please try again.";
     }
 } catch (mysqli_sql_exception $e) {
-    $_SESSION['Failure'] = "Registration failed: ";
+    $_SESSION['failure'] = "Registration failed: ";
 }
 ?>

@@ -34,13 +34,13 @@ if ($user && password_verify($password, $user["password"])) {
     $_SESSION["user_id"] = $user["user_id"];
     $_SESSION["username"] = $user["username"];
     $_SESSION["email"] = $user["email"];
-    $_SESSION["Success"] = 'Welcome back, ' . $_SESSION["username"] . '!';
+    $_SESSION["success"] = 'Welcome back, ' . $_SESSION["username"] . '!';
 
     header("Location: index.php");
     exit;
 } else {
     //Failed Login
-    $_SESSION["Failure"] = "Invalid username or password.";
+    $_SESSION["failure"] = "Invalid username or password.";
     $status_message = "Invalid username or password.";
     header("Location: login.php?error=" . urlencode($status_message));
     exit;

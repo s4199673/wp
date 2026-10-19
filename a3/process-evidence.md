@@ -218,28 +218,42 @@ Add include('includes/tools.inc'); to login.php
 ## Bug 6
 
 **Date Identified:**  
-
+19/10/2026
 
 **Date Fixed:**  
-
+19/10/2026
 
 **File:**  
-
+process_register.php
 
 **Related Commit:**  
 
-**Symptom:**
 
+**Symptom:**
+Page redirects to Login.php without showing success message after submitting the registration form.
 
 **Steps to Reproduce:**  
+1. Open the registration form and enter:
+username => s4199673
+email => s4199673@bookverse.com
+password => password123
+confirm_password => password123
+2. Submit the form.
+3. Page redirects to Login.php without showing success message. 
+4. The database table successfully saves the new user.
 
 **Root Cause:**  
-
+PHP session keys are case-sensitive.
+process_register.php contained success message under $_SESSION['Success'] (capital S)
+while showFlashAlers() on the login page looked for $_SESSION['success'] (lowercase s) in tools.inc
 
 **Fix:**  
-
+Changed all session keys to lowercase.
 
 **Verification:**  
+1. Submitted the form after the change.
+2. Page redirected to login.php with success message.
+(Need to change the location of the flash message to appear below the nav bar and immediately log in user upon successful registration.)
 
 ---
 
@@ -490,22 +504,73 @@ No issues identified.
 ## AI Task 5
 
 **Date:**  
+19/10/2026
 
 **Task Description:**  
+Reviewed process_register.php 
 
 **Tool Used:**  
+GitHub Copilot
 
 **Prompt / Input:**  
+Review process_register.php to check whether succesful registration redirects to the home page, creates an authenticated session so the logged-in navigation appears and displays a success message using Bootstrap's close button.
+Here is an example after successful login from lab exercise:
+$_SESSION["message"] = "You are now logged in.";
+header("Location: index.php");
+exit;
+Display once in header.inc or after nav.inc:
+<?php if (isset($_SESSION["message"])): ?>
+  <div class="container mt-3">
+    <div class="alert alert-success">
+      <?php echo htmlspecialchars($_SESSION["message"]); ?>
+    </div>
+  </div>
+  <?php unset($_SESSION["message"]); ?>
+<?php endif; ?>
 
 **AI Output Summary:**  
+`process_register.php` **does redirect to `index.php` after a successful insert** and stores a lowercase `success` flash message. But it **does not log the user in**: it never sets `$_SESSION['user_id']` or `$_SESSION['username']`.
 
-**What You Accepted:**  
+The navigation in `nav.inc` shows the logged-in section only when `$_SESSION['user_id']` is set, and displays the username from `$_SESSION['username']`. Those values are set during login in `process_login.php`, but not during registration.
+
+**Suggested targeted changes**
+
+1. In the successful-insert branch of `process_register.php`, set the session’s `user_id` to the new account’s ID (available from `mysqli_insert_id($conn)`) and set `username` and `email`, matching the keys used in `process_login.php`.
+2. Keep the existing redirect to `index.php`. The lowercase `$_SESSION['success']` key matches the flash-message helper.
+3. Add a call to `showFlashAlerts()` on `index.php` where the message should appear. It includes the helper but currently does not call it, so the success message won’t be displayed on that page.
+4. Use the existing success, failure, and warning flash keys rather than introducing a separate $_SESSION["message"] key. In tools.inc, update flashAlert() so the close button is inside the alert:
+
+<?php
+function flashAlert(string $message = '', string $type = 'info')
+{
+    echo '<div class="alert alert-' . htmlspecialchars($type, ENT_QUOTES, 'UTF-8')
+        . ' alert-dismissible fade show mt-2" role="alert">'
+        . htmlspecialchars($message, ENT_QUOTES, 'UTF-8')
+        . '<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>'
+        . '</div>';
+}
+
+Then call showFlashAlerts() where you want the message to appear.
+
+This aligns with the Assessment 3 requirement to automatically log the user in after successful registration (`README.md`). One related issue: `process_register.php` checks `$errors` before initializing and populating it; move the error check to after validation and before the insert so invalid submissions are stopped.
+
+**What You Accepted:** 
+- Suggestions 1 to 4.
+- Move the error check to after validation and before the insert so invalid submissions are stopped.
 
 **What You Changed:**  
+- Updated 'process_register.php' to set the authenticated user's session values after a successful insert, store a lowercase 'success' message and redirect to 'index.php'
+- Moved the validation-error check 
+- Added 'showFlashAlerts()' to 'index.php' so the success message can be displayed.
+- Updated flashAlert() in tool.inc
 
 **Validation Performed:**  
+- Verified the registration process after the code changes were applied.
+- Confirmed that the successful registation message appears on index.php 
+- Tested successful and failed registration scenarios to ensure expected behaviour.
 
 **Issues Identified:**  
+No issues identified.
 
 ---
 

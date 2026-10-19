@@ -8,7 +8,7 @@ include_once('includes/header.inc');
 
     <header>
         <?php include_once('includes/nav.inc'); ?>
-
+        <?php showFlashAlerts(); ?>
     </header>
 
     <main>
