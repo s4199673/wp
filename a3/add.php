@@ -1,7 +1,10 @@
 <?php 
 include('includes/tools.inc');
-if(!isset($_SESSION['user_id']))
+if(!isset($_SESSION['user_id'])) {
+    $_SESSION["warning"] = "Please log in to add a book.";
     header("Location: login.php");
+    exit;
+}
 
 include('includes/db_connect.inc');
 $pageName = 'Add Book';

@@ -61,7 +61,8 @@
                                         <?= htmlspecialchars($_SESSION['username']) ?>
                                     </button>
                                     <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
-                                        <li><a class="dropdown-item" href="seller.php">My Profile &amp; Books</a></li>
+                                        <li><a class="dropdown-item" href="seller.php?id=<?= urldecode((int)$_SESSION['user_id']) ?>">
+                                            My Profile &amp; Books</a></li>
                                         <li><a class="dropdown-item" href="logout.php">Logout</a></li>
                                     </ul>
                                 </li>

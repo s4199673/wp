@@ -34,7 +34,7 @@ if ($user && password_verify($password, $user["password"])) {
     $_SESSION["user_id"] = $user["user_id"];
     $_SESSION["username"] = $user["username"];
     $_SESSION["email"] = $user["email"];
-    $_SESSION["success"] = 'Welcome back, ' . $_SESSION["username"] . '!';
+    $_SESSION["success"] = 'Logged in successfully. Welcome back, ' . $_SESSION["username"] . '!';
 
     header("Location: index.php");
     exit;

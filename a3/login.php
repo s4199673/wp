@@ -10,6 +10,7 @@ include_once('includes/header.inc');
 
 <header>
         <?php include_once('includes/nav.inc'); ?>
+        <?php showFlashAlerts(); ?> 
 
     </header>
 
@@ -22,7 +23,7 @@ login
 </span>
   <h1>Login to BookVerse</h1>
   </div>
-  <?php showFlashAlerts(); ?> 
+  
   <form action="process_login.php" method="post" class="mt-4">
 
     <div class="mb-3 mt-5">

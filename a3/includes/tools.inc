@@ -1,6 +1,7 @@
 <?php
-session_start();
-
+if (session_status() === PHP_SESSION_NONE) {
+  session_start();
+}
 ini_set('display_errors', 1);
 error_reporting(E_ALL);
 
@@ -35,7 +36,7 @@ function showFlashAlerts()
   if (isset($_SESSION['failure'])) {
     flashAlert($_SESSION['failure'], 'danger');
     unset($_SESSION['failure']);
-    echo('failure was set');
+    //echo('failure was set');
   } else {
     //echo('failure is unset');
   }

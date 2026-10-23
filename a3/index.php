@@ -12,7 +12,7 @@ include_once('includes/header.inc');
     </header>
 
     <main>
-       <?php $sql = "SELECT book_id, title, author, genre, description,
+       <?php $sql = "SELECT book_id, user_id, title, author, genre, description,
                price, image_path, status
         FROM books
         ORDER BY book_id DESC
@@ -120,8 +120,9 @@ if ($result && mysqli_num_rows($result) > 0) {
                     <img src="assets/images/covers/<?= htmlspecialchars($row['image_path']); ?>" class="card-img-top" alt="<?= htmlspecialchars($row['title']); ?> book cover">
                     <div class="card-body">
                         <h3 class="card-title"><?= htmlspecialchars($row['title']); ?></h3>
-                        <p class="card-text"><?= htmlspecialchars($row['author']); ?></p>
-                        <p class="book-price"><?= htmlspecialchars($row['price']); ?></p>
+                        <p class="card-author"><?= htmlspecialchars($row['author']); ?></p>
+                        <p class="book-price">$<?= htmlspecialchars($row['price']); ?></p>
+                        <a href="seller.php?id=<?= urlencode((int)$row['user_id']) ?>"></a>
                         <a href="details.php?id=<?= urlencode((int)$row['book_id']) ?>" class="btn view-details-button">
                             <span class="material-icons">
                                 visibility

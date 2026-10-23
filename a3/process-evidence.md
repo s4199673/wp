@@ -227,7 +227,7 @@ Add include('includes/tools.inc'); to login.php
 process_register.php
 
 **Related Commit:**  
-
+08e60dc
 
 **Symptom:**
 Page redirects to Login.php without showing success message after submitting the registration form.
@@ -256,6 +256,109 @@ Changed all session keys to lowercase.
 (Need to change the location of the flash message to appear below the nav bar and immediately log in user upon successful registration.)
 
 ---
+
+## Bug 7
+
+**Date Identified:**  
+20/10/2026
+
+**Date Fixed:**  
+20/10/2026
+
+**File:**  
+add.php
+
+**Related Commit:**  
+
+
+**Symptom:**
+Unable to open add.php after successfully logging in.
+
+**Steps to Reproduce:**  
+1. Log in.
+2. Click on Add Book.
+3. Page stays on index.php
+
+**Root Cause:**  
+add.php missing braces.
+
+**Fix:**  
+Grouped the first three statements inside the if by adding {}
+
+**Verification:**  
+1. Log in.
+2. Click on Add Book.
+3. Add New Book Form displayed correctly.
+
+---
+
+## Bug 8
+
+**Date Identified:**  
+23/10/2026
+
+**Date Fixed:**  
+23/10/2026
+
+**File:**  
+index.php
+
+**Related Commit:**  
+
+
+**Symptom:**
+Unable to open details.php from clicking 'View Details'
+
+**Steps to Reproduce:**  
+1. Click 'View Details' from index.php
+2. 'Book not found' message displayed
+
+**Root Cause:**  
+The view details page had an incorrectly formatted query string so details.php did not receive the book ID under the expected 'id' parameter.
+
+**Fix:**  
+Removed the spaces around '=' in the details.php 
+
+**Verification:**  
+1. Clicked 'View Details' from index.php
+2. Confirmed the correct book details page opened.
+3. Tested a different book and confirmed its details also displayed.
+
+---
+
+## Bug 9
+
+**Date Identified:**  
+23/10/2026
+
+**Date Fixed:**  
+23/10/2026
+
+**File:**  
+seller.php
+
+**Related Commit:**  
+
+
+**Symptom:**
+Deprecated: htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\wp\a3\seller.php on line 72
+
+Deprecated: htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\wp\a3\seller.php on line 73
+
+**Steps to Reproduce:**  
+1. Open the seller page for a user whose location or bio is empty in the database.
+2. Warnings displayed.
+
+**Root Cause:**  
+The user's location and bio fields can be 'NULL'. Passing 'NULL' directly to 'htmlspecialchars()' causes a deprecated warning.
+
+**Fix:**  
+Display 'Location not provided' or 'No bio provided' when the database value is empty.
+
+**Verification:**  
+1. Open a seller page with a location and bio; confirm both are displayed without warnings.
+2. Open a seller page with an empty location or bio; confirm 'Location not provided' or 'No bio provided' appears without warnings.
+
 
 # 🤖 Section 2: AI Usage Log
 

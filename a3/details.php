@@ -12,7 +12,7 @@ include_once('includes/header.inc');
     <main>
     <?php  
     $id = isset($_GET['id']) ? (int)$_GET['id'] : 0; // Get the book ID from the query string if it exists and cast it to an integer
-        $sql = "SELECT book_id, title, genre, publication_year, isbn, book_condition, price, description, status, image_path 
+        $sql = "SELECT book_id, user_id, title, genre, publication_year, isbn, book_condition, price, description, status, image_path 
         FROM books 
         WHERE book_id = ?"; // id comes straight from the URL; placeholder and prepared statement ensure that it is treated as an integer and not executable code, preventing SQL injection
         $stmt = mysqli_prepare($conn, $sql);

@@ -289,8 +289,8 @@ nav::after {
 @media (prefers-color-scheme: dark) {
 
     .books-heading h1,
-    .featured-heading h2 {
-
+    .featured-heading h2,
+    .book-card {
         color: var(--darkmode-text-nearwhite);
     }
 }
@@ -304,6 +304,13 @@ nav::after {
     color: var(--text-dark);
     border: none;
     transition: transform 0.3s ease-in-out;
+}
+
+@media (prefers-color-scheme: dark) {
+    .book-card {
+        background: var(--text-dark);
+        color: var(--darkmode-text-nearwhite);
+    }
 }
 
 .book-card img {
@@ -326,11 +333,13 @@ nav::after {
     font-size: 0.7rem;
 }
 
-.card-text {
+.card-author {
     font-family: "Elms Sans", sans-serif;
     margin-bottom: 0.2rem;
     margin-top: 0.8rem;
     font-size: 0.5rem;
+    text-align: left;
+    color: var(--text-light);
 
 }
 
@@ -339,6 +348,7 @@ nav::after {
     font-weight: bold;
     font-size: 0.7rem;
     margin-bottom: 0.5rem;
+    text-align: left;
 }
 
 
@@ -969,7 +979,8 @@ main.container {
     transform: translateY(-1px)
 }
 
-p {
+.register-container p,
+.login-container p {
     font-family: "Elms Sans", sans-serif;
     font-size: 0.8rem;
     font-weight: 400;
@@ -1081,7 +1092,8 @@ p {
     transform: translateY(-1px)
 }
 
-p {
+.register-container p,
+.login-container p {
     font-family: "Elms Sans", sans-serif;
     font-size: 0.8rem;
     font-weight: 400;
@@ -1110,8 +1122,64 @@ p {
     }
 }
 
+/* Seller page */
+.seller-page {
+    max-width: 1000px;
+}
 
+.seller-profile {
+    padding: 1rem;
+    border-radius: 0.5rem;
+    background-color: var(--text-dark);
+    color: var(--text-dark);
+}
 
+.seller-profile h1 {
+    font-family: "Righteous", cursive;
+    font-size: 1.3rem;
+}
+
+.seller-location {
+    color: var(--text-light);
+    text-align: center;
+}
+
+.seller-bio {
+    color: var(--text-dark);
+    text-align: center;
+}
+
+.seller-books h2 {
+    margin-bottom: 1rem;
+    font-family: "Elms Sans", sans-serif;
+    font-size: 1.3rem;
+}
+
+.seller-books .book-card img {
+    width: 100%;
+    height: 180px;
+    object-fit: cover;
+}
+
+.card-body h3.card-title,
+.card-price {
+    font-family: "Elms Sans", sans-serif;
+    font-size: 0.8rem;
+}
+
+.seller-books .book-card {
+    background: var(--background-white);
+    color: var(--text-dark);
+    border: none;
+    transition: transform 0.3s ease-in-out;
+}
+
+@media (prefers-color-scheme: dark) {
+    .seller-profile, .seller-bio, .seller-books .book-card {
+        background: var(--text-dark);
+        color: var(--darkmode-text-nearwhite);
+    }
+}
 
 footer {
     position: relative;

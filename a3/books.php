@@ -22,7 +22,7 @@ include_once('includes/header.inc');
 
                 <?php 
                 // Get all books from the table
-                $sql = "SELECT book_id, title, author, genre, publication_year, price, status FROM books ORDER BY book_id";
+                $sql = "SELECT book_id, user_id, title, author, genre, publication_year, price, status FROM books ORDER BY book_id";
                 $result = mysqli_query($conn, $sql);
                // Get the distinct status values to build the filter dropdown
                 $statusSql = "SELECT DISTINCT status FROM books ORDER BY status";
@@ -54,6 +54,7 @@ include_once('includes/header.inc');
                                 <th scope="col">Year</th>
                                 <th scope="col">Price</th>
                                 <th scope="col">Status</th>
+                                <th scope="col">Seller</th>
                             </tr>
                         </thead>
 
@@ -75,6 +76,7 @@ include_once('includes/header.inc');
                                                 <?= htmlspecialchars($row['status']) ?>
                                             </span>
                                         </td>
+                                        <td><a href="seller.php?id=<?= urlencode((int)$row['user_id']) ?>"> </a> </td>
                                     </tr>
                                 <?php }
                                 } else {

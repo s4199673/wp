@@ -77,9 +77,9 @@ if (count($errors) == 0) {
 $image_path = uniqid() . '.' . $extension;
 
 // Ten ? placeholders for the 10 fields in the books table tells MySQLi exactly what type each one is
-$sql = "INSERT INTO books (title, author, genre, publication_year, price, isbn, book_condition, description, image_path, status) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+$sql = "INSERT INTO books (title, author, genre, publication_year, price, isbn, book_condition, description, image_path, status, user_id) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?,?)";
 $stmt = mysqli_prepare($conn, $sql);
-mysqli_stmt_bind_param($stmt, "sssidsssss", 
+mysqli_stmt_bind_param($stmt, "sssidsssssi", 
 $title, 
 $author, 
 $genre, 
@@ -89,7 +89,8 @@ $isbn,
 $book_condition, 
 $description, 
 $image_path, 
-$status
+$status,
+$user_id
 );
 
 $inserted = mysqli_stmt_execute($stmt);

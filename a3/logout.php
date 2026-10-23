@@ -18,6 +18,10 @@ if (ini_get("session.use_cookies")) {
 }
 
 session_destroy();
+//start a new session to set the flash message
+session_start();
+session_regenerate_id(true);
+$_SESSION["success"] = "Logged out successfully.";
 
 header("Location: index.php");
 exit;
