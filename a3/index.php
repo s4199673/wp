@@ -12,10 +12,11 @@ include_once('includes/header.inc');
     </header>
 
     <main>
-       <?php $sql = "SELECT book_id, user_id, title, author, genre, description,
-               price, image_path, status
+       <?php $sql = "SELECT books.book_id, books.user_id, books.title, books.author, books.genre, books.description,
+               books.price, books.image_path, books.status, users.username
         FROM books
-        ORDER BY book_id DESC
+        LEFT JOIN users ON books.user_id = users.user_id
+        ORDER BY books.book_id DESC
         LIMIT 4";
        $result = mysqli_query($conn, $sql);?>
 
@@ -120,9 +121,11 @@ if ($result && mysqli_num_rows($result) > 0) {
                     <img src="assets/images/covers/<?= htmlspecialchars($row['image_path']); ?>" class="card-img-top" alt="<?= htmlspecialchars($row['title']); ?> book cover">
                     <div class="card-body">
                         <h3 class="card-title"><?= htmlspecialchars($row['title']); ?></h3>
-                        <p class="card-author"><?= htmlspecialchars($row['author']); ?></p>
+                        <p class="card-author">
+                        <?= htmlspecialchars($row['genre']) ?> &middot;    
+                        <?= htmlspecialchars($row['author']); ?></p>
                         <p class="book-price">$<?= htmlspecialchars($row['price']); ?></p>
-                        <a href="seller.php?id=<?= urlencode((int)$row['user_id']) ?>"></a>
+                        <a href="seller.php?id=<?= urlencode((int)$row['user_id']) ?>" class="username"><?= htmlspecialchars($row['username']) ?></a>
                         <a href="details.php?id=<?= urlencode((int)$row['book_id']) ?>" class="btn view-details-button">
                             <span class="material-icons">
                                 visibility

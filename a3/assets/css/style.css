@@ -262,7 +262,7 @@ nav::after {
 /* Featured Books */
 .featured-books {
     width: 100%;
-    max-width: 760px;
+    max-width: 850px;
     margin-inline: auto;
     padding-inline: 0.75rem;
 }
@@ -290,7 +290,8 @@ nav::after {
 
     .books-heading h1,
     .featured-heading h2,
-    .book-card {
+    .book-card,
+    .card-body h3.card-title {
         color: var(--darkmode-text-nearwhite);
     }
 }
@@ -319,17 +320,13 @@ nav::after {
     object-fit: cover;
 }
 
-
-
 .book-card:hover {
     transform: translateY(-8px)
 }
 
-
-
-.card-title {
+.card-body h3.card-title {
     font-family: "Righteous", cursive;
-    font-weight: 400;
+    font-weight: 600;
     font-size: 0.7rem;
 }
 
@@ -337,7 +334,7 @@ nav::after {
     font-family: "Elms Sans", sans-serif;
     margin-bottom: 0.2rem;
     margin-top: 0.8rem;
-    font-size: 0.5rem;
+    font-size: 0.6rem;
     text-align: left;
     color: var(--text-light);
 
@@ -347,8 +344,13 @@ nav::after {
     font-family: "Elms Sans", sans-serif;
     font-weight: bold;
     font-size: 0.7rem;
-    margin-bottom: 0.5rem;
+    margin-bottom: 0rem;
     text-align: left;
+}
+
+.card-body .username {
+    font-family: "Elms Sans", sans-serif;
+    font-size: 0.7rem;
 }
 
 
@@ -360,6 +362,7 @@ nav::after {
     font-weight: 500;
     font-size: 0.6rem;
     height: 1.5rem;
+    margin-top: 0.8rem;
 
 
 }

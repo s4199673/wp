@@ -269,7 +269,7 @@ Changed all session keys to lowercase.
 add.php
 
 **Related Commit:**  
-
+4cd495b
 
 **Symptom:**
 Unable to open add.php after successfully logging in.
@@ -304,7 +304,7 @@ Grouped the first three statements inside the if by adding {}
 index.php
 
 **Related Commit:**  
-
+4cd495b
 
 **Symptom:**
 Unable to open details.php from clicking 'View Details'
@@ -338,7 +338,7 @@ Removed the spaces around '=' in the details.php
 seller.php
 
 **Related Commit:**  
-
+4cd495b
 
 **Symptom:**
 Deprecated: htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\wp\a3\seller.php on line 72
@@ -359,6 +359,40 @@ Display 'Location not provided' or 'No bio provided' when the database value is 
 1. Open a seller page with a location and bio; confirm both are displayed without warnings.
 2. Open a seller page with an empty location or bio; confirm 'Location not provided' or 'No bio provided' appears without warnings.
 
+---
+
+## Bug 10
+
+**Date Identified:**  
+24/10/2026
+
+**Date Fixed:**  
+24/10/2026
+
+**File:**  
+index.php
+
+**Related Commit:**  
+
+
+**Symptom:**
+Warning: Undefined array key "username" in C:\xampp\htdocs\wp\a3\index.php on line 125
+
+Deprecated: htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\wp\a3\index.php on line 125
+
+**Steps to Reproduce:**  
+1. Open the index page.
+2. Warnings displayed in the book cards where username needs to be displayed.
+
+**Root Cause:**  
+Tries to display $row['username'] but the query at the top of index.php only selects fields from books. It never fetches a username so that array key is missing and htmlspecialchars() receives null.
+
+**Fix:**  
+Updated the query to join each book to its user.
+
+**Verification:**  
+1. Open the index.php
+2. Username for the book displayed correctly without warnings.
 
 # 🤖 Section 2: AI Usage Log
 

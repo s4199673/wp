@@ -22,7 +22,11 @@ include_once('includes/header.inc');
 
                 <?php 
                 // Get all books from the table
-                $sql = "SELECT book_id, user_id, title, author, genre, publication_year, price, status FROM books ORDER BY book_id";
+                $sql = "SELECT books.book_id, books.user_id, books.title, books.author, books.genre, books.publication_year, books.price, books.status,
+                users.username 
+                FROM books 
+                LEFT JOIN users ON books.user_id = users.user_id
+                ORDER BY books.book_id";
                 $result = mysqli_query($conn, $sql);
                // Get the distinct status values to build the filter dropdown
                 $statusSql = "SELECT DISTINCT status FROM books ORDER BY status";
@@ -76,7 +80,8 @@ include_once('includes/header.inc');
                                                 <?= htmlspecialchars($row['status']) ?>
                                             </span>
                                         </td>
-                                        <td><a href="seller.php?id=<?= urlencode((int)$row['user_id']) ?>"> </a> </td>
+                                        <td><a href="seller.php?id=<?= urlencode((int)$row['user_id']) ?>" 
+                                        class="username"><?= htmlspecialchars($row['username']) ?></a></td>
                                     </tr>
                                 <?php }
                                 } else {
