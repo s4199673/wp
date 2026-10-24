@@ -353,6 +353,11 @@ nav::after {
     font-size: 0.7rem;
 }
 
+/* username displayed as a block so view details button appear on the next line */
+.featured-books .card-body .username {
+    display: block;
+}
+
 
 .btn {
     display: inline-flex;

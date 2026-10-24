@@ -86,7 +86,7 @@ if ($seller_id <= 0) {
                 <?php if ($result && mysqli_num_rows($result) > 0): ?>
     <div class="row g-3">
         <?php while ($row = mysqli_fetch_assoc($result)): ?>
-            <article class="col-12 col-sm-6 col-lg-4">
+            <article class="col-12 col-sm-6 col-lg-4"> 
                 <div class="card book-card h-100">
                     <img
                         src="assets/images/covers/<?= htmlspecialchars($row['image_path']) ?>"

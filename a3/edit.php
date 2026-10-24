@@ -1,7 +1,8 @@
 <?php 
 include('includes/tools.inc');
+$title = "Edit Book";
 if(!isset($_SESSION['user_id'])) {
-    $_SESSION['failure'] = "You must be logged in to edit a book.";
+    $_SESSION['failure'] = "Please log in to edit a book.";
     header("Location: login.php");
     exit;
 }
@@ -28,7 +29,8 @@ $old_image_path = '';
 $status = '';
 $user_id = '';
 
-$sql = "SELECT book_id, title, author, genre, publication_year, price, isbn, book_condition, description, image_path, status, user_id FROM books where book_id=? and user_id=?";
+$sql = "SELECT book_id, title, author, genre, publication_year, price, isbn, book_condition, description, image_path, status, user_id 
+FROM books where book_id=? and user_id=?";
 $stmt = $conn->prepare($sql);
 if (!$stmt) { 
     $_SESSION['failure'] = "Database error: " . $conn->error;

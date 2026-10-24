@@ -373,7 +373,7 @@ Display 'Location not provided' or 'No bio provided' when the database value is 
 index.php
 
 **Related Commit:**  
-
+7c28ac1
 
 **Symptom:**
 Warning: Undefined array key "username" in C:\xampp\htdocs\wp\a3\index.php on line 125
@@ -677,6 +677,7 @@ The navigation in `nav.inc` shows the logged-in section only when `$_SESSION['us
 3. Add a call to `showFlashAlerts()` on `index.php` where the message should appear. It includes the helper but currently does not call it, so the success message won’t be displayed on that page.
 4. Use the existing success, failure, and warning flash keys rather than introducing a separate $_SESSION["message"] key. In tools.inc, update flashAlert() so the close button is inside the alert:
 
+(**CHECK WITH TREVOR**)
 <?php
 function flashAlert(string $message = '', string $type = 'info')
 {
@@ -708,6 +709,46 @@ This aligns with the Assessment 3 requirement to automatically log the user in a
 
 **Issues Identified:**  
 No issues identified.
+
+---
+
+**Date:**  
+24/10/2026
+
+**Task Description:**  
+Review protected page pattern
+
+**Tool Used:**  
+GitHub Copilot
+
+**Prompt / Input:**
+Every new management page and processing script created must check login state. Please review if this requirement has been met. 
+
+**AI Output Summary:** 
+**No—not consistently.** The page guards are present, but the processing scripts don’t all enforce login themselves:
+
+1. `add.php` and `edit.php` check for a logged-in user.
+2. `process_add.php` has no login check. It also takes `user_id` from submitted form data rather than verifying it against the logged-in session.
+3. `process_edit.php` has no login check either. It appears not to be the handler currently included by `edit.php`, but it is still a processing script without its own guard.
+
+`process_login.php` and `process_register.php` are expected to allow unauthenticated requests so visitors can log in or register. The `a3 README` says to restrict access to `add.php`, but the processing endpoints should also verify the session rather than rely on the page guard.
+
+
+**What You Accepted:**  
+- AI correctly reminded that `process_login.php` and `process_register.php` are expected to allow unauthenticated requests so visitors can log in or register.
+- edit.php needs to include login check.
+- `user_id` from submitted form data rather than verifying it against the logged-in session? (**CHECK WITH TREVOR**)
+
+**What You Changed:**  
+- add.php checks for a logged-in user so initially thought that process_add.php does not need to check login again but it doesn't protect the current form submission if someone send a request to process_add.php without first loading add.php. Decided to add a check to process_add.php.
+- AI suggesting to replace the foreach ($_POST as ...) loop in process_add.php with explicit assignments for the expected form fields because it creates variables from submitted field names and a crafted request containing user_id can overwrite that value. 
+
+**Validation Performed:**  
+- Checked add.php, process_add.php, edit.php and process_edit.php all includes login check and runs correctly.
+
+**Issues Identified:**  
+(Any errors or problems in AI output?)
+- No issues in the output. 
 
 ---
 

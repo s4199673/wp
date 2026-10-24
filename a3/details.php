@@ -1,4 +1,5 @@
 <?php 
+include('includes/tools.inc');
 include('includes/db_connect.inc');
 $pageName = 'Book Details';
 $fileName = 'details.php';
@@ -10,6 +11,7 @@ include_once('includes/header.inc');
     </header>
 
     <main>
+         <?php showFlashAlerts(); ?>   
     <?php  
     $id = isset($_GET['id']) ? (int)$_GET['id'] : 0; // Get the book ID from the query string if it exists and cast it to an integer
         $sql = "SELECT book_id, user_id, title, genre, publication_year, isbn, book_condition, price, description, status, image_path 

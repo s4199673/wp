@@ -1,5 +1,18 @@
 <?php
 include('includes/tools.inc');
+//login check
+if (!isset($_SESSION['user_id'])) {
+    $_SESSION['warning'] = 'Please log in to add a book.';
+    header('Location: login.php');
+    exit;
+}
+if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+    header('Location: add.php');
+    exit;
+}
+
+$user_id = (int) $_SESSION['user_id'];
+
 include('includes/db_connect.inc');
 // Initial debug
 // preshow($_POST);
@@ -71,14 +84,28 @@ $picture['error'] != 0 ||
     $errors['image_path'] = "The image must be JPG, JPEG, PNG, GIF or WEBP image under 5MB.";
 }
 
+//Move the validated image first, if the databse insert then fails, remove the moved image
 if (count($errors) == 0) {
 
 //Build a unique filename so uploads never overwrite each other
 $image_path = uniqid() . '.' . $extension;
+$image_full_path = __DIR__ . '/assets/images/covers/' . $image_path;
 
+if (!move_uploaded_file($picture['tmp_name'], $image_full_path)) {
+    $status_message = 'The image could not be uploaded. The book was not added.';
+} else {
 // Ten ? placeholders for the 10 fields in the books table tells MySQLi exactly what type each one is
-$sql = "INSERT INTO books (title, author, genre, publication_year, price, isbn, book_condition, description, image_path, status, user_id) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?,?)";
+$sql = "INSERT INTO books (title, author, genre, publication_year, price, isbn, book_condition, description, image_path, status, user_id) 
+VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?,?)";
+
 $stmt = mysqli_prepare($conn, $sql);
+
+if (!$stmt) {
+    error_log(mysqli_error($conn));
+    unlink($image_full_path);
+    $status_message = 'The book could not be added. Please try again.';
+} else {
+
 mysqli_stmt_bind_param($stmt, "sssidsssssi", 
 $title, 
 $author, 
@@ -93,22 +120,21 @@ $status,
 $user_id
 );
 
-$inserted = mysqli_stmt_execute($stmt);
+if (mysqli_stmt_execute($stmt)) {
+    $book_id = mysqli_insert_id($conn);
+    $_SESSION['success'] = 'Book added successfully.';
+    header('Location: details.php?id=' . urlencode((string) $book_id));
+    exit;    
 
-if ($inserted) {
-    if (move_uploaded_file($_FILES["image_path"]["tmp_name"], "assets/images/covers/" . $image_path)) {
-        $_SESSION['Success'] = "Book added successfully and image uploaded.";
-        $status_message = "Book added successfully and image uploaded.";
-    } else {
-        $status_message = "Book added successfully but image upload failed.";
-    }
-} else {
-    $_SESSION['Warning'] = "Book was not added and image upload failed.";
-    $status_message = "Book was not added and image upload failed.";
- }
-} else {
-    $_SESSION['Failure'] = "Please fix the errors below:";
-    $status_message = "Please fix the errors below:";
+}else{
+    error_log(mysqli_stmt_error($stmt));
+    unlink($image_full_path);
+    $_SESSION['warning'] = 'The cover image could not be uploaded. Please try again';
+}
+
+mysqli_stmt_close($stmt);
+}
+}
 }
 
 //$_SESSION['Failure'] = implode("<br>", $errors);
@@ -116,27 +142,3 @@ if ($inserted) {
 //preshow($errors);
 ?>
 
-<?php
-$pageName = 'Add Book';
-$fileName = 'add.php';
-include_once('includes/header.inc');
-?>
-<header>
-    <?php include_once('includes/nav.inc'); ?>
-</header>
-<main>
-    <div class="add-book-container">
-        <p><?= htmlspecialchars($status_message) ?></p> 
-        <?php if (count($errors) > 0) { ?>
-        <ul>
-            <?php foreach ($errors as $field => $message) { ?>
-        <li><?= htmlspecialchars($message) ?></li>
-        <?php } ?>
-</ul>
-<p><a href="books.php">Go back and try again</a></p>
-<?php } else { ?>
-<p><a href="books.php">View all books</a></p>
-<?php } ?>
-</div>
-</main>
-<?php include_once('includes/footer.inc'); ?>
