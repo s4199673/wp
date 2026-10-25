@@ -808,10 +808,18 @@ th {
 }
 
 .book-details-info h1 {
-    font-family: "Righteous", cursive;
+    font-family: "Elms Sans", sans-serif;
     font-weight: 400;
     font-size: 2rem;
-    margin-bottom: 6rem;
+    margin-bottom: 0.25rem;
+}
+
+.book-details-info .book-author {
+    font-family: "Elms Sans", sans-serif;
+    font-size: 0.875rem;
+    margin-top: 0;
+    margin-bottom: 0.75rem;
+    color: var(--text-light);
 }
 
 .table-status {
@@ -896,6 +904,78 @@ th {
 .details-add-button {
     background-color: var(--primary-color);
     color: var(--background-white);
+}
+
+/* Delete Modal */
+
+.confirm-delete-modal .modal-dialog {
+    max-width: 370px;
+}
+
+.confirm-delete-modal .modal-content {
+    overflow: hidden;
+    border: none;
+    border-radius: 0.5rem;
+    background-color: var(--text-dark);
+}
+
+.confirm-delete-modal .modal-header {
+    padding: 0.7rem 0.8rem;
+    border-bottom: none;
+    background-color: var(--primary-dark);
+    border:none;
+}
+
+.confirm-delete-modal .modal-title {
+    color: var(--background-white);
+    font-family: "Elms Sans", sans-serif;
+    font-size: 1.1rem;
+    font-weight: 500;
+}
+
+.confirm-delete-modal .btn-close {
+    filter: brightness(0) invert(1);
+    opacity: 0.8;
+}
+
+.confirm-delete-modal .modal-body {
+    display: flex;
+    justify-content: center;
+    border-bottom: none;
+    background-color: var(--background-white);
+    min-height: 100px;
+}
+
+.confirm-delete-modal .modal-body p {
+    color: var(--background-white);
+     
+}
+
+.confirm-delete-modal .modal-footer {
+    position: relative;
+    display: flex;
+    justify-content: flex-end;
+    color: var(--background-white);
+    margin: 0;
+    background-color: var(--darkmode-page-background);
+}
+
+.confirm-delete-modal .modal-footer::before {
+    display: none;
+}
+
+.confirm-delete-modal .modal-footer .btn {
+    min-height: 1.7rem;
+    padding: 0.3rem 0.55rem;
+    border-radius: 0.3rem;
+    font-size: 0.65rem;
+}
+
+@media (prefers-color-scheme: dark) {
+    .confirm-delete-modal .modal-body {
+        background-color: var(--text-dark);
+    }
+
 }
 
 /* Register Page */

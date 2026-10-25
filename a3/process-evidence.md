@@ -394,6 +394,87 @@ Updated the query to join each book to its user.
 1. Open the index.php
 2. Username for the book displayed correctly without warnings.
 
+---
+
+## Bug 11
+
+**Date Identified:**  
+25/10/2026
+
+**Date Fixed:**  
+25/10/2026
+
+**File:**  
+edit.php
+
+**Related Commit:**  
+
+**Symptom:**
+<br /> <b>Warning</b>: Undefined variable $description in <b>C:\xampp\htdocs\wp\a3\edit.php</b> on line <b>172</b><br /> <br /> <b>Deprecated</b>: htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in <b>C:\xampp\htdocs\wp\a3\edit.php</b> on line <b>172</b><br />
+Current image - upload a new one to replace it.
+
+**Steps to Reproduce:**  
+1. Click 'Edit' to open Edit Book page.
+2. Warnings displayed under Cover Image caption.
+
+**Root Cause:**  
+- $description is no longer defined as a separate variable because the edit page now loads the book into the $book array.
+
+**Fix:**  
+- Updated the names of the variables.
+- Removed required so users can save edits without selecting a new image.
+
+**Verification:**  
+1. Click 'Edit' to open Edit Book page.
+2. Warnings no longer displayed under Cover Image caption.
+3. All form fields filled and image loads from database.
+
+---
+
+## Bug 12
+
+**Date Identified:**  
+25/10/2026
+
+**Date Fixed:**  
+25/10/2026
+
+**File:**  
+edit.php
+
+**Related Commit:**  
+
+**Symptom:**
+
+Warning: Undefined variable $publication_year in C:\xampp\htdocs\wp\a3\process_edit.php on line 66
+
+Warning: Undefined variable $isbn in C:\xampp\htdocs\wp\a3\process_edit.php on line 74
+
+Deprecated: strlen(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\wp\a3\process_edit.php on line 74
+
+Fatal error: Uncaught ArgumentCountError: The number of variables must match the number of parameters in the prepared statement in C:\xampp\htdocs\wp\a3\process_edit.php:89 Stack trace: #0 C:\xampp\htdocs\wp\a3\process_edit.php(89): mysqli_stmt_bind_param(Object(mysqli_stmt), 'ii', '15', 15) #1 {main} thrown in C:\xampp\htdocs\wp\a3\process_edit.php on line 89
+
+**Steps to Reproduce:**  
+1. Click 'Edit' to open Edit Book page.
+2. Choose a new image and click save changes.
+3. Warnings displayed
+
+**Root Cause:**  
+- publication_year and isbn missing from the edit.php (**CHECK IF REQUIRED**)
+- Query only has one placeholder when there are two parameters causing ArgumentCountError.
+- allowedConditions does not match what the edit form submits
+
+**Fix:**  
+- Updated the names of the variables.
+- Updated the query to also verify ownership.
+- Updated allowedConditions
+
+**Verification:**  
+1. Click 'Edit' to open Edit Book page.
+2. Warnings no longer displayed under Cover Image caption.
+3. All form fields filled and image loads from database.
+
+
 # 🤖 Section 2: AI Usage Log
 
 ## AI Task 1
@@ -461,9 +542,13 @@ A useful test is to open the add page in a private/incognito window while logged
 **What You Changed:**  
 (What did you modify and why?)
 - Added users table to both localhost and Jacob 5.
+- Corrected the inconsistent session names.
 
 **Validation Performed:**  
 How did you test correctness?
+- Confirmed that both tables were created succesfully without SQL errors.
+- Checked that the table structure included the fields required by the registration and login code.
+- Compared the databse column names with the PHP files.
 
 **Issues Identified:**  
 (Any errors or problems in AI output?)
@@ -712,6 +797,8 @@ No issues identified.
 
 ---
 
+## AI Task 6
+
 **Date:**  
 24/10/2026
 
@@ -751,6 +838,317 @@ Every new management page and processing script created must check login state. 
 - No issues in the output. 
 
 ---
+
+## AI Task 7
+
+*Date:**  
+25/10/2026
+
+**Task Description:**  
+Review edit.php and process_edit.php
+
+**Tool Used:**  
+GitHub Copilot
+
+**Prompt / Input:**
+
+I am a beginner PHP student.
+Please review my edit.php and process_edit.page.
+Check whether:
+1. it requires login;
+2. it validates the query string ID;
+3. it retrieves one record with a prepared statement;
+4. it uses a hidden book_id;
+5. it pre-fills text fields safely;
+6. it displays the current image separately;
+7. it does not pre-fill the file input.
+
+Check:
+1. session protection;
+2. POST-only processing;
+3. book_id validation;
+4. old image retrieval;
+5. distinction between no file and an upload error;
+6. optional new image validation;
+7. prepared UPDATE syntax;
+8. old image cleanup after successful update;
+9. new image cleanup if the database update fails.
+Do not convert the code to PDO or object-oriented MySQLi.
+Do not rewrite the whole script.
+
+**AI Output Summary:** 
+
+### `edit.php`
+
+| Check | Result | Notes |
+|---|---|---|
+| Requires login | ✅ Pass | `edit.php:4-9` checks `$_SESSION['user_id']` and redirects unauthenticated users. |
+| Validates query-string ID | ✅ Pass | `edit.php:13-19` uses `FILTER_VALIDATE_INT` and rejects values below `1`. |
+| Retrieves one record with a prepared statement | ✅ Pass | `edit.php:22-41` uses a prepared `SELECT`, filtered by both `book_id` and `user_id`. |
+| Uses a hidden `book_id` | ✅ Pass | `edit.php:68` includes a hidden form field containing the integer book ID. |
+| Safely pre-fills text fields | ✅ Mostly pass | Title, author, price, description, and select values use `htmlspecialchars()`. For maximum clarity, specify `ENT_QUOTES` and `'UTF-8'` explicitly. |
+| Displays the current image separately | ✅ Pass | `edit.php:159` displays the existing image and `edit.php:160` explains that a new upload replaces it. |
+| Does not pre-fill the file input | ✅ Pass | `edit.php:156-157` has no `value` attribute on the file input. |
+
+### `process_edit.php`
+
+| Check | Result | Notes |
+|---|---|---|
+| Session protection | ✅ Pass | `process_edit.php:5-10` requires a logged-in user. |
+| POST-only processing | ✅ Pass | `process_edit.php:13-17` rejects non-POST requests. |
+| `book_id` validation | ✅ Pass | `process_edit.php:20-25` validates a positive integer. |
+| Old image retrieval | ✅ Pass | `process_edit.php:81-103` retrieves the old image using a prepared statement and verifies ownership. |
+| Distinguishes no file from an upload error | ✅ Pass | `process_edit.php:113-115` ignores `UPLOAD_ERR_NO_FILE` but processes other upload errors. |
+| Optional new image validation | ⚠️ Mostly pass | `process_edit.php:116-140` checks upload status, extension, size, `is_uploaded_file()`, and `getimagesize()`. It does not explicitly compare the detected MIME type against an allowed MIME list. |
+| Prepared `UPDATE` syntax | ✅ Pass | `process_edit.php:153-190` uses a prepared statement and includes `WHERE book_id=? AND user_id=?`. |
+| Old image cleanup after successful update | ✅ Pass | `process_edit.php:207-222` deletes the old image only after a successful database update and only when a replacement was uploaded. |
+| New image cleanup if database update fails | ✅ Pass | `process_edit.php:194-204` removes the new file when `execute()` fails. It also removes it when earlier validation fails at `process_edit.php:143-150`. |
+
+## Issues worth correcting
+
+### 1. POST fields are escaped before database storage
+
+At `process_edit.php:29-32`, the script does this:
+
+```php
+$value = trim(htmlspecialchars($value));
+$$name = $value;
+```
+
+This is not ideal because `htmlspecialchars()` should normally be used when outputting data into HTML, not before storing it in the database. For example, a title containing `&` could be stored as `&amp;`, and later output could become double-escaped.
+
+A safer beginner-friendly pattern is:
+
+```php
+$value = trim($value);
+```
+
+Then keep using `htmlspecialchars()` when displaying values in `edit.php`.
+
+### 2. The dynamic-variable loop accepts unexpected fields
+
+The same loop creates variables from every POST key:
+
+```php
+$$name = $value;
+```
+
+This means a user can submit arbitrary field names. It is clearer and safer to read only the expected fields explicitly, such as:
+
+```php
+$title = trim($_POST['title'] ?? '');
+$author = trim($_POST['author'] ?? '');
+$genre = trim($_POST['genre'] ?? '');
+```
+
+This also avoids undefined-variable warnings when a required field is missing.
+
+### 3. Missing upload data is treated like “no replacement”
+
+The expression at `process_edit.php:113-115` treats a missing or malformed `$_FILES['image_path']` value as if no file was selected:
+
+```php
+$picture = $_FILES['image_path'] ?? null;
+```
+
+For a normal form submission, this is acceptable. However, a more precise implementation would distinguish:
+
+- no file selected: `UPLOAD_ERR_NO_FILE`;
+- malformed/missing upload information: an error;
+- valid upload: validate and process it.
+
+### 4. Add explicit MIME validation
+
+The current validation uses the extension and `getimagesize()`, which is a good start. The A3 README also requires file-type validation. Consider adding `finfo_file()` or checking the MIME value returned by `getimagesize()` against allowed MIME types:
+
+```php
+$allowed_mime_types = [
+    'image/jpeg',
+    'image/png',
+    'image/gif',
+    'image/webp'
+];
+```
+
+The extension should still be checked as well.
+
+### 5. Check the first `SELECT` execution result
+
+The ownership/image lookup calls `mysqli_stmt_execute()` at `process_edit.php:91`, but does not check whether execution succeeded before calling `mysqli_stmt_get_result()`.
+
+A database failure could therefore be handled like “book not found.” It would be better to check the execution result and report a database error separately.
+
+## Overall result
+
+The requested structure is substantially present:
+
+- login protection: **yes**;
+- ID validation: **yes**;
+- ownership protection: **yes**;
+- prepared statements: **yes**;
+- hidden ID: **yes**;
+- safe form pre-filling: **yes, with explicit-encoding improvement recommended**;
+- current image display: **yes**;
+- file input not pre-filled: **yes**;
+- upload replacement and cleanup logic: **yes**.
+
+The most important improvement is to stop applying `htmlspecialchars()` before database storage and to replace the dynamic POST-variable loop with explicit field retrieval.
+
+**What You Accepted:**  
+- Results table for edit.php and process_edit.php
+- Issues worth correcting 1, 3 & 5.
+
+**What You Changed:**  
+- Stopped applying htmlspecialchars() before database storage.
+- Kept the dynami-variable loop 
+- Adding MIME validation is not a requirement for this assignment.
+- Added a check in process_edit.php whether the prepared SELECT executed sucessfully to prevent mysqli_stmt_get_result() from being called after a failed query.
+
+**Validation Performed:**  
+- Tested successful and failed edit book scenarios to ensure expected behaviour.
+
+**Issues Identified:**  
+- AI introducing new code that is not a requirement for this assignment.
+
+---
+
+## AI Task 8
+
+**Date:**  
+25/10/2026
+
+**Task Description:**  
+Review process_delete.php
+
+**Tool Used:**  
+GitHub Copilot
+
+**Prompt / Input:**  
+
+Please review my process_delete.php script.
+Check:
+1. session protection;
+2. POST-only access;
+3. book_id validation;
+4. image filename retrieval before deletion;
+5. prepared DELETE syntax;
+6. image deletion only after the database delete succeeds;
+7. redirect behaviour.
+`Do not rewrite the whole script.`
+
+**AI Output Summary:**  
+
+## Review of `process_delete.php`
+
+I reviewed `process_delete.php` against each requested requirement.
+
+| Check | Result | Review |
+|---|---|---|
+| 1. Session protection | ✅ Pass | Lines 5–10 check `$_SESSION['user_id']`. Unauthenticated users are redirected to `login.php`. |
+| 2. POST-only access | ⚠️ Partially pass | The actual deletion only occurs inside the POST block, but the script also accepts GET requests to load and display the confirmation page. |
+| 3. `book_id` validation | ✅ Pass | Lines 13–25 validate either the GET or POST value using `FILTER_VALIDATE_INT` and reject IDs below `1`. |
+| 4. Image filename retrieval before deletion | ✅ Pass | Lines 30–52 retrieve the book, including `image_path`, before the delete operation. The query also checks ownership. |
+| 5. Prepared DELETE syntax | ✅ Pass | Lines 57–75 use a prepared statement with `WHERE book_id = ? AND user_id = ?`. |
+| 6. Image deletion only after database deletion succeeds | ✅ Pass | Lines 91–101 delete the image only after the database `DELETE` succeeds and exactly one row was affected. |
+| 7. Redirect behaviour | ✅ Pass | Successful deletion redirects to `index.php`. Errors redirect to an appropriate page and use session flash messages. |
+
+## Important detail about POST-only access
+
+The script currently supports two stages:
+
+```php
+if ($_SERVER['REQUEST_METHOD'] === 'GET') {
+    $book_id = filter_input(INPUT_GET, 'book_id', FILTER_VALIDATE_INT);
+} elseif ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $book_id = filter_input(INPUT_POST, 'book_id', FILTER_VALIDATE_INT);
+}
+```
+
+The GET request displays the delete confirmation form. The actual deletion is only performed here:
+
+```php
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $sql = "DELETE FROM books WHERE book_id = ? AND user_id = ?";
+    // ...
+}
+```
+
+Therefore:
+
+- ✅ A GET request cannot delete a book.
+- ✅ The database deletion is POST-only.
+- ⚠️ The whole script is not technically POST-only because GET is used for the confirmation page.
+
+This matches the current link in `details.php`, which opens the confirmation page using:
+
+```php
+<a href="process_delete.php?book_id=...">
+    Delete
+</a>
+```
+
+If your requirement means **“only the destructive database operation must use POST”**, the current design is correct.
+
+If your requirement means **“process_delete.php must reject every GET request”**, then the confirmation page should be moved to a separate page, or the delete form should be placed directly on the details page. Do not simply remove GET support without changing `details.php`, because the current Delete link depends on it.
+
+## One additional improvement
+
+The first prepared `SELECT` does not check whether `mysqli_stmt_execute()` succeeds:
+
+```php
+mysqli_stmt_bind_param($stmt, 'ii', $book_id, $user_id);
+mysqli_stmt_execute($stmt);
+
+$result = mysqli_stmt_get_result($stmt);
+```
+
+It should be changed to:
+
+```php
+mysqli_stmt_bind_param($stmt, 'ii', $book_id, $user_id);
+
+if (!mysqli_stmt_execute($stmt)) {
+    error_log(mysqli_stmt_error($stmt));
+    mysqli_stmt_close($stmt);
+    $_SESSION['failure'] = 'Book details could not be loaded.';
+    header('Location: books.php');
+    exit;
+}
+
+$result = mysqli_stmt_get_result($stmt);
+```
+
+This prevents the script from treating a database execution failure as if the book simply did not exist.
+
+## Final assessment
+
+The deletion logic is correctly protected:
+
+- owner-only access is enforced server-side;
+- the ID is validated;
+- the image filename is retrieved before deletion;
+- the `DELETE` query is prepared;
+- the image is removed only after a successful database deletion;
+- success and failure redirects are present.
+
+The only requested item that needs clarification is **POST-only access**: the destructive deletion is POST-only, but GET is intentionally supported for the confirmation screen.
+
+**What You Accepted:**  
+- Result table 1- 7 except for 2: POST-only access | ⚠️ Partially pass 
+
+**What You Changed:**  
+- The exisint script already allows GET for the confirmation page and restricts the 'DELETE' query to POST requests.
+
+**Validation Performed:**  
+- Tested successful and failed deletion scenarios that the database record and image were removed.
+- Tested an invalid book ID and confirmed that the deletion was refused.
+
+**Issues Identified:**  
+- AI described the script as only partially passing POST-only acccess.
+Clarified the lab instructions which noted that GET is allowed for the confirmation page so this requirment should be recorded as passed.
+
+---
+
 
 # 📌 Final Reflection (End of Assessment)
 
