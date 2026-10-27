@@ -12,14 +12,29 @@ include_once('includes/header.inc');
     </header>
 
     <main>
-       <?php $sql = "SELECT books.book_id, books.user_id, books.title, books.author, books.genre, books.description,
-               books.price, books.image_path, books.status, users.username
+<?php
+$sql = "SELECT books.book_id, books.user_id, books.title, books.author, books.genre, books.description, books.price, books.image_path,
+        books.status, users.username
         FROM books
         LEFT JOIN users ON books.user_id = users.user_id
         ORDER BY books.book_id DESC
         LIMIT 4";
-       $result = mysqli_query($conn, $sql);?>
 
+$stmt = mysqli_prepare($conn, $sql);
+if (!$stmt) {
+    die("The books query could not be prepared.");
+}
+
+mysqli_stmt_execute($stmt);
+$result = mysqli_stmt_get_result($stmt);
+$books = [];
+
+while ($row = mysqli_fetch_assoc($result)) {
+    $books[] = $row;
+}
+
+mysqli_stmt_close($stmt);
+?>
         
         <!-- Carousel -->
         <section class="container-fluid px-0 my-4">
@@ -27,72 +42,42 @@ include_once('includes/header.inc');
                 
                 <!-- Indicators/dots -->
                 <div class="carousel-indicators">
-                    <button type="button" data-bs-target="#bookCarousel" data-bs-slide-to="0" class="active"
-                        aria-current="true" aria-label="First slide"></button>
-                    <button type="button" data-bs-target="#bookCarousel" data-bs-slide-to="1"
-                        aria-label="Second slide"></button>
-                    <button type="button" data-bs-target="#bookCarousel" data-bs-slide-to="2"
-                        aria-label="Third slide"></button>
-                    <button type="button" data-bs-target="#bookCarousel" data-bs-slide-to="3"
-                        aria-label="Fourth slide"></button>
+                    <?php foreach ($books as $index => $book) { ?>
+                        <button type="button" data-bs-target="#bookCarousel"
+                            data-bs-slide-to="<?= $index ?>"
+                            class="<?= $index === 0 ? 'active' : '' ?>"
+                            <?= $index === 0 ? 'aria-current="true"' : '' ?>
+                            aria-label="Slide <?= $index + 1 ?>"></button>
+                    <?php } ?>
                 </div>
             
         <!-- The slideshow/carousel -->
         <div class="carousel-inner">
-            <div class="carousel-item active">
-                <img src="assets/images/covers/1.png" class="d-block w-100" alt="Moonlit circular library">
-                <div class="carousel-caption d-none d-md-block">
-                    <h4>The Midnight Library</h4>
-                    <a href="details.php?id=1" class="btn view-details-button">
-                        <span class="material-icons">
-                            visibility
-                        </span>
-                        View Details</a>
+            <?php foreach ($books as $index => $book) { ?>
+                <div class="carousel-item <?= $index === 0 ? 'active' : '' ?>">
+                    <img src="assets/images/covers/<?= htmlspecialchars($book['image_path']) ?>"
+                        class="d-block w-100"
+                        alt="<?= htmlspecialchars($book['title']) ?> book cover">
+                    <div class="carousel-caption d-none d-md-block">
+                        <h4><?= htmlspecialchars($book['title']) ?></h4>
+                        <a href="details.php?id=<?= urlencode((int) $book['book_id']) ?>"
+                            class="btn view-details-button">
+                            <span class="material-icons">visibility</span>
+                            View Details
+                        </a>
+                    </div>
                 </div>
-            </div>
-        
-        <div class="carousel-item">
-            <img src="assets/images/covers/2.png" class="d-block w-100" alt="Astronaut floating in space">
-            <div class="carousel-caption d-none d-md-block">
-                <h4>Project Hail Mary</h4>
-                <a href="details.php?id=2" class="btn view-details-button">
-                    <span class="material-icons">
-                        visibility
-                    </span>
-                    View Details</a>
-            </div>
-        </div>
-
-        <div class="carousel-item">
-            <img src="assets/images/covers/3.png" class="d-block w-100" alt="A person walking in a desert">
-            <div class="carousel-caption d-none d-md-block">
-                <h4>Dune</h4>
-                <a href="details.php?id=3" class="btn view-details-button">
-                    <span class="material-icons">
-                        visibility
-                    </span>
-                    View Details</a>
-            </div>
-        </div>
-
-        <div class="carousel-item">
-            <img src="assets/images/covers/4.png" class="d-block w-100" alt="Doorway to a hobbit hole in a hill">
-            <div class="carousel-caption d-none d-md-block"> 
-                <h4>The Hobbit</h4>
-                <a href="details.php?id=4" class="btn view-details-button">
-                    <span class="material-icons">
-                        visibility
-                    </span>
-                    View Details</a>
-            </div>
+            <?php } ?>
         </div>
         <!-- Left and right controls/icons -->
-        <button class="carousel-control-prev" type="button" data-bs-target="#bookCarousel" data-bs-slide="prev">
+        <button class="carousel-control-prev" type="button" data-bs-target="#bookCarousel"
+            data-bs-slide="prev" <?= empty($books) ? 'disabled' : '' ?>>
             <span class="carousel-control-prev-icon" aria-hidden="true"></span>
             <span class="visually-hidden">Previous</span>
         </button>
 
-        <button class="carousel-control-next" type="button" data-bs-target="#bookCarousel" data-bs-slide="next">
+        <button class="carousel-control-next" type="button" data-bs-target="#bookCarousel"
+            data-bs-slide="next" <?= empty($books) ? 'disabled' : '' ?>>
             <span class="carousel-control-next-icon" aria-hidden="true"></span>
             <span class="visually-hidden">Next</span>
         </button>
@@ -112,9 +97,8 @@ include_once('includes/header.inc');
 
         <div class="row book-grid g-3">
               <?php
-if ($result && mysqli_num_rows($result) > 0) {
-    while ($row = mysqli_fetch_assoc($result)) {
-
+if (count($books) > 0) {
+    foreach ($books as $row) {
         ?>
             <article class="col-12 col-sm-6 col-lg-4 col-xl-3">
                 <div class="card book-card h-100">
