@@ -105,27 +105,31 @@ include_once('includes/header.inc');
                                 Back
                             </a>
 
-                             <?php if (!$logged_in): ?> 
-                                <!-- Visitor NOT loggged in-->
+                             <?php if (!$logged_in) { ?> 
+                                <!-- Visitor NOT logged in-->
                             <a href="add.php" class="btn details-add-button">
                                 <span class="material-icons">add</span>
                                 Add Similar Book
                             </a>
                     
-                        <?php elseif ($is_owner): ?> 
-                            <!-- Loggged in & Owner of the books-->
+                        <?php } elseif ($is_owner) { ?> 
+                            <!-- Logged in and owner of the book-->
                                <a href="edit.php?book_id=<?= (int) $book['book_id'] ?>" class="btn btn-warning edit-edit-button">
                                 Edit
                             </a>
 
-                            <a href="process_delete.php?book_id=<?= (int) $book['book_id'] ?>" class="btn btn-danger edit-delete-button">
-                                Delete
-                            </a>
+                           <button type="button"
+                               class="btn btn-danger edit-delete-button"
+                               id="deleteButton"
+                               data-bs-toggle="modal"
+                               data-bs-target="#deleteModal">
+                               Delete
+                           </button>
 
-                        <?php else: ?>
-                            <!-- Loggged in but NOT Owner of the books-->
+                        <?php } else { ?>
+                            <!-- Logged in but not the owner of the book-->
                         
-                       <?php endif; ?>
+                       <?php } ?>
                         </div>
                 </div>
             </div>
@@ -138,5 +142,42 @@ include_once('includes/header.inc');
             </div>
         </section>
         <?php } ?>
+
+        
+<div class="modal fade" id="deleteModal" tabindex="-1"
+    aria-labelledby="deleteModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title" id="deleteModalLabel">
+                Delete book?
+                </h2>
+                <button type="button" class="btn-close"
+                    data-bs-dismiss="modal"
+                    aria-label="Close"></button>
+            </div>
+
+            <div class="modal-body">
+                <p>Are you sure you want to delete <strong><?= htmlspecialchars($book['title']) ?></strong>? 
+                This action cannot be undone.</p>
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary"
+                    data-bs-dismiss="modal">
+                    Cancel
+                </button>
+
+                <form method="post" action="process_delete.php">
+                    <input type="hidden" name="book_id"
+                        value="<?= (int) $book['book_id'] ?>">
+                    <button type="submit" class="btn btn-danger">
+                        Delete book
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
     </main>
 <?php include_once('includes/footer.inc'); ?>

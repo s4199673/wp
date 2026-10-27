@@ -907,38 +907,37 @@ th {
 }
 
 /* Delete Modal */
-
-.confirm-delete-modal .modal-dialog {
+#deleteModal .modal-dialog {
     max-width: 370px;
 }
 
-.confirm-delete-modal .modal-content {
+#deleteModal .modal-content {
     overflow: hidden;
     border: none;
     border-radius: 0.5rem;
     background-color: var(--text-dark);
 }
 
-.confirm-delete-modal .modal-header {
+#deleteModal .modal-header {
     padding: 0.7rem 0.8rem;
     border-bottom: none;
     background-color: var(--primary-dark);
     border:none;
 }
 
-.confirm-delete-modal .modal-title {
+#deleteModal .modal-title {
     color: var(--background-white);
     font-family: "Elms Sans", sans-serif;
     font-size: 1.1rem;
     font-weight: 500;
 }
 
-.confirm-delete-modal .btn-close {
+#deleteModal .btn-close {
     filter: brightness(0) invert(1);
     opacity: 0.8;
 }
 
-.confirm-delete-modal .modal-body {
+#deleteModal .modal-body {
     display: flex;
     justify-content: center;
     border-bottom: none;
@@ -946,12 +945,12 @@ th {
     min-height: 100px;
 }
 
-.confirm-delete-modal .modal-body p {
+#deleteModal .modal-body p {
     color: var(--text-dark);
      
 }
 
-.confirm-delete-modal .modal-footer {
+#deleteModal .modal-footer {
     position: relative;
     display: flex;
     justify-content: flex-end;
@@ -960,11 +959,11 @@ th {
     background-color: var(--darkmode-page-background);
 }
 
-.confirm-delete-modal .modal-footer::before {
+#deleteModal .modal-footer::before {
     display: none;
 }
 
-.confirm-delete-modal .modal-footer .btn {
+#deleteModal .modal-footer .btn {
     min-height: 1.7rem;
     padding: 0.3rem 0.55rem;
     border-radius: 0.3rem;
@@ -972,7 +971,8 @@ th {
 }
 
 @media (prefers-color-scheme: dark) {
-    .confirm-delete-modal .modal-body {
+    #deleteModal .modal-body,
+    #deleteModal .modal-body p {
         background-color: var(--text-dark);
         color: var(--background-white);
     }

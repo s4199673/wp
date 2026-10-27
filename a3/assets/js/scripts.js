@@ -139,3 +139,15 @@ addBook.addEventListener("submit", function (event) {
 */
 });
 } 
+
+//Delete Book Modal
+const deleteButton = document.getElementById("deleteButton");
+const deleteModalElement = document.getElementById("deleteModal");
+
+if (deleteButton && deleteModalElement) {
+  const deleteModal = new bootstrap.Modal(deleteModalElement);
+
+  deleteButton.addEventListener("click", function () {
+    deleteModal.show();
+  });
+}

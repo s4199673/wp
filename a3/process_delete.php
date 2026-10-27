@@ -9,15 +9,13 @@ if (!isset($_SESSION['user_id'])) {
     exit;
 }
 
-if ($_SERVER['REQUEST_METHOD'] === 'GET') {
-    $book_id = filter_input(INPUT_GET, 'book_id', FILTER_VALIDATE_INT);
-}elseif ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $book_id = filter_input(INPUT_POST, 'book_id', FILTER_VALIDATE_INT);
-} else {
-    $_SESSION['failure'] = 'Invalid request method.';
+if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+    $_SESSION['failure'] = 'Invalid deletion request.';
     header('Location: books.php');
     exit;
 }
+
+$book_id = filter_input(INPUT_POST, 'book_id', FILTER_VALIDATE_INT);
 
 if (!$book_id || $book_id < 1) {
     $_SESSION['failure'] = 'Invalid book selected.';
@@ -106,113 +104,3 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     header('Location: index.php');
     exit;
 }
-
-$pageName = 'Delete Book';
-$fileName = 'process_delete.php';
-
-include_once('includes/header.inc');
-?>
-
-<header>
-        <?php include_once('includes/nav.inc'); ?>
-        <?php showFlashAlerts(); ?> 
-
-    </header>
-
-    <main>
-
-    <section class ="book-details-section">
-        <div class="book-details-container">
-            <div class="book-details-image">
-                <img src="assets/images/covers/<?= htmlspecialchars($book['image_path']); ?>" 
-                alt="<?= htmlspecialchars($book['title']); ?> book cover">
-            </div>
-
-            <div class="book-details-info">
-                <h1><?= htmlspecialchars($book['title']); ?></h1>
-
-                <span class="table-status status-<?= strtolower(htmlspecialchars($book['status'])); ?>">
-                    <?= htmlspecialchars($book['status']); ?>
-                </span>
-
-                <table class="details-table">
-                    <tbody>
-                        <tr>
-                            <th>Genre</th>
-                            <td><?= htmlspecialchars($book['genre']); ?></td>
-                        </tr>
-                        <tr>
-                            <th>Author</th>
-                            <td><?= htmlspecialchars($book['author']); ?></td>                                                                            
-                        </tr>
-                        <tr>
-                            <th>Publication Year</th>
-                            <td><?= htmlspecialchars($book['publication_year']); ?></td>
-                        </tr>
-                        <tr>
-                            <th>Price</th>
-                            <td>$<?= htmlspecialchars(number_format($book['price'], 2)); ?></td>
-                        </tr>
-                        <tr>
-                            <th>ISBN</th>
-                            <td><?= htmlspecialchars($book['isbn']); ?></td>
-                        </tr>
-                        <tr>
-                            <th>Condition</th>
-                            <td><?= htmlspecialchars($book['book_condition']); ?></td>
-                        </tr>
-                        <tr>
-                            <th>Description</th>
-                            <td><?= htmlspecialchars($book['description']); ?></td>
-                        </tr>
-
-                    </tbody>
-                </table>
-
-
-                <div class ="details-actions">
-                <a href="details.php?id=<?= (int) $book['book_id'] ?>" class="btn details-back-to-details-btn">
-                    Back</a>
-
-                    <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#confirmDeleteModal">
-                        Delete
-                    </button>
-                </div>
-            </div>
-        </div>
-    </section>
-    </main>
-
-    <!-- Delete Confirmation Modal -->
-<div class="modal fade confirm-delete-modal" id="confirmDeleteModal" tabindex="-1"
-     aria-labelledby="confirmDeleteLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h2 class="modal-title" id="confirmDeleteLabel">Delete book?</h2>
-                <button type="button" class="btn-close"
-                        data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-
-            <div class="modal-body">
-                <p>Are you sure you want to delete <strong><?= htmlspecialchars($book['title']) ?></strong>? This action cannot be undone.</p>
-            </div>
-
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
-                    Cancel
-                </button>
-
-                <form method="POST" action="process_delete.php">
-                    <input type="hidden" name="book_id" value="<?= (int) $book['book_id'] ?>">
-
-                    <button type="submit" class="btn btn-danger">
-                        Delete book
-                    </button>
-                </form>
-            </div>
-        </div>
-    </div>
-</div>
-                    
-<?php include_once('includes/footer.inc'); ?>
