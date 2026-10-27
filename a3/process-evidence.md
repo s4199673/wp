@@ -1547,9 +1547,13 @@ The important concepts remain the same:
 # 📌 Final Reflection (End of Assessment)
 
 **What AI was most useful for:**  
+AI was most useful for explaining error messages, finding SQL and HTML problems, improving validation and suggesting secure PHP and MySQLi solutions.
 
-**Where AI was incorrect or misleading:**  
+**Where AI was incorrect or misleading:**
+AI sometimes made assumptions about the current code, suggested changes that did not match the project structure or overlooked related errors so every suggestion needed to be checked and tested.  
 
 **What you learned about debugging:**  
+I learned to read the exact error message and line number, trace the problem through included files and database queries and test one change at a time.
 
 **How your approach changed over time:**  
+I moved from making broad changes to using smaller, targeted fixes, checking shared files and related code and validating the result after each change.

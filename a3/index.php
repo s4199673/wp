@@ -80,7 +80,6 @@ mysqli_stmt_close($stmt);
             <span class="visually-hidden">Next</span>
         </button>
         </div>
-        </div>
         </section>
 
         <!-- Start Grid Cards -->

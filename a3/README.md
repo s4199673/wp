@@ -265,7 +265,7 @@ Complete the table below by explaining where and how each required feature shoul
 | Edit Book form | `edit.php` | Retrieves an existing book and allows only its owner to update the book information or replace its cover image. The ownership check is performed on the server. |
 | Delete action | `details.php` or optional processing file | Displays a delete option only to the book owner. A Bootstrap confirmation modal requires confirmation before `process_delete.php` verifies ownership, deletes the database record and removes the uploaded image file. |
 | Image upload | `add.php` / `edit.php` | Accepts cover image uploads, validates the file type, extension, size and upload status, generates a unique filename, stores the file in the upload folder and saves the filename in the database. When an edited book receives a replacement image, the previous image is removed. |
-| Flash messages | Session-based pages/actions | Stores success and error messages in `$_SESSION` after registration, login, logout, adding, editing and deleting records. Shared helper functions display each message once and then remove it from the session. |
+| Flash messages | Session-based pages/actions | Stores success, failure and warning messages in `$_SESSION` after registration, login, logout, adding, editing and deleting records. Shared helper functions display each message once and then remove it from the session. |
 
 ---
 
@@ -408,9 +408,9 @@ Describe the dynamic browsing features.
 
 | Feature | Page | Explanation |
 |---|---|---|
-| Status filtering | `books.php` | TODO |
-| Keyword search | `search.php` | TODO |
-| Seller page | `seller.php` | TODO |
+| Status filtering | `books.php` | Retrives all book records and generates the available status options from the databse results. Javascript then filters the displayed table rows on the client side when a visitor selects a status. |
+| Keyword search | `search.php` | Accepts a keyword through the search form and uses a prepared statement to search the book title, author and description fields. Matching records are displayed as responsive result cards with links to their details pages. |
+| Seller page | `seller.php` | Uses the seller ID from the query string to retrieve the seller's profile from the 'users' table and all books linked to that user through user_id. The page displays the seller's info and books publicly so visitors do not need to log in. |
 
 TODO: Explain:
 
@@ -420,6 +420,16 @@ TODO: Explain:
 - how the selected seller is identified;
 - how seller links are displayed.
 
+Status filtering is implemented on books.php using JavaScript. The page displays the available book statuses in a filter control and adds each book's status to its table row using a data-status attribute. For example, a row can contain data-status="Available". When the visitor selects a status, JavaScript compares the selected value with each row's data-status value and shows matching rows while hiding non-matching rows. Selecting "All" displays every book again without requiring a new database request.
+
+The data-status attribute stores the status value for each book row. JavaScript reads this value through the row's dataset and uses it to determine whether the row should remain visible.
+
+Search is implemented in search.php. The visitor submits a keyword using the 'q' query-string parameter. The keyword is surrounded by wildcard characters and passed to a prepared SQL statement as a bound parameter. The statement searches the title, author and description fields using LIKE conditions rather than inserting the keyword directly into the SQL query. This helps protect the search feature against SQL injection.
+
+The selected seller is identified using the seller's user_id which is passed in the id query. seller.php validates the ID and uses it in a prepared statement to retrieve the matching user from the 'users' table. A second prepared statement retrieves all books whose user_id matches the selected seller.
+
+Seller links are displayed wherever book ownership is shown including index.php, books.php and details.php. Each link passes the relevant owner's ID to seller.php, for example seller.php?id=.... Selecting the link opens the seller's profile and the books associated with that owner. Authenticated users also have a "My Profile & Books" link in the navigation that passes their own session user ID to the seller page.
+
 ---
 
 ## 14. JavaScript Functionality
@@ -428,11 +438,11 @@ Describe the JavaScript features that should be implemented in your website.
 
 | JavaScript feature | Page | How it works |
 |---|---|---|
-| Image extension validation | `add.php` / `edit.php` | TODO |
-| Image preview | `add.php` / `edit.php` | TODO |
-| Gallery modal | `gallery.php` | TODO |
-| Book status filter | `books.php` | TODO |
-| Delete confirmation modal | `details.php` | TODO |
+| Image extension validation | `add.php` / `edit.php` | Checks the selected image filename against the allowed JPG, JPEG, PNG, GIF and WEBP extensions. If the extension is invalid, the file input is cleared and an error message is displayed. Server-side validation also checks the upload before saving the file. |
+| Image preview | `add.php` / `edit.php` | Uses URL.createObjectURL() to create a temporary browser URL for the selected image and displays it in the preview element before the form is submitted. The preview is hidden and reset when no valid file is selected. |
+| Gallery modal | `gallery.php` | When user clikcs gallery images, it opens a Bootstrap modal containing the selected full-size image and title. Previous and Next buttons update the modal content and cycle through the available gallery images. |
+| Book status filter | `books.php` | Reads the selected status from the filter control and compares it with each book row's data-status value. Matching rows are shown and non-matching rows are hidden. Selecting All displays every row. |
+| Delete confirmation modal | `details.php` | Opens a Bootstrap confirmation modal when the Delete button is selected. The deletion request is submitted only after the user confirms the action, helping prevent accidental deletion. |
 
 ---
 
@@ -453,6 +463,16 @@ TODO: Explain:
 - what happens if no new image is uploaded during editing;
 - what feedback the user receives if an action succeeds or fails.
 
+BookVerse includes registration, login, add-book, edit-book, search and delete-confirmation forms. Registration requires a username, valid email, password and matching confirmation password. Login requires a username and password. Add-book requires the title, author, genre, publication year, price, ISBN, condition, description, cover image, availability status and agreement checkbox. Edit-book requires the book details and status; uploading a replacement image is optional. Search accepts a keyword for the title, author or description.
+
+Each form field has a corresponding <label> using the label's 'for' attribute and the field's matching id. Text, email, password, number, file, select, checkbox, and search input types are used. HTML required, accept and number constraints provide basic client-side validation.
+
+The JavaScript image validation checks the selected filename extension against JPG, JPEG, PNG, GIF, and WEBP formats, displays an error for unsupported extensions, and shows a preview for valid selections. Server-side PHP validation is also performed because client-side checks can be bypassed. It validates required values, lengths, numeric ranges, allowed select values, ownership, upload errors, file extensions, image validity and the 5 MB size limit. Database operations use prepared statements.
+
+Uploaded images receive a unique filename using uniqid() and are stored in the covers directory. When editing, if no new image is uploaded, the existing filename is retained. If a replacement is uploaded successfully, the old image file is removed.
+
+After processing, the user is redirected and receives a session flash message. Successful actions display success messages, while validation, authentication, upload, permission or database failures display warning or failure messages.
+
 ---
 
 ## 16. File Uploads and File-System Hygiene
@@ -468,6 +488,14 @@ TODO: Explain:
 - how images are deleted when a record is deleted;
 - how `.gitignore` is used for uploaded/generated files;
 - how file permissions are handled on Coreteaching.
+
+Uploaded book cover images are stored in a3/assets/images/covers/. The server validates the upload error, file extension, image type and maximum size of 5 MB before saving it.
+
+A unique filename is generated with uniqid() and the original filename is not used. Only the generated filename is stored in the database, which prevents filename collisions and avoids exposing the original filename.
+
+When a book is edited, the existing image is retained if no replacement is uploaded. If a new image is uploaded successfully, the database is updated and the old image file is deleted. When a book is deleted, the database record is removed first, followed by its associated image file. If image deletion fails, the book is still deleted but the user receives a warning.
+
+The .gitignore file excludes generated files inside a3/assets/images/covers/ while allowing .gitkeep to preserve the directory in Git. On Coreteaching, the covers directory must have write permission for the PHP/web server process so uploaded files can be created and deleted. 
 
 ---
 
@@ -490,6 +518,12 @@ TODO: Mention relevant items such as:
 - flash messages;
 - not displaying raw database errors to users on the deployed site.
 
+The project uses procedural MySQLi prepared statements for database queries, protecting against SQL injection. Database output is escaped with htmlspecialchars() before being displayed. Query-string values, form fields, numeric values, allowed options, and uploaded files are validated on the server.
+
+Uploaded images are checked for valid extensions, upload errors, image validity, and file size. Unique filenames are generated with uniqid(), so original filenames are not trusted or reused. Session-based access control protects restricted pages, and server-side ownership checks ensure users can edit or delete only their own books.
+
+Flash messages provide user-friendly success, failure and warning feedback without exposing sensitive information. Database errors are logged with error_log() where appropriate, while users generally receive safe generic messages instead of raw database errors.
+
 ---
 
 ## 18. Accessibility and Usability
@@ -510,6 +544,12 @@ TODO: Mention relevant items such as:
 - error and success messages;
 - authenticated and anonymous user experience.
 
+The project uses meaningful page titles, semantic HTML elements, and consistent navigation across pages. Form controls have associated labels, and images include descriptive alt text.
+
+The responsive Bootstrap layout supports different screen sizes. Text should remain readable, colours should provide sufficient contrast, and controls should be clearly identifiable. Flash messages provide clear success, warning, and error feedback.
+
+Anonymous visitors can browse, search, view details, and access seller pages. Authenticated users receive additional access to add, edit, and delete their own books, with appropriate login and permission messages.
+
 ---
 
 ## 19. Testing and Validation
@@ -520,49 +560,49 @@ Complete this section after testing your website.
 
 | Page | Result | Notes |
 |---|---|---|
-| `index.php` | TODO: Pass / Issues found | TODO |
-| `books.php` | TODO: Pass / Issues found | TODO |
-| `gallery.php` | TODO: Pass / Issues found | TODO |
-| `details.php` | TODO: Pass / Issues found | TODO |
-| `seller.php` | TODO: Pass / Issues found | TODO |
-| `search.php` | TODO: Pass / Issues found | TODO |
-| `register.php` | TODO: Pass / Issues found | TODO |
-| `login.php` | TODO: Pass / Issues found | TODO |
-| `add.php` | TODO: Pass / Issues found | TODO |
-| `edit.php` | TODO: Pass / Issues found | TODO |
+| `index.php` | Pass  | Warning: This document has heading elements but none of them has a computed heading level of 1. |
+| `books.php` | Pass  | No errors or warning. |
+| `gallery.php` | Pass  | No errors or warning. |
+| `details.php` | Pass  | Added the missing dialog role |
+| `seller.php` | Pass  | Warning: Consider using the h1 element as a top-level heading only |
+| `search.php` | Pass  | No errors or warning. |
+| `register.php` | Pass  | No errors or warning. |
+| `login.php` | Pass  | No errors or warning. |
+| `add.php` | Pass  | No errors or warning. |
+| `edit.php` | Pass  | No errors or warning. |
 
 ### CSS Validation
 
 | File | Result | Notes |
 |---|---|---|
-| `assets/css/style.css` | TODO: Pass / Issues found | TODO |
+| `assets/css/style.css` | Pass | No errors found. |
 
 ### Functionality Testing
 
 | Feature tested | Result | Notes |
 |---|---|---|
-| Navigation links | TODO | TODO |
-| Database connection | TODO | TODO |
-| Latest books display | TODO | TODO |
-| Books table | TODO | TODO |
-| Book status filter | TODO | TODO |
-| Details page query string | TODO | TODO |
-| Seller page query string | TODO | TODO |
-| Search | TODO | TODO |
-| Gallery modal | TODO | TODO |
-| Registration | TODO | TODO |
-| Login | TODO | TODO |
-| Logout | TODO | TODO |
-| Session flash messages | TODO | TODO |
-| Add Book form validation | TODO | TODO |
-| Image upload | TODO | TODO |
-| Image preview | TODO | TODO |
-| Edit Book | TODO | TODO |
-| Delete confirmation | TODO | TODO |
-| Owner-only access | TODO | TODO |
-| Anonymous user access | TODO | TODO |
-| Deployed site links/assets | TODO | TODO |
-| Deployed database content | TODO | TODO |
+| Navigation links | Pass | Pass |
+| Database connection | Pass | Pass |
+| Latest books display | Pass | Pass |
+| Books table | Pass | Pass |
+| Book status filter | Pass | Pass |
+| Details page query string | Pass | Pass |
+| Seller page query string | Pass | Pass |
+| Search | Pass | Pass |
+| Gallery modal | Pass | Pass |
+| Registration | Pass | Pass |
+| Login | Pass | Pass |
+| Logout | Pass | Pass |
+| Session flash messages | Pass | Pass |
+| Add Book form validation | Pass | Pass |
+| Image upload | Pass | Pass |
+| Image preview | Pass | Pass |
+| Edit Book | Pass | Pass |
+| Delete confirmation | Pass | Pass |
+| Owner-only access | Pass | Pass |
+| Anonymous user access | Pass | Pass |
+| Deployed site links/assets | Pass | Pass |
+| Deployed database content | Pass | Pass |
 
 ---
 
@@ -572,13 +612,16 @@ Provide details of your deployed website.
 
 | Item | Details |
 |---|---|
-| Deployed website URL | TODO |
-| Jacob 5 database name | TODO |
-| Deployment folder | TODO |
-| `.htaccess` location | TODO |
-| Upload folder permissions | TODO |
+| Deployed website URL | https://titan.csit.rmit.edu.au/~s4199673/wp/a3/ |
+| Coreteaching server | Titan |
+| Jacob 5 database name | S4199673_159009 |
+| Deployment folder | wp/a3 |
+| `.htaccess` location | public_html |
+| Upload folder permissions | assets/images/covers/ is set to 755 |
 
 TODO: In 2–4 sentences, explain how you checked that the deployed website, authentication, uploads, and database functionality work correctly.
+
+I tested the deployed website by checking navigation, responsive layouts, book browsing, searching, details, seller pages and the gallery. I tested registration, login, logout, session access control and owner-only edit and delete actions using both authenticated and anonymous users. I also tested adding and editing books with valid and invalid image uploads, confirmed that records and filenames were saved correctly in the database and checked that replaced or deleted images were removed from the covers directory. Success, failure and warning outcomes were confirmed through the displayed flash messages.
 
 ---
 
@@ -593,6 +636,10 @@ TODO: Explain:
 - how your Git history shows progressive development;
 - how your commits relate to your process-evidence records.
 
+I committed changes regularly as features were developed and bugs were fixed. My commits show the progressive development of the project including registration and login, authentication checks, seller pages, database query fixes, search functionality, shared navigation, edit and delete processing and the delete confirmation modal.
+
+The Git history demonstrates how the project developed from individual features into an integrated application. Commit messages were linked to the relevant process-evidence records so that each debugging or development activity could be traced to the corresponding code change.
+
 ---
 
 ## 22. AI Use Declaration
@@ -601,14 +648,16 @@ AI tools are required for this assessment.
 
 Confirm the following:
 
-- [ ] I used AI tools meaningfully during this assessment.
-- [ ] I recorded meaningful AI use in `process-evidence.md`.
-- [ ] I reviewed, tested, and adapted AI-assisted output.
-- [ ] I can explain all AI-assisted code submitted.
+- [Y] I used AI tools meaningfully during this assessment.
+- [Y] I recorded meaningful AI use in `process-evidence.md`.
+- [Y] I reviewed, tested, and adapted AI-assisted output.
+- [Y] I can explain all AI-assisted code submitted.
 
 TODO: Write 2–5 sentences explaining how AI tools supported your development.
 
 Detailed AI usage records must be included in `process-evidence.md`.
+
+AI tools supported my development by helping me understand PHP, MySQLi, sessions, authentication, prepared statements, file uploads and Bootstrap accessibility. I used AI to identify errors, review queries and form processing, suggest debugging steps and improve validation and security. I tested and adapted the suggestions myself, checked that the code worked in the deployed environment and recorded meaningful AI assistance in process-evidence.md.
 
 ---
 
@@ -618,10 +667,10 @@ Confirm that your process evidence file has been completed.
 
 | Requirement | Completed? |
 |---|---|
-| `process-evidence.md` file included | TODO: Yes / No |
-| At least 5 debugging records included | TODO: Yes / No |
-| At least 5 meaningful AI usage records included | TODO: Yes / No |
-| Relevant commit links included | TODO: Yes / No |
+| `process-evidence.md` file included | Yes |
+| At least 5 debugging records included | Yes |
+| At least 5 meaningful AI usage records included | Yes |
+| Relevant commit links included | Yes |
 
 ---
 
@@ -629,11 +678,4 @@ Confirm that your process evidence file has been completed.
 
 List any known issues or limitations in your submitted project.
 
-| Issue or limitation | Explanation |
-|---|---|
-| TODO | TODO |
-| TODO | TODO |
-
-If there are no known issues, write:
-
-> No known issues at the time of submission.
+No known issues at the time of submission.
