@@ -39,6 +39,12 @@
                                     add_circle
                                 </span>Add Book</a>
                         </li>
+                        <li class="nav-item">
+                            <a class="nav-link d-flex align-items-center" href="search.php">
+                                <span class="material-icons me-2">
+                                    search
+                                </span>Search</a>
+                        </li>
                         </ul>
                         <ul class="navbar-nav ms-auto">
                             <?php if (!isset($_SESSION['user_id'])): ?>
