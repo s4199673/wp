@@ -9,10 +9,7 @@ $fileName = "register.php";
 include_once('includes/header.inc');
 ?>
 
-<header>
-        <?php include_once('includes/nav.inc'); ?>
 
-    </header>
 
 <main class="container my-4">
    <section class="register-section my-5">

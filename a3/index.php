@@ -6,12 +6,10 @@ $fileName = 'index.php';
 include_once('includes/header.inc'); 
 ?>
 
-    <header>
-        <?php include_once('includes/nav.inc'); ?>
-        <?php showFlashAlerts(); ?>
-    </header>
+  
 
     <main>
+         <?php showFlashAlerts(); ?>
 <?php
 $sql = "SELECT books.book_id, books.user_id, books.title, books.author, books.genre, books.description, books.price, books.image_path,
         books.status, users.username

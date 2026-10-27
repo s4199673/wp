@@ -947,7 +947,7 @@ th {
 }
 
 .confirm-delete-modal .modal-body p {
-    color: var(--background-white);
+    color: var(--text-dark);
      
 }
 
@@ -974,6 +974,7 @@ th {
 @media (prefers-color-scheme: dark) {
     .confirm-delete-modal .modal-body {
         background-color: var(--text-dark);
+        color: var(--background-white);
     }
 
 }

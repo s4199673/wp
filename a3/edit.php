@@ -51,9 +51,7 @@ $fileName = 'edit.php';
 include_once('includes/header.inc'); 
 ?>
 
-    <header>
-       <?php include_once('includes/nav.inc'); ?>
-    </header>
+  
 
     <main>
         <!-- Form -->

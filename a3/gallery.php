@@ -9,9 +9,7 @@ $sql = "SELECT book_id, title, author, genre, publication_year, price, image_pat
 $result = mysqli_query($conn, $sql);
 ?>
 
-    <header>
-        <?php include_once('includes/nav.inc'); ?>
-    </header>
+  
 
     <main>
         <!-- Gallery -->

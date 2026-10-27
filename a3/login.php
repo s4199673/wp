@@ -8,11 +8,9 @@ if (isset($_SESSION['user_id'])) {
 include_once('includes/header.inc');
 ?>
 
-<header>
-        <?php include_once('includes/nav.inc'); ?>
-        <?php showFlashAlerts(); ?> 
-
-    </header>
+<div class="container-fluid">
+  <?php showFlashAlerts(); ?>
+</div>
 
 <main class="container my-4">
      <section class="login-section my-5">

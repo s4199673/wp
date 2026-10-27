@@ -40,12 +40,10 @@ if (!empty($search_term)) {
 include_once('includes/header.inc');
 ?>
 
-<header>
-    <?php include_once('includes/nav.inc'); ?>
-    <?php showFlashAlerts(); ?>
-</header>
+
 
 <main>
+    <?php showFlashAlerts(); ?>
     <section class="search-section">
         <div class="search-container">
             <div class="search-heading">

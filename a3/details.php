@@ -10,9 +10,10 @@ if (!$id || $id < 1 ) {
     exit;
 }
 
-$sql = "SELECT book_id, user_id, title, author, genre, publication_year, isbn, book_condition, price, description, status, image_path 
+$sql = "SELECT books.book_id, books.user_id, books.title, books.author, books.genre, books.publication_year, books.isbn, books.book_condition, books.price, books.description, books.status, books.image_path, users.username AS seller_username
         FROM books 
-        WHERE book_id = ?"; 
+        LEFT JOIN users ON books.user_id = users.user_id
+        WHERE books.book_id = ?";
 
 $stmt = mysqli_prepare($conn, $sql);
 
@@ -43,9 +44,7 @@ $fileName = 'details.php';
 include_once('includes/header.inc'); 
 ?>
 
-    <header>
-        <?php include_once('includes/nav.inc'); ?>
-    </header>
+
 
     <main>
          <?php showFlashAlerts(); ?>   
@@ -87,6 +86,11 @@ include_once('includes/header.inc');
                             <tr>
                                 <th>Price:</th>
                                 <td class="details-price">$<?= htmlspecialchars(number_format($book['price'], 2)); ?></td>
+                            </tr>
+                            <tr>
+                                <th>Seller:</th>
+                                <td><a href="seller.php?id=<?= urlencode((int)$book['user_id']) ?>"
+                                class="username"><?= htmlspecialchars($book['seller_username']); ?></a></td>
                             </tr>
                         </tbody>
                     </table>

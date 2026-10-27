@@ -30,3 +30,7 @@
         crossorigin="anonymous"></script>
 </head>
 <body>
+
+<header>
+       <?php include_once('includes/nav.inc'); ?>
+    </header>
