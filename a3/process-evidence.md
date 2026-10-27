@@ -407,7 +407,8 @@ Updated the query to join each book to its user.
 **File:**  
 edit.php
 
-**Related Commit:**  
+**Related Commit:** 
+c8fead4 
 
 **Symptom:**
 <br /> <b>Warning</b>: Undefined variable $description in <b>C:\xampp\htdocs\wp\a3\edit.php</b> on line <b>172</b><br /> <br /> <b>Deprecated</b>: htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in <b>C:\xampp\htdocs\wp\a3\edit.php</b> on line <b>172</b><br />
@@ -442,7 +443,8 @@ Current image - upload a new one to replace it.
 **File:**  
 edit.php
 
-**Related Commit:**  
+**Related Commit:** 
+c8fead4 
 
 **Symptom:**
 
@@ -1146,6 +1148,398 @@ The only requested item that needs clarification is **POST-only access**: the de
 **Issues Identified:**  
 - AI described the script as only partially passing POST-only acccess.
 Clarified the lab instructions which noted that GET is allowed for the confirmation page so this requirment should be recorded as passed.
+
+---
+
+## AI Task 9
+
+**Date:**  
+25/10/2026
+
+**Task Description:**  
+Building search.php
+
+**Tool Used:**  
+GitHub Copilot
+
+**Prompt / Input:**
+I'm a beginner PHP studnet. Please run me through steps to build search.php using the following code examples. Do not write the whole script.  
+
+<?php
+// Database connection
+require_once("includes/db_connect.inc");
+// Get the search term safely
+$search_term = trim($_GET["q"] ?? "");
+$search = "%" . strtolower($search_term) . "%";
+// Query multiple fields
+$sql = "
+SELECT id, first_name, last_name, email
+FROM users
+WHERE LOWER(first_name) LIKE ?
+OR LOWER(last_name) LIKE ?
+OR LOWER(email) LIKE ?"; 
+
+$stmt = mysqli_prepare($conn, $sql);
+mysqli_stmt_bind_param($stmt,"sss",$search,$sea
+rch, $search);
+mysqli_stmt_execute($stmt);
+$result = mysqli_stmt_get_result($stmt);
+// Display results
+while ($row = mysqli_fetch_assoc($result)) {
+echo htmlspecialchars($row["first_name"]) .
+" " .
+htmlspecialchars($row["last_name"]) . "<br>";
+} ?>
+
+**AI Output Summary:** 
+
+## 1. Include the required files
+
+At the top of the page, include:
+
+- `includes/tools.inc` for shared helper functions
+- `includes/db_connect.inc` for the `$conn` database connection
+
+The connection file creates `$conn` using MySQLi. Do not create another database connection inside `search.php`.
+
+## 2. Read the search term from the URL
+
+The search form sends a value using the URL parameter `q`.
+
+For example:
+
+```text
+search.php?q=harry
+```
+
+This line reads the value:
+
+```php
+$search_term = trim($_GET["q"] ?? "");
+```
+
+What each part does:
+
+- `$_GET["q"]` gets the value from the URL.
+- `?? ""` prevents an error if `q` does not exist.
+- `trim()` removes unnecessary spaces.
+- The result is stored in `$search_term`.
+
+You should also create an empty array before searching:
+
+```php
+$books = [];
+```
+
+This gives you somewhere to store matching rows.
+
+## 3. Do not search when the input is empty
+
+Before running the query, check whether the user typed something:
+
+```php
+if (!empty($search_term)) {
+    // Search code goes here
+}
+```
+
+This prevents an unnecessary database query when the user first opens the page.
+
+It also lets you display a helpful message such as:
+
+```text
+Enter a keyword to search for books.
+```
+
+## 4. Add `%` wildcard characters
+
+The SQL `LIKE` operator uses `%` as a wildcard.
+
+For example:
+
+```text
+%harry%
+```
+
+means “find `harry` anywhere in the value”.
+
+Your example creates this search value:
+
+```php
+$search = "%" . strtolower($search_term) . "%";
+```
+
+The `strtolower()` call makes the search value lowercase. The SQL query will also use `LOWER()` so the comparison is case-insensitive.
+
+## 5. Change the query to match the project database
+
+Your example searches users:
+
+```sql
+FROM users
+```
+
+For this project, use the book fields instead:
+
+```sql
+SELECT book_id, title, author, description, image_path
+FROM books
+WHERE LOWER(title) LIKE ?
+OR LOWER(author) LIKE ?
+OR LOWER(description) LIKE ?
+ORDER BY title
+```
+
+Important differences:
+
+- Use `book_id`, not `id`.
+- Search `books`, not `users`.
+- Search `title`, `author`, and `description`.
+- Keep the three `?` placeholders.
+- Do not insert the search text directly into the SQL string.
+
+The question marks are important because prepared statements protect against SQL injection.
+
+## 6. Prepare the statement
+
+Prepare the SQL using the project’s `$conn` connection:
+
+```php
+$stmt = mysqli_prepare($conn, $sql);
+```
+
+You should check whether preparation succeeded:
+
+```php
+if (!$stmt) {
+    die("The search query could not be prepared.");
+}
+```
+
+This makes database errors visible instead of allowing the page to continue with an invalid statement.
+
+## 7. Bind the search value three times
+
+There are three placeholders in the query, so the search value must be supplied three times:
+
+```php
+mysqli_stmt_bind_param($stmt, "sss", $search, $search, $search);
+```
+
+The `"sss"` means:
+
+- first value is a string;
+- second value is a string;
+- third value is a string.
+
+The order must match the order of the question marks in the SQL query.
+
+Your original example has a formatting problem here:
+
+```php
+$sea
+rch
+```
+
+That must be one variable name:
+
+```php
+$search
+```
+
+## 8. Execute and retrieve the results
+
+Run the prepared statement:
+
+```php
+mysqli_stmt_execute($stmt);
+```
+
+Then obtain the result set:
+
+```php
+$result = mysqli_stmt_get_result($stmt);
+```
+
+## 9. Store each matching book
+
+Loop through the result rows:
+
+```php
+while ($row = mysqli_fetch_assoc($result)) {
+    $books[] = $row;
+}
+```
+
+Each `$row` contains values such as:
+
+- `$row['book_id']`
+- `$row['title']`
+- `$row['author']`
+- `$row['image_path']`
+
+Storing the rows in `$books` allows the HTML section later in the file to display them.
+
+After the loop, close the statement:
+
+```php
+mysqli_stmt_close($stmt);
+```
+
+## 10. Add the search form
+
+The form should submit back to the same page:
+
+```html
+<form method="get" action="search.php">
+```
+
+The input must be named `q`, because the PHP code reads `$_GET["q"]`:
+
+```html
+<input type="text" name="q">
+```
+
+You should preserve the previous search text in the input:
+
+```php
+value="<?= htmlspecialchars($search_term); ?>"
+```
+
+This prevents special characters from being interpreted as HTML and lets the user see what they searched for.
+
+## 11. Display the correct message
+
+Your page should handle three situations:
+
+### No search term
+
+Display:
+
+```text
+Enter a keyword to search for books.
+```
+
+### Search completed but no matches
+
+Display a message containing the escaped search term:
+
+```php
+htmlspecialchars($search_term)
+```
+
+For example:
+
+```text
+No books found for: dinosaur
+```
+
+### Matching books found
+
+Loop over `$books` and display a card for every result.
+
+## 12. Escape every database value when displaying it
+
+Database values must be escaped with `htmlspecialchars()`:
+
+```php
+htmlspecialchars($book['title'])
+htmlspecialchars($book['author'])
+htmlspecialchars($book['image_path'])
+```
+
+This protects the page from cross-site scripting if a database value contains HTML or JavaScript.
+
+For the numeric book ID, the existing page uses an integer cast:
+
+```php
+(int) $book['book_id']
+```
+
+That is appropriate when placing the ID into the details-page link.
+
+## 13. Include the shared page layout
+
+Include the shared page layout:
+
+- header
+- navigation
+- footer
+
+This keeps the appearance and navigation consistent with pages such as `books.php`.
+
+## 14. Test the page
+
+With XAMPP running, test these URLs:
+
+```text
+http://localhost/wp/a3/search.php
+```
+
+Then test:
+
+```text
+http://localhost/wp/a3/search.php?q=harry
+```
+
+Also test:
+
+1. A title search.
+2. An author search.
+3. A description search.
+4. An uppercase search such as `HARRY`.
+5. A search with no matches.
+6. A search containing apostrophes or symbols.
+7. An empty search.
+8. A search term containing HTML, such as:
+
+```text
+<script>alert('test')</script>
+```
+
+The HTML should be displayed safely or produce no script execution.
+
+## Main difference from your example
+
+Your example has this structure:
+
+```text
+users → first_name, last_name, email
+```
+
+Your project needs this structure:
+
+```text
+books → title, author, description, image_path
+```
+
+The important concepts remain the same:
+
+1. Read the keyword.
+2. Add `%` wildcards.
+3. Use a prepared statement.
+4. Bind the value for each placeholder.
+5. Execute the query.
+6. Fetch matching rows.
+7. Escape output.
+8. Display useful empty and no-result messages.
+
+
+**What You Accepted:**  
+- Steps 1-14
+
+**What You Changed:**  
+- Adapted the example search code to search 'books' table.
+- Changed the searched fields to title, author and description.
+- Stored matching book records in the $books array.
+- Displayed matching books with their title, author, image and link to details.php as per screenshot in the assignment brief.
+
+**Validation Performed:**  
+- Searched for a word that appears in a book title, author name and book description and confirmed that matching results were displayed.
+- Tested uppercase and lowercase search terms to check that the search was case-insensitive.
+
+**Issues Identified:**  
+- No issues identified.
 
 ---
 

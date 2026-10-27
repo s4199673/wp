@@ -978,6 +978,119 @@ th {
 
 }
 
+/* Search Page */
+
+.search-section {
+    padding: 2rem 1rem 4rem;
+}
+
+.search-container {
+    max-width: 1100px;
+    margin: 0 auto;
+}
+
+.search-heading {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    margin-bottom: 1rem;
+    color: var(--primary-color);
+    font-family: "Elms Sans", sans-serif;
+}
+
+.search-heading h1 {
+    margin: 0;
+    font-family: "Righteous", cursive;
+    font-weight: 400;
+    font-size: 1.5rem;
+    color: var(--text-dark);
+}
+
+.search-heading .material-icons {
+    font-size: 1.7rem;
+}
+
+.search-form {
+    display: flex;
+    gap: 0.5rem;
+    padding: 1rem;
+    margin-bottom: 1rem;
+    border-radius: 0.5rem;
+    background-color: var(--background-white);
+}
+
+.search-form input {
+    flex: 1;
+    min-width: 0;
+    padding: 0.55rem 0.7rem;
+    border: 1px solid var(--border-color);
+    border-radius: 0.25rem;
+    font-family: "Elms Sans", sans-serif;
+    font-size: 0.8rem;
+}
+
+.search-button {
+    border: none;
+    padding: 0.55rem 0.8rem;
+    border-radius: 0.25rem;
+    background-color: var(--primary-color);
+    color: var(--background-white);
+    font-family: "Elms Sans", sans-serif;
+    font-size: 0.75rem;
+}
+
+.search-button:hover {
+    background-color: var(--primary-light);
+}
+
+.search-card {
+    overflow: hidden;
+    border: none;
+    background-color: var(--background-white);
+    color: var(--text-dark);
+}
+
+.search-card img {
+    width: 100%;
+    height: 150px;
+    object-fit: cover;
+}
+
+.search-card .card-title {
+    font-family: "Righteous", cursive;
+    font-size: 0.85rem;
+}
+
+.search-card .card-author {
+    margin-top: 0.4rem;
+}
+
+.search-description {
+    margin-bottom: 0;
+    font-family: "Elms Sans", sans-serif;
+    font-size: 0.7rem;
+    line-height: 1.4;
+}
+
+@media (prefers-color-scheme: dark) {
+    .search-heading h1,
+    .search-card {
+        color: var(--darkmode-text-nearwhite);
+    }
+
+    .search-form,
+    .search-card {
+        background-color: var(--text-dark);
+    }
+
+    .search-form input {
+        border-color: var(--accent-slate);
+        background-color: var(--darkmode-page-background);
+        color: var(--darkmode-text-nearwhite);
+    }
+}
+
+
 /* Register Page */
 main.container {
     display: flex;
@@ -1256,6 +1369,9 @@ main.container {
 }
 
 .seller-books .book-card {
+    display: flex;
+    flex-direction: column;
+    min-width: 210px;
     background: var(--background-white);
     color: var(--text-dark);
     border: none;
